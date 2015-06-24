@@ -1,0 +1,230 @@
+<?php namespace App\Http\Controllers;
+
+use App\Episode;
+use App\Review;
+use App\History;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+
+use Input, Auth;
+
+class EpisodeController extends Controller {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show', 'reviews', 'histories']]);
+    }
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index(Request $request)
+	{
+        if($request->has('type'))
+            $type = $request->input('type');
+        else
+            $type = 0;
+        if($type < 0)
+        {
+            $episodes = Episode::join('dramas', 'episodes.drama_id', '=', 'dramas.id')
+                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
+                    'episodes.id as episode_id', 'episodes.title as episode_title', 'dramas.type as type',
+                    'episodes.release_date as release_date', 'dramas.sc as drama_sc', 'episodes.alias as alias',
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
+                ->orderBy('episodes.id', 'desc')->paginate(20);
+        }
+        else
+        {
+            $episodes = Episode::join('dramas', function($join) use($type)
+            {
+                $join->on('episodes.drama_id', '=', 'dramas.id')
+                    ->where('dramas.type', '=', $type);
+            })
+                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
+                    'episodes.id as episode_id', 'episodes.title as episode_title',
+                    'episodes.release_date as release_date', 'dramas.sc as drama_sc', 'episodes.alias as alias',
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
+                ->orderBy('episodes.id', 'desc')->paginate(20);
+        }
+        return view('episode.index')->with('type', $type)->withEpisodes($episodes);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create(Request $request)
+	{
+        return view('episode.create')->withDrama($request->input('drama'));
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $request)
+	{
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'alias' => 'max:255',
+            'release_date' => 'required|date',
+            'url' => 'url',
+            'sc' => 'required',
+            'duration' => 'required|integer',
+            'poster_url' => 'url',
+            'drama_id' => 'required|exists:dramas,id',
+        ]);
+
+        $history = new History;
+        $history->user_id = Auth::id();
+        $history->model = 1;
+        $history->type = 0;
+
+        if($episode = Episode::create(Input::all()))
+        {
+            $history->model_id = $episode->id;
+            $history->content = '分集标题：'.$episode->title;
+            if($episode->alias != '')
+                $history->content .= '；副标题：'.$episode->alias;
+            $history->content .= '；发布日期：'.$episode->release_date;
+            if($episode->url != '')
+                $history->content .= '；发布地址：'.$episode->url;
+            $history->content .= '；SC表：'.$episode->sc;
+            $history->content .= '；时长：'.$episode->duration;
+            if($episode->poster_url != '')
+                $history->content .= '；海报地址：'.$episode->poster_url;
+            if($episode->introduction != '')
+                $history->content .= '；本集简介：'.$episode->introduction;
+            $history->save();
+
+            return redirect()->route('episode.show', [$episode]);
+        }
+        else
+        {
+            return redirect()->back()->withInput()->withErrors('添加失败');
+        }
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+        $episode = Episode::find($id);
+        $drama = $episode->drama;
+        $reviews = Review::with('user', 'episode')->where('episode_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
+		return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews);
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+        return view('episode.edit')->withEpisode(Episode::find($id));
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update(Request $request, $id)
+	{
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'alias' => 'max:255',
+            'release_date' => 'required|date',
+            'url' => 'url',
+            'sc' => 'required',
+            'duration' => 'required|integer',
+            'poster_url' => 'url',
+        ]);
+
+        $episode = Episode::find($id);
+
+        $history = new History;
+        $history->user_id = Auth::id();
+        $history->model = 1;
+        $history->type = 1;
+        $history->model_id = $id;
+        $history->content = '';
+        if($episode->title != $request->input('title'))
+            $history->content .= '分集标题：'.$request->input('title').'；';
+        if($episode->alias != $request->input('alias'))
+            $history->content .= '副标题：'.$request->input('alias').'；';
+        if($episode->release_date != $request->input('release_date'))
+            $history->content .= '发布日期：'.$request->input('release_date').'；';
+        if($episode->url != $request->input('url'))
+            $history->content .= '发布地址：'.$request->input('url').'；';
+        if($episode->sc != $request->input('sc'))
+            $history->content .= 'SC表：'.$request->input('sc').'；';
+        if($episode->duration != $request->input('duration'))
+            $history->content .= '时长：'.$request->input('duration').'；';
+        if($episode->poster_url != $request->input('poster_url'))
+            $history->content .= '海报地址：'.$request->input('poster_url').'；';
+        if($episode->introduction != $request->input('introduction'))
+            $history->content .= '本集简介：'.$request->input('introduction').'；';
+        $history->content = mb_substr($history->content, 0 , -1);
+
+        $episode->title = $request->input('title');
+        $episode->alias = $request->input('alias');
+        $episode->release_date = $request->input('release_date');
+        $episode->url = $request->input('url');
+        $episode->sc = $request->input('sc');
+        $episode->duration = $request->input('duration');
+        $episode->poster_url = $request->input('poster_url');
+        $episode->introduction = $request->input('introduction');
+
+        if($episode->save())
+        {
+            if(!empty($history->content))
+                $history->save();
+            return redirect()->route('episode.show', [$id]);
+        }
+        else
+        {
+            return redirect()->back()->withErrors('修改失败');
+        }
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
+
+    public function reviews($id)
+    {
+        $episode = Episode::with('drama')->find($id);
+        $reviews = Review::with('user')->where('episode_id', $id)->paginate(20);
+        return view('episode.reviews')->withEpisode($episode)->withReviews($reviews);
+    }
+
+    public function  histories($id)
+    {
+        $episode = Episode::find($id);
+        $histories = History::where('model', 1)->where('model_id', $id)->get();
+        return view('episode.histories')->withEpisode($episode)->withHistories($histories);
+    }
+
+}

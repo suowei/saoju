@@ -1,0 +1,130 @@
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+    font-family: "Microsoft Yahei", 微软雅黑, "Helvetica Neue", Arial, sans-serif;
+}
+
+a:hover {
+    text-decoration: none;
+    background-color: #fbed01;
+}
+
+.navbar-default {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-brand {
+    color: #573e7d;
+}
+
+.navbar-default .nav > li > a {
+    color: #573e7d;
+}
+
+.navbar-default .nav .dropdown-menu > li > a {
+    color: #573e7d;
+}
+
+#navbarSearch {
+    width: 300px;
+}
+
+#toTop {
+    color: #999999;
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+#toTop:hover {
+    color: #666666;
+}
+
+.footer {
+    width: 100%;
+    border-top: solid 1px #e5e5e5;
+    margin-top: 40px;
+}
+
+.footer .container {
+    padding: 10px;
+}
+
+.nav-tabs > li.active > a:hover {
+    cursor: pointer;
+    background-color: #fbed01;
+}
+
+.favorite-panel {
+    margin: 20px 0;
+}
+
+#favoriteEdit {
+    margin: 10px 0;
+}
+
+.tab-content {
+    margin-top: 10px;
+}
+
+.reviews {
+    margin-top: 20px;
+}
+
+.review {
+    margin: 15px 0;
+}
+
+.review-title {
+    padding: 5px;
+    background-color: #d8ecf6;
+}
+
+.review-content {
+    padding: 5px;
+    white-space: pre-line;
+}
+
+.review-footer {
+    padding: 5px;
+}
+
+.review-show {
+    margin-bottom: 30px;
+}
+
+.review-show-title {
+    padding: 5px;
+    background-color: #ecf3ec;
+}
+
+.review-show-content {
+    padding: 5px;
+    white-space: pre-line;
+}
+
+.content-pre-line {
+    white-space: pre-line;
+}
+
+.drama {
+    padding: 10px 0;
+    border-bottom: dotted 1px #e5e5e5;
+}
+
+.rating-xxs {
+    font-size: 1.7em;
+}
+
+.rating-user-favorite {
+    font-size: 1.1em;
+}
+
+.user-favorite {
+    padding: 10px 0;
+    border-bottom: dotted 1px #e5e5e5;
+}
+
+.morecontent span {
+    display: none;
+}
