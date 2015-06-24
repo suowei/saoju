@@ -34,13 +34,15 @@
                                     <li class="list-group-item">
                                         <h4>
                                             《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                            <small>
+                                                @if($episode->alias)
+                                                    {{ $episode->alias }}
+                                                @endif
+                                            </small>
                                             <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
-                                            @if($episode->alias)
-                                                {{ $episode->alias }}，
-                                            @endif
                                             @if($type < 0)
                                                 @if($episode->type == 0)
                                                     耽美，
@@ -87,13 +89,15 @@
                                     <li class="list-group-item">
                                         <h4>
                                             《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                            <small>
+                                                @if($episode->alias)
+                                                    {{ $episode->alias }}
+                                                @endif
+                                            </small>
                                             <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
-                                            @if($episode->alias)
-                                                {{ $episode->alias }}，
-                                            @endif
                                             @if($type < 0)
                                                 @if($episode->type == 0)
                                                     耽美，
@@ -140,13 +144,15 @@
                                     <li class="list-group-item">
                                         <h4>
                                             《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                            <small>
+                                                @if($episode->alias)
+                                                    {{ $episode->alias }}
+                                                @endif
+                                            </small>
                                             <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
-                                            @if($episode->alias)
-                                                {{ $episode->alias }}，
-                                            @endif
                                             @if($type <0)
                                                 @if($episode->type == 0)
                                                     耽美，

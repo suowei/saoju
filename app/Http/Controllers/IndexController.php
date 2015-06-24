@@ -49,7 +49,7 @@ class IndexController extends Controller {
                 ->get();
         }
 
-        $episodes = $episodes->sortBy('release_date');
+        $episodes = $episodes->sortByDesc('release_date');
         $today = date("Y-m-d", strtotime("now"));
         $yesterday = date("Y-m-d", strtotime("-1 day"));
         $thedaybefore = date("Y-m-d", strtotime("-2 day"));
