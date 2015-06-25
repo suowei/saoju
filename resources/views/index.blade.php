@@ -53,7 +53,7 @@
                                                 @else
                                                     百合，
                                                 @endif
-                                                @endif
+                                            @endif
                                             @if($episode->era == 0)
                                                 现代，
                                             @elseif($episode->era == 1)
@@ -108,7 +108,7 @@
                                                 @else
                                                     百合，
                                                 @endif
-                                                @endif
+                                            @endif
                                             @if($episode->era == 0)
                                                 现代，
                                             @elseif($episode->era == 1)
@@ -195,8 +195,8 @@
                                     @if($i < $length)
                                         <button type="button" class="btn btn-info btn-xs btn-block" data-toggle="collapse" data-target="#week"><span class="caret"></span></button>
                                         <div class="collapse" id="week">
-                                            @for(; $i < $length; $i++)
-                                                <?php $episode = $thisweeks[$i]; ?>
+                                            @while($i < $length)
+                                                <?php $episode = $thisweeks[$i++]; ?>
                                                 <li class="list-group-item">
                                                     <h4>
                                                         《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
@@ -245,7 +245,7 @@
                                                         {{ $episode->duration }}分钟
                                                     </div>
                                                 </li>
-                                            @endfor
+                                            @endwhile
                                         </div>
                                     @endif
                             </ul>
