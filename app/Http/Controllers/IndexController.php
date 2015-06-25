@@ -28,7 +28,7 @@ class IndexController extends Controller {
                 $join->on('episodes.drama_id', '=', 'dramas.id')
                     ->where('episodes.release_date', '>=', date("Y-m-d", strtotime("-7 day")));
             })
-                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
+                ->select('dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
