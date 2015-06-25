@@ -50,11 +50,6 @@ a:hover {
     padding: 10px;
 }
 
-.nav-tabs > li.active > a:hover {
-    cursor: pointer;
-    background-color: #fbed01;
-}
-
 .favorite-panel {
     margin: 20px 0;
 }

@@ -136,11 +136,13 @@
                                 @endforeach
                             </ul>
                         </div>
-
-                        <div class="panel panel-danger">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-step-forward"></span> 前日新剧</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-success">
+                            <div class="panel-heading"><span class="glyphicon glyphicon-volume-down"></span>一周新剧</div>
                             <ul class="list-group">
-                                @foreach($thedaybefores as $episode)
+                                @for($i = 0; $i < $count && $i < $length; $i++)
+                                    <?php $episode = $thisweeks[$i]; ?>
                                     <li class="list-group-item">
                                         <h4>
                                             《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
@@ -153,7 +155,8 @@
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
-                                            @if($type <0)
+                                            {{ $episode->release_date }}
+                                            @if($type < 0)
                                                 @if($episode->type == 0)
                                                     耽美，
                                                 @elseif($episode->type == 1)
@@ -163,7 +166,7 @@
                                                 @else
                                                     百合，
                                                 @endif
-                                                @endif
+                                            @endif
                                             @if($episode->era == 0)
                                                 现代，
                                             @elseif($episode->era == 1)
@@ -188,35 +191,63 @@
                                             {{ $episode->duration }}分钟
                                         </div>
                                     </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="panel panel-success">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-volume-down"></span>一周新剧</div>
-                            <ul class="list-group">
-                                @foreach($thisweeks as $episode)
-                                    <li class="list-group-item">
-                                        <h4>
-                                            《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
-                                            <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
-                                        </h4>
-                                        @if($type < 0)
-                                            @if($episode->type == 0)
-                                                耽美
-                                            @elseif($episode->type == 1)
-                                                全年龄
-                                            @elseif($episode->type == 2)
-                                                言情
-                                            @else
-                                                百合
-                                            @endif
-                                        @endif
-                                        {{ $episode->release_date }}
-                                        {{ $episode->sc }}
-                                    </li>
-                                @endforeach
+                                @endfor
+                                    @if($i < $length)
+                                        <button type="button" class="btn btn-info btn-xs btn-block" data-toggle="collapse" data-target="#week"><span class="caret"></span></button>
+                                        <div class="collapse" id="week">
+                                            @for(; $i < $length; $i++)
+                                                <?php $episode = $thisweeks[$i]; ?>
+                                                <li class="list-group-item">
+                                                    <h4>
+                                                        《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                                        <small>
+                                                            @if($episode->alias)
+                                                                {{ $episode->alias }}
+                                                            @endif
+                                                        </small>
+                                                        <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
+                                                    </h4>
+                                                    {{ $episode->sc }}
+                                                    <div class="text-muted">
+                                                        {{ $episode->release_date }}
+                                                        @if($type < 0)
+                                                            @if($episode->type == 0)
+                                                                耽美，
+                                                            @elseif($episode->type == 1)
+                                                                全年龄，
+                                                            @elseif($episode->type == 2)
+                                                                言情，
+                                                            @else
+                                                                百合，
+                                                            @endif
+                                                        @endif
+                                                        @if($episode->era == 0)
+                                                            现代，
+                                                        @elseif($episode->era == 1)
+                                                            古风，
+                                                        @elseif($episode->era == 2)
+                                                            民国，
+                                                        @elseif($episode->era == 3)
+                                                            未来，
+                                                        @else
+                                                            其他时代，
+                                                        @endif
+                                                        @if($episode->genre)
+                                                            {{ $episode->genre }}，
+                                                        @endif
+                                                        @if($episode->state == 0)
+                                                            连载，
+                                                        @elseif($episode->state == 1)
+                                                            完结，
+                                                        @else
+                                                            已坑，
+                                                        @endif
+                                                        {{ $episode->duration }}分钟
+                                                    </div>
+                                                </li>
+                                            @endfor
+                                        </div>
+                                    @endif
                             </ul>
                         </div>
                     </div>

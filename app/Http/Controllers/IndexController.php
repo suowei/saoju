@@ -28,7 +28,7 @@ class IndexController extends Controller {
                 $join->on('episodes.drama_id', '=', 'dramas.id')
                     ->where('episodes.release_date', '>=', date("Y-m-d", strtotime("-7 day")));
             })
-                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
+                ->select('dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
@@ -52,21 +52,19 @@ class IndexController extends Controller {
         $episodes = $episodes->sortByDesc('release_date');
         $today = date("Y-m-d", strtotime("now"));
         $yesterday = date("Y-m-d", strtotime("-1 day"));
-        $thedaybefore = date("Y-m-d", strtotime("-2 day"));
         $todays = [];
         $yesterdays = [];
-        $thedaybefores = [];
         $thisweeks = [];
+        $count = 0;
+        $length = 0;
         foreach($episodes as $episode)
         {
             if($episode->release_date == $today)
-                $todays[] = $episode;
+                $todays[$count++] = $episode;
             else if($episode->release_date == $yesterday)
-                $yesterdays[] = $episode;
-            else if($episode->release_date == $thedaybefore)
-                $thedaybefores[] = $episode;
+                $yesterdays[$count++] = $episode;
             else
-                $thisweeks[] = $episode;
+                $thisweeks[$length++] = $episode;
         }
 
         if($type < 0)
@@ -99,7 +97,7 @@ class IndexController extends Controller {
             $query->select('id', 'name');
         }]);
         return view('index')->with('type', $type)->with('todays', $todays)->with('yesterdays', $yesterdays)
-            ->with('thisweeks', $thisweeks)->with('thedaybefores', $thedaybefores)
+            ->with('thisweeks', $thisweeks)->with('count', $count)->with('length', $length)
             ->withReviews($reviews)->withDramas($dramas)->withHistories($histories);
 	}
 
