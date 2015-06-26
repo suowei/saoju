@@ -14,7 +14,7 @@
                         <span class="pull-right">
                             @if(Auth::id() == $review->user_id)
                                 <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
-                                <a class="text-muted" href="{{ url('/review/'.$review->id.'/delete') }}">删除</a>
+                                <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/review/'.$review->id) }}">删除</a>
                             @endif
                         </span>
                     </div>
