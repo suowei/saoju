@@ -105,6 +105,8 @@ class ReviewController extends Controller {
 	public function show($id)
 	{
         $review = Review::find($id);
+        if(!$review)
+            return redirect()->to('/');
         $replies = Reply::where('review_id', $id)->get();
         return view('review.show')->withReview($review)->withReplies($replies);
 	}
