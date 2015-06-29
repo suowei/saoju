@@ -12,7 +12,7 @@
                     <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>@if($type == 0)想听@elseif($type == 1)在追@elseif($type == 2)听过@elseif($type == 3)搁置@else抛弃@endif的剧（{{ $favorites->total() }}部）
                 </h4>
                 @foreach($favorites as $favorite)
-                    <div class="row user-favorite">
+                    <div class="row drama">
                         <div class="col-md-2">
                             <a href="{{ url('/drama/'.$favorite->drama_id) }}" target="_blank">
                                 <img src="{{ $favorite->drama->poster_url }}" class="img-responsive" alt="海报">
