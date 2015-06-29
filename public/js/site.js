@@ -67,7 +67,6 @@ $(function() {
                 data: {title: title},
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     var dramas = '已有如下同名剧集：<br>';
                     $.each(data, function(i, n) {
                         dramas += '剧集id：<a href="/drama/'+n['id']+'" target="_blank">'+n['id']+'</a> 主役CV：'+n['sc']+'<br>';
