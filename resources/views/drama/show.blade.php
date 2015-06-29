@@ -9,13 +9,34 @@
     <div class="row">
         <div class="col-md-9">
             <div class="row">
-                <div class="col-md-3">
-                    <img src="{{ $drama->poster_url }}" class="img-responsive" alt="海报">
+                <div class="col-md-4">
+                    <div id="carousel" class="carousel slide">
+                        <ol class="carousel-indicators">
+                            @for($i = 0, $count = count($episodes); $i < $count; $i++)
+                                <li data-target="#carousel" data-slide-to="{{ $i }}"@if($i==0)class="active"@endif></li>
+                            @endfor
+                        </ol>
+
+                        <div class="carousel-inner" role="listbox">
+                            @for($i = 0, $count = count($episodes); $i < $count; $i++)
+                                <div @if($i==0)class="item active"@else class="item"@endif>
+                                    <img src="{{ $episodes[$i]->poster_url }}" alt="海报">
+                                </div>
+                            @endfor
+                        </div>
+                        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <h3>《{{ $drama->title }}》</h3>
                     <p><span class="text-muted">副标题及别名：</span>{{ $drama->alias ? $drama->alias : '无' }}</p>
-                    <p><span class="text-muted">性向：</span>
+                    <p>
+                        <span class="text-muted">性向：</span>
                         @if($drama->type == 0)
                             耽美
                         @elseif($drama->type == 1)
@@ -26,7 +47,8 @@
                             百合
                         @endif
                     </p>
-                    <p><span class="text-muted">时代：</span>
+                    <p>
+                        <span class="text-muted">时代：</span>
                         @if($drama->era == 0)
                             现代
                         @elseif($drama->era == 1)
@@ -42,7 +64,8 @@
                     <p><span class="text-muted">其他描述：</span>{{ $drama->genre ? $drama->genre : '无' }}</p>
                     <p><span class="text-muted">原创性：</span>{{ $drama->original == 1 ? '原创' : '改编' }}</p>
                     <p><span class="text-muted">期数：</span>{{ $drama->count }}</p>
-                    <p><span class="text-muted">进度：</span>
+                    <p>
+                        <span class="text-muted">进度：</span>
                         @if($drama->state == 0)
                             连载
                         @elseif($drama->state == 1)
@@ -53,9 +76,7 @@
                     </p>
                     <p><span class="text-muted">主役CV：</span>{{ $drama->sc }}</p>
                     <p>
-                        <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id) }}">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写整剧评论
-                        </a>
+                        <span class="introduction content-pre-line">@if($drama->introduction){{ $drama->introduction }}@endif</span>
                     </p>
                 </div>
             </div>
@@ -118,11 +139,9 @@
                             </div>
                         </div>
                     @else
-                        <p>
-                            <a class="btn btn-info btn-sm" data-toggle="collapse" href="#favoriteCreate" aria-expanded="false" aria-controls="favoriteCreate">
-                                <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
-                            </a>
-                        </p>
+                        <a class="btn btn-info btn-xs" data-toggle="collapse" href="#favoriteCreate" aria-expanded="false" aria-controls="favoriteCreate">
+                            <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
+                        </a>
                         <div class="collapse panel panel-default" id="favoriteCreate">
                             <div class="panel-body">
                                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/favorite') }}">
@@ -160,18 +179,16 @@
                                 </form>
                             </div>
                         </div>
-                    @endif
+                    @endif&nbsp;&nbsp;
                 @else
-                    <p>
-                        <a class="btn btn-info btn-sm" href="{{ url('/favorite/create?drama='.$drama->id) }}">
-                            <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
-                        </a>
-                    </p>
+                    <a class="btn btn-info btn-xs" href="{{ url('/favorite/create?drama='.$drama->id) }}">
+                        <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
+                    </a>
                 @endif
+                    <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id) }}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写整剧评论
+                    </a>
             </div>
-
-            <h4 class="text-success">剧情简介：</h4>
-            <p class="content-pre-line">@if ($drama->introduction){{ $drama->introduction }}@else无@endif</p>
 
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist" id="episodeTab">
@@ -184,7 +201,7 @@
 
                 <div class="tab-content">
                     @foreach ($episodes as $episode)
-                        <div role="tabpanel" class="tab-pane" id="{{ $episode->id }}">
+                        <div role="tabpanel" class="tab-pane fade" id="{{ $episode->id }}">
                             <p>
                                 <a class="btn btn-warning btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
                                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写本期评论
@@ -192,14 +209,15 @@
                                 <a class="btn btn-danger btn-xs" href="{{ url('/episode/'.$episode->id) }}" target="_blank">
                                     <span class="glyphicon glyphicon-share-alt"></span> 去分集页面
                                 </a>
+                                <a class="btn btn-info btn-xs" role="button" data-toggle="collapse" href="#sc{{ $episode->id }}">查看制作组名单 <span class="caret"></span></a>
+                                @if ($episode->url)
+                                    <a class="btn btn-primary btn-xs" href="{{ $episode->url }}" target="_blank" title="{{ $episode->url }}">{{ $episode->url }}</a>
+                                @endif
                             </p>
+                            <p class="collapse content-pre-line" id="sc{{ $episode->id }}">{{ $episode->sc }}</p>
                             <p><span class="text-muted">副标题：</span>{{ $episode->alias ? $episode->alias : '无' }}</p>
                             <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
-                            <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
                             <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
-                            <img src="{{ $episode->poster_url }}" class="img-responsive" alt="海报">
-                            <br>
-                            <p><span class="text-muted">SC表：</span></p><p class="content-pre-line">{{ $episode->sc }}</p>
                             <p><span class="text-muted">本集简介：</span>@if ($episode->introduction)</p><p class="content-pre-line">{{ $episode->introduction }}@else无@endif</p>
                         </div>
                     @endforeach

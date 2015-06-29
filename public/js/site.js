@@ -41,8 +41,14 @@
 })(jQuery);
 
 $(".review-content").shorten();
+$(".introduction").shorten({showChars: 150});
 
 $('#episodeTab a:first').tab('show');
+$('#episodeTab a').click(function (e) {
+    e.preventDefault();
+    $('#carousel').carousel($(this).parent().index());
+    $(this).tab('show');
+});
 
 $(function() {
     $(window).scroll(function() {
@@ -113,6 +119,10 @@ $('#favoriteModal').on('show.bs.modal', function (event) {
 $('#deleteConfirmModal').on('show.bs.modal', function (event) {
     var action = $(event.relatedTarget).data('action');
     $(this).find("form").prop('action', action);
+});
+
+$('#carousel').carousel({
+    interval: false
 });
 
 $('.rating').rating({
