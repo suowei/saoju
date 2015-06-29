@@ -20,7 +20,9 @@
                         <div class="carousel-inner" role="listbox">
                             @for($i = 0, $count = count($episodes); $i < $count; $i++)
                                 <div @if($i==0)class="item active"@else class="item"@endif>
-                                    <img src="{{ $episodes[$i]->poster_url }}" alt="海报">
+                                    <a href="{{ url('/episode/'.$episodes[$i]->id) }}" target="_blank">
+                                        <img src="{{ $episodes[$i]->poster_url }}" alt="海报">
+                                    </a>
                                 </div>
                             @endfor
                         </div>
@@ -210,15 +212,18 @@
                                     <span class="glyphicon glyphicon-share-alt"></span> 去分集页面
                                 </a>
                                 <a class="btn btn-info btn-xs" role="button" data-toggle="collapse" href="#sc{{ $episode->id }}">查看制作组名单 <span class="caret"></span></a>
-                                @if ($episode->url)
-                                    <a class="btn btn-primary btn-xs" href="{{ $episode->url }}" target="_blank" title="{{ $episode->url }}">{{ $episode->url }}</a>
-                                @endif
                             </p>
                             <p class="collapse content-pre-line" id="sc{{ $episode->id }}">{{ $episode->sc }}</p>
+                            @if ($episode->url)
+                                <p>
+                                    <span class="text-muted">发布地址：</span>
+                                    <a href="{{ $episode->url }}" target="_blank" title="{{ $episode->url }}">{{ $episode->url }}</a>
+                                </p>
+                            @endif
                             <p><span class="text-muted">副标题：</span>{{ $episode->alias ? $episode->alias : '无' }}</p>
                             <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
                             <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
-                            <p><span class="text-muted">本集简介：</span>@if ($episode->introduction)</p><p class="content-pre-line">{{ $episode->introduction }}@else无@endif</p>
+                            @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
                         </div>
                     @endforeach
                 </div>
@@ -282,6 +287,8 @@
             <p>
                 <a class="btn btn-success btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史</a>
             </p>
+            <p class="text-success"><span class="glyphicon glyphicon-hand-down"></span> 下面是剧集海报，用于收藏列表和搜索结果等的展示，最左边的是分集海报展示</p>
+            <img src="{{ $drama->poster_url }}" class="img-responsive">
         </div>
     </div>
 </div>
