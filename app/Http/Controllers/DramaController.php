@@ -328,12 +328,6 @@ class DramaController extends Controller {
         if($request->input('title') != '')
         {
             $dramas = Drama::select('id', 'sc')->where('title', $request->input('title'))->get();
-            $data = [];
-            $data[] = ['id' => 1, 'sc' => 'test'];
-            foreach($dramas as $drama)
-            {
-                $data[] = ['id' => $drama->id, 'sc' => $drama->sc];
-            }
             return $dramas;
         }
     }
