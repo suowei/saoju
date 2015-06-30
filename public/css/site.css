@@ -7,6 +7,10 @@ a:hover {
     background-color: #fbed01;
 }
 
+.carousel > a:hover {
+    background-color: transparent;
+}
+
 .navbar-default {
     background-color: transparent;
 }
@@ -51,7 +55,7 @@ a:hover {
 }
 
 .favorite-panel {
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 #favoriteEdit {

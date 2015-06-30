@@ -4,21 +4,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h3>《<a href="{{ url('/drama/'.$drama->id) }}">{{ $drama->title }}</a>》{{ $episode->title }}</h3>
-                <p class="text-muted">查看剧集信息点上边<span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></p>
-                <p>
+                <h3>
+                    《<a href="{{ url('/drama/'.$drama->id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
+                    @if($episode->alias){{ $episode->alias }}@endif
                     <a class="btn btn-warning btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写本期评论
                     </a>
-                </p>
-                <p><span class="text-muted">副标题：</span>{{ $episode->alias ? $episode->alias : '无' }}</p>
-                <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
+                        <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
+                        <p class="content-pre-line">{{ $episode->sc }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <a href="{{ $episode->poster_url  }}" target="_blank">
+                                <img src="{{ $episode->poster_url }}" class="img-responsive" alt="海报">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
                 <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
-                <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
-                <img src="{{ $episode->poster_url }}" class="img-responsive" alt="海报">
-                <br>
-                <p><span class="text-muted">SC表：</span></p><p class="content-pre-line">{{ $episode->sc }}</p>
-                <p><span class="text-muted">本集简介：</span>@if ($episode->introduction)</p><p class="content-pre-line">{{ $episode->introduction }}@else无@endif</p>
 
                 @if (Auth::check())
                     <div class="reviews">

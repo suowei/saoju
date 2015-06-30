@@ -41,8 +41,14 @@
 })(jQuery);
 
 $(".review-content").shorten();
+$(".introduction").shorten({showChars: 150});
 
 $('#episodeTab a:first').tab('show');
+$('#episodeTab a').click(function (e) {
+    e.preventDefault();
+    $('#carousel').carousel($(this).parent().index());
+    $(this).tab('show');
+});
 
 $(function() {
     $(window).scroll(function() {
@@ -67,7 +73,6 @@ $(function() {
                 data: {title: title},
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     var dramas = '已有如下同名剧集：<br>';
                     $.each(data, function(i, n) {
                         dramas += '剧集id：<a href="/drama/'+n['id']+'" target="_blank">'+n['id']+'</a> 主役CV：'+n['sc']+'<br>';
@@ -114,6 +119,10 @@ $('#favoriteModal').on('show.bs.modal', function (event) {
 $('#deleteConfirmModal').on('show.bs.modal', function (event) {
     var action = $(event.relatedTarget).data('action');
     $(this).find("form").prop('action', action);
+});
+
+$('#carousel').carousel({
+    interval: false
 });
 
 $('.rating').rating({
