@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-info">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-music"></span> 今日新剧</div>
+                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 今日新剧</h4></div>
                             <ul class="list-group">
                                 @foreach($todays as $episode)
                                     <li class="list-group-item">
@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="panel panel-warning">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-headphones"></span> 昨日新剧</div>
+                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-headphones"></span> 昨日新剧</h4></div>
                             <ul class="list-group">
                                 @foreach($yesterdays as $episode)
                                     <li class="list-group-item">
@@ -139,9 +139,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-success">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-volume-down"></span>一周新剧</div>
+                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-volume-down"></span>一周新剧</h4></div>
                             <ul class="list-group">
-                                @for($i = 0; $i < $count && $i < $length; $i++)
+                                @for($i = 0, $count = count($todays) + count($yesterdays), $length = count($thisweeks); $i < $count && $i < $length; $i++)
                                     <?php $episode = $thisweeks[$i]; ?>
                                     <li class="list-group-item">
                                         <h4>
@@ -301,7 +301,7 @@
                 </p>
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h3>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
                         <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">性向分区功能上线，以及时代字段加入</a>
@@ -310,9 +310,24 @@
                         <a href="{{ url('/bbs/topic/4') }}" class="list-group-item" target="_blank">手机端导航条展开bug已修复，点击右侧按钮即可展开</a>
                     </div>
                 </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-stats"></span> 月热评剧集</h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($hotDramas as $hot)
+                            <li class="list-group-item">
+                                    《<a href="{{ url('/drama/'.$hot->drama->id) }}" target="_blank">{{ $hot->drama->title }}</a>》
+                                    <span class="pull-right">
+                                        <a href="{{ url('/drama/'.$hot->drama->id.'/reviews') }}" target="_blank">{{ $hot->review_count }}评论</a>
+                                    </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-heart"></span> 感谢各位的贡献！</h3>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-heart"></span> 感谢各位的贡献！</h4>
                     </div>
                     <ul class="list-group">
                         @foreach($histories as $key => $history)
