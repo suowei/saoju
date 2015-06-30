@@ -2,11 +2,12 @@
 
 use App\Drama;
 use App\History;
+use App\Favorite;
+use App\Review;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Review;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class DramaController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show', 'reviews', 'histories', 'search']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
     }
 
 	/**
@@ -155,8 +156,16 @@ class DramaController extends Controller {
 	{
         $drama = Drama::find($id);
         $episodes = $drama->episodes->sortBy('release_date');
-        $reviews = Review::with('user', 'episode')->where('drama_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
-        return view('drama.show')->withDrama($drama)->withEpisodes($episodes)->withReviews($reviews);
+        $reviews = Review::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }, 'episode' => function($query) {
+            $query->select('id', 'title');
+        }])->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
+        $favorites = Favorite::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        return view('drama.show')->withDrama($drama)->withEpisodes($episodes)
+            ->withReviews($reviews)->withFavorites($favorites);
 	}
 
 	/**
@@ -330,6 +339,15 @@ class DramaController extends Controller {
             $dramas = Drama::select('id', 'sc')->where('title', $request->input('title'))->get();
             return $dramas;
         }
+    }
+
+    public function favorites($id)
+    {
+        $drama = Drama::find($id);
+        $favorites = Favorite::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->where('drama_id', $id)->paginate(20);
+        return view('drama.favorites')->withDrama($drama)->withFavorites($favorites);
     }
 
 }
