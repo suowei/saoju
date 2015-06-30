@@ -15,4 +15,9 @@ class Favorite extends Model {
         return $this->belongsTo('App\Drama');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

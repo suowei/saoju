@@ -312,7 +312,7 @@
                 </div>
                 <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><span class="glyphicon glyphicon-stats"></span> 月热评剧集</h4>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>
                     <ul class="list-group">
                         @foreach($hotDramas as $hot)
@@ -333,7 +333,9 @@
                         @foreach($hotFavorites as $hot)
                             <li class="list-group-item">
                                 《<a href="{{ url('/drama/'.$hot->drama->id) }}" target="_blank">{{ $hot->drama->title }}</a>》
-                                <span class="pull-right">{{ $hot->favorite_count }}收藏</span>
+                                <span class="pull-right">
+                                    <a href="{{ url('/drama/'.$hot->drama->id.'/favorites') }}" target="_blank">{{ $hot->favorite_count }}收藏</a>
+                                </span>
                             </li>
                         @endforeach
                     </ul>

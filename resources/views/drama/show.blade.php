@@ -288,7 +288,26 @@
                 <a class="btn btn-success btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史</a>
             </p>
             <p class="text-success"><span class="glyphicon glyphicon-hand-down"></span> 下面是剧集海报，用于收藏列表和搜索结果等的展示，最左边的是分集海报展示</p>
-            <img src="{{ $drama->poster_url }}" class="img-responsive">
+            <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/drama/'.$drama->id.'/favorites') }}" target="_blank">查看全部</a>）</small></h4>
+                </div>
+                <ul class="list-group">
+                    @foreach ($favorites as $favorite)
+                        <li class="list-group-item">
+                            <a href="{{ url('/user/'.$favorite->user->id) }}" target="_blank">{{ $favorite->user->name }}</a>
+                            {{ $favorite->created_at->format('m-d') }}
+                            @if($favorite->type == 0)想听@elseif($favorite->type == 1)在追@elseif($favorite->type == 2)听过@elseif($favorite->type == 3)搁置@else抛弃@endif
+                            @if($favorite->type != 0)
+                                @if($favorite->rating != 0)
+                                    <input type="number" class="rating form-control" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
+                                @endif
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </div>
 </div>
