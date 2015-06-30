@@ -4,6 +4,7 @@ use App\Drama;
 use App\Episode;
 use App\History;
 use App\Review;
+use App\Favorite;
 
 use Illuminate\Http\Request;
 use DB;
@@ -101,9 +102,22 @@ class IndexController extends Controller {
             $query->select('id', 'title');
         }]);
 
-        //查询最新20条新剧的添加历史
-        $dramas = Drama::select('id', 'title', 'sc')->orderBy('id', 'desc')->take(20)->get();
-        $histories = History::where('model', 0)->where('type', 0)->orderBy('model_id', 'desc')->take(20)->get();
+        //查询30天收藏前10的剧集id
+        $hotFavorites = Favorite::select(DB::raw('count(*) as favorite_count, drama_id'))
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->groupBy('drama_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(10)
+            ->get();
+        //载入所属剧集的标题和主役CV
+        $hotDramas->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+
+        //查询最新15条新剧的添加历史
+        $dramas = Drama::select('id', 'title', 'sc')->orderBy('id', 'desc')->take(15)->get();
+        $histories = History::where('model', 0)->where('type', 0)->orderBy('model_id', 'desc')->take(15)->get();
         $histories->load(['user' => function($query)
         {
             $query->select('id', 'name');
@@ -111,7 +125,8 @@ class IndexController extends Controller {
 
         return view('index')->with('type', $type)->with('todays', $todays)
             ->with('yesterdays', $yesterdays)->with('thisweeks', $thisweeks)->withReviews($reviews)
-            ->with('hotDramas', $hotDramas)->withDramas($dramas)->withHistories($histories);
+            ->with('hotDramas', $hotDramas)->with('hotFavorites', $hotFavorites)
+            ->withDramas($dramas)->withHistories($histories);
 	}
 
 }

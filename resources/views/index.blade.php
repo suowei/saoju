@@ -305,7 +305,7 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">性向分区功能上线，以及时代字段加入</a>
+                        <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">性向分区功能上线</a>
                         <a href="{{ url('/bbs/topic/18') }}" class="list-group-item" target="_blank">服务已恢复，给大家造成的不便我们深表抱歉</a>
                         <a href="{{ url('/bbs/topic/13') }}" class="list-group-item" target="_blank">关于写评和收藏系统是否需要结合起来的意见征询</a>
                     </div>
@@ -321,6 +321,19 @@
                                     <span class="pull-right">
                                         <a href="{{ url('/drama/'.$hot->drama->id.'/reviews') }}" target="_blank">{{ $hot->review_count }}评论</a>
                                     </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-stats"></span> 月热门剧集</h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($hotFavorites as $hot)
+                            <li class="list-group-item">
+                                《<a href="{{ url('/drama/'.$hot->drama->id) }}" target="_blank">{{ $hot->drama->title }}</a>》
+                                <span class="pull-right">{{ $hot->favorite_count }}收藏</span>
                             </li>
                         @endforeach
                     </ul>
