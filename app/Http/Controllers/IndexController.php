@@ -90,30 +90,62 @@ class IndexController extends Controller {
         }]);
 
         //查询30天评论数前10的剧集id
-        $hotDramas = Review::select(DB::raw('count(*) as review_count, drama_id'))
-            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
-            ->groupBy('drama_id')
-            ->orderBy('review_count', 'desc')
-            ->take(10)
-            ->get();
-        //载入所属剧集的标题和主役CV
-        $hotDramas->load(['drama' => function($query)
+        if($type < 0)
         {
-            $query->select('id', 'title');
-        }]);
+            $hotDramas = Review::join('dramas', function($join) use($type)
+            {
+                $join->on('reviews.drama_id', '=', 'dramas.id')
+                    ->where('reviews.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
+            })
+                ->select(DB::raw('count(*) as review_count, drama_id, dramas.title as title'))
+                ->groupBy('drama_id')
+                ->orderBy('review_count', 'desc')
+                ->take(10)
+                ->get();
+        }
+        else
+        {
+            $hotDramas = Review::join('dramas', function($join) use($type)
+            {
+                $join->on('reviews.drama_id', '=', 'dramas.id')
+                    ->where('dramas.type', '=', $type)
+                    ->where('reviews.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
+            })
+                ->select(DB::raw('count(*) as review_count, drama_id, dramas.title as title'))
+                ->groupBy('drama_id')
+                ->orderBy('review_count', 'desc')
+                ->take(10)
+                ->get();
+        }
 
         //查询30天收藏前10的剧集id
-        $hotFavorites = Favorite::select(DB::raw('count(*) as favorite_count, drama_id'))
-            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
-            ->groupBy('drama_id')
-            ->orderBy('favorite_count', 'desc')
-            ->take(10)
-            ->get();
-        //载入所属剧集的标题和主役CV
-        $hotDramas->load(['drama' => function($query)
+        if($type < 0)
         {
-            $query->select('id', 'title');
-        }]);
+            $hotFavorites = Favorite::join('dramas', function($join) use($type)
+            {
+                $join->on('favorites.drama_id', '=', 'dramas.id')
+                    ->where('favorites.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
+            })
+                ->select(DB::raw('count(*) as favorite_count, drama_id, title'))
+                ->groupBy('drama_id')
+                ->orderBy('favorite_count', 'desc')
+                ->take(10)
+                ->get();
+        }
+        else
+        {
+            $hotFavorites = Favorite::join('dramas', function($join) use($type)
+            {
+                $join->on('favorites.drama_id', '=', 'dramas.id')
+                    ->where('dramas.type', '=', $type)
+                    ->where('favorites.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
+            })
+                ->select(DB::raw('count(*) as favorite_count, drama_id, title'))
+                ->groupBy('drama_id')
+                ->orderBy('favorite_count', 'desc')
+                ->take(10)
+                ->get();
+        }
 
         //查询最新15条新剧的添加历史
         $dramas = Drama::select('id', 'title', 'sc')->orderBy('id', 'desc')->take(15)->get();

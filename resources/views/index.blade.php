@@ -317,9 +317,9 @@
                     <ul class="list-group">
                         @foreach($hotDramas as $hot)
                             <li class="list-group-item">
-                                    《<a href="{{ url('/drama/'.$hot->drama->id) }}" target="_blank">{{ $hot->drama->title }}</a>》
+                                    《<a href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">{{ $hot->title }}</a>》
                                     <span class="pull-right">
-                                        <a href="{{ url('/drama/'.$hot->drama->id.'/reviews') }}" target="_blank">{{ $hot->review_count }}评论</a>
+                                        <a href="{{ url('/drama/'.$hot->drama_id.'/reviews') }}" target="_blank">{{ $hot->review_count }}评论</a>
                                     </span>
                             </li>
                         @endforeach
@@ -332,9 +332,9 @@
                     <ul class="list-group">
                         @foreach($hotFavorites as $hot)
                             <li class="list-group-item">
-                                《<a href="{{ url('/drama/'.$hot->drama->id) }}" target="_blank">{{ $hot->drama->title }}</a>》
+                                《<a href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">{{ $hot->title }}</a>》
                                 <span class="pull-right">
-                                    <a href="{{ url('/drama/'.$hot->drama->id.'/favorites') }}" target="_blank">{{ $hot->favorite_count }}收藏</a>
+                                    <a href="{{ url('/drama/'.$hot->drama_id.'/favorites') }}" target="_blank">{{ $hot->favorite_count }}收藏</a>
                                 </span>
                             </li>
                         @endforeach
