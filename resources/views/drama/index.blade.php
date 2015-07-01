@@ -144,6 +144,28 @@
                     <a href="{{ $url.'state=3' }}">已坑</a>
                 @endif
             </p>
+
+            <form class="form-inline" method="GET" action="{{ url('/drama') }}">
+                主役：&nbsp;&nbsp;
+                <?php
+                    $url = url('/drama?');
+                    foreach($params as $key => $value)
+                    {
+                        if($key != 'cv')
+                        {
+                            $url .= $key.'='.$value.'&';
+                            echo '<input type="hidden" name="'.$key.'" value="'.$value.'">';
+                        }
+                    }
+                ?>
+                @if(isset($params['cv']))
+                    <span class="label label-primary">
+                        {{ $params['cv'] }}
+                        <a style="color: #ffffff;" href="{{ $url }}"><span class="glyphicon glyphicon-remove"></span></a></span>&nbsp;&nbsp;
+                @endif
+                <input type="text" class="form-control" name="cv">
+                <button type="submit" class="btn btn-default">确定</button>
+            </form>
             <p class="drama">
                 排序：&nbsp;&nbsp;
                 <?php

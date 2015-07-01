@@ -64,6 +64,11 @@ class DramaController extends Controller {
                     break;
             }
         }
+        //主役筛选
+        if($request->has('cv'))
+        {
+            $scope['sc'] = ['LIKE', '%'.$request->input('cv').'%'];
+        }
         //排序
         if($request->has('sort'))
         {

@@ -39,9 +39,7 @@
                 @endif
 
                 <form class="navbar-form navbar-left" role="search" method="GET" action="{{ url('/search') }}">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="navbarSearch" name="search" placeholder="剧名或别名">
-                    </div>
+                    <input type="text" class="form-control" id="navbarSearch" name="search" placeholder="剧名或别名">
                     <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> 搜索</button>
                 </form>
 
