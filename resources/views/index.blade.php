@@ -1,8 +1,8 @@
 @extends('app')
 
 @section('content')
-    <div class="visible-xs-block">点击右侧按钮即可展开导航条</div>
     <div class="container">
+        <p class="visible-xs-block text-right">点击按钮即可展开导航条<span class="glyphicon glyphicon-hand-up"></span></p>
         <div class="row">
             <div class="col-md-9">
                 <p class="text-muted">
