@@ -161,10 +161,10 @@
                 @if(isset($params['cv']))
                     <span class="label label-primary">
                         {{ $params['cv'] }}
-                        <a style="color: #ffffff;" href="{{ $url }}"><span class="glyphicon glyphicon-remove"></span></a></span>&nbsp;&nbsp;
+                        <a class="white-link" href="{{ $url }}"><span class="glyphicon glyphicon-remove"></span></a></span>&nbsp;&nbsp;
                 @endif
-                <input type="text" class="form-control" name="cv">
-                <button type="submit" class="btn btn-default">确定</button>
+                <input type="text" class="form-control input-sm" name="cv">
+                <button type="submit" class="btn btn-default btn-sm">确定</button>
             </form>
             <p class="drama">
                 排序：&nbsp;&nbsp;
