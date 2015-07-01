@@ -74,7 +74,7 @@ class DramaController extends Controller {
             $order = 'id';
         }
         $dramas = Drama::multiwhere($scope)->orderBy($order, 'desc')->paginate(20);
-		return view('drama.index')->with('scope', $scope)->with('order', $order)->withDramas($dramas);
+		return view('drama.index')->with('params', $request->except('page'))->withDramas($dramas);
 	}
 
 	/**

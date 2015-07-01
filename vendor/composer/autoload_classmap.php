@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddEraToDramasTable' => $baseDir . '/database/migrations/2015_06_22_121015_add_era_to_dramas_table.php',
+    'AddFavoritesToDramasTable' => $baseDir . '/database/migrations/2015_07_01_195617_add_favorites_to_dramas_table.php',
     'AddTypeToDramasTable' => $baseDir . '/database/migrations/2015_06_22_120924_add_type_to_dramas_table.php',
     'CreateCommentsTable' => $baseDir . '/database/migrations/2015_06_15_114702_create_comments_table.php',
     'CreateDramasTable' => $baseDir . '/database/migrations/2015_05_18_162627_create_dramas_table.php',

@@ -291,7 +291,7 @@
             <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/drama/'.$drama->id.'/favorites') }}" target="_blank">查看全部</a>）</small></h4>
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/drama/'.$drama->id.'/favorites') }}" target="_blank">查看全部{{ $drama->favorites }}条收藏</a>）</small></h4>
                 </div>
                 <ul class="list-group">
                     @foreach ($favorites as $favorite)

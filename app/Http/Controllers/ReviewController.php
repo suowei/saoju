@@ -87,7 +87,8 @@ class ReviewController extends Controller {
         {
             DB::table('users')->where('id', $review->user_id)->increment('reviews');
             DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
-            DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
+            if($review->episode_id)
+                DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
             return redirect()->route('review.show', [$review]);
         }
         else
@@ -172,7 +173,8 @@ class ReviewController extends Controller {
             {
                 DB::table('users')->where('id', $review->user_id)->decrement('reviews');
                 DB::table('dramas')->where('id', $review->drama_id)->decrement('reviews');
-                DB::table('episodes')->where('id', $review->episode_id)->decrement('reviews');
+                if($review->episode_id)
+                    DB::table('episodes')->where('id', $review->episode_id)->decrement('reviews');
                 Reply::where('review_id', $id)->delete();
             }
         }

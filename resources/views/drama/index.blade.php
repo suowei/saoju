@@ -7,127 +7,164 @@
             <p>
                 性向：&nbsp;&nbsp;
                 <?php
-                    $url = url('/drama?sort='.$order);
-                    foreach($scope as $key => $value)
+                    $url = url('/drama?');
+                    foreach($params as $key => $value)
                     {
                         if($key != 'type')
-                            $url .= '&'.$key.'='.$value[1];
+                            $url .= $key.'='.$value.'&';
                     }
                 ?>
-                @if(isset($scope['type']))
+                @if(isset($params['type']))
                     <a href="{{ $url }}">全部</a>
                 @else
                     <span class="label label-primary">全部</span>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['type']) && $scope['type'][1] == 0)
+                @if(isset($params['type']) && $params['type'] == 0)
                     <span class="label label-primary">耽美</span>
                 @else
-                    <a href="{{ $url.'&type=0' }}">耽美</a>
+                    <a href="{{ $url.'type=0' }}">耽美</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['type']) && $scope['type'][1] == 1)
+                @if(isset($params['type']) && $params['type'] == 1)
                     <span class="label label-primary">全年龄</span>
                 @else
-                    <a href="{{ $url.'&type=1' }}">全年龄</a>
+                    <a href="{{ $url.'type=1' }}">全年龄</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['type']) && $scope['type'][1] == 2)
+                @if(isset($params['type']) && $params['type'] == 2)
                     <span class="label label-primary">言情</span>
                 @else
-                    <a href="{{ $url.'&type=2' }}">言情</a>
+                    <a href="{{ $url.'type=2' }}">言情</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['type']) && $scope['type'][1] == 3)
+                @if(isset($params['type']) && $params['type'] == 3)
                     <span class="label label-primary">百合</span>
                 @else
-                    <a href="{{ $url.'&type=3' }}">百合</a>
+                    <a href="{{ $url.'type=3' }}">百合</a>
                 @endif
             </p>
             <p>
                 时代：&nbsp;&nbsp;
                 <?php
-                    $url = url('/drama?sort='.$order);
-                    foreach($scope as $key => $value)
+                    $url = url('/drama?');
+                    foreach($params as $key => $value)
                     {
                         if($key != 'era')
-                            $url .= '&'.$key.'='.$value[1];
+                            $url .= $key.'='.$value.'&';
                     }
                 ?>
-                @if(isset($scope['era']))
+                @if(isset($params['era']))
                     <a href="{{ $url }}">全部</a>
                 @else
                     <span class="label label-primary">全部</span>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['era']) && $scope['era'][1] == 0)
+                @if(isset($params['era']) && $params['era'] == 0)
                     <span class="label label-primary">现代</span>
                 @else
-                    <a href="{{ $url.'&era=0' }}">现代</a>
+                    <a href="{{ $url.'era=0' }}">现代</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['era']) && $scope['era'][1] == 1)
+                @if(isset($params['era']) && $params['era'] == 1)
                     <span class="label label-primary">古风</span>
                 @else
-                    <a href="{{ $url.'&era=1' }}">古风</a>
+                    <a href="{{ $url.'era=1' }}">古风</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['era']) && $scope['era'][1] == 2)
+                @if(isset($params['era']) && $params['era'] == 2)
                     <span class="label label-primary">民国</span>
                 @else
-                    <a href="{{ $url.'&era=2' }}">民国</a>
+                    <a href="{{ $url.'era=2' }}">民国</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['era']) && $scope['era'][1] == 3)
+                @if(isset($params['era']) && $params['era'] == 3)
                     <span class="label label-primary">未来</span>
                 @else
-                    <a href="{{ $url.'&era=3' }}">未来</a>
+                    <a href="{{ $url.'era=3' }}">未来</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['era']) && $scope['era'][1] == 4)
+                @if(isset($params['era']) && $params['era'] == 4)
                     <span class="label label-primary">其他</span>
                 @else
-                    <a href="{{ $url.'&era=4' }}">其他</a>
+                    <a href="{{ $url.'era=4' }}">其他</a>
                 @endif
             </p>
             <p>
                 原创：&nbsp;&nbsp;
                 <?php
-                $url = url('/drama?sort='.$order);
-                foreach($scope as $key => $value)
-                {
-                    if($key != 'original')
-                        $url .= '&'.$key.'='.$value[1];
-                }
+                    $url = url('/drama?');
+                    foreach($params as $key => $value)
+                    {
+                        if($key != 'original')
+                            $url .= $key.'='.$value.'&';
+                    }
                 ?>
-                @if(isset($scope['original']))
+                @if(isset($params['original']))
                     <a href="{{ $url }}">全部</a>
                 @else
                     <span class="label label-primary">全部</span>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['original']) && $scope['original'][1] == 0)
+                @if(isset($params['original']) && $params['original'] == 0)
                     <span class="label label-primary">改编</span>
                 @else
-                    <a href="{{ $url.'&original=0' }}">改编</a>
+                    <a href="{{ $url.'original=0' }}">改编</a>
                 @endif&nbsp;&nbsp;
-                @if(isset($scope['original']) && $scope['original'][1] == 1)
+                @if(isset($params['original']) && $params['original'] == 1)
                     <span class="label label-primary">原创</span>
                 @else
-                    <a href="{{ $url.'&original=1' }}">原创</a>
+                    <a href="{{ $url.'original=1' }}">原创</a>
+                @endif
+            </p>
+            <p>
+                进度：&nbsp;&nbsp;
+                <?php
+                    $url = url('/drama?');
+                    foreach($params as $key => $value)
+                    {
+                        if($key != 'state')
+                            $url .= $key.'='.$value.'&';
+                    }
+                ?>
+                @if(isset($params['state']))
+                    <a href="{{ $url }}">全部</a>
+                @else
+                    <span class="label label-primary">全部</span>
+                @endif&nbsp;&nbsp;
+                @if(isset($params['state']) && $params['state'] == 1)
+                    <span class="label label-primary">已完结</span>
+                @else
+                    <a href="{{ $url.'state=1' }}">已完结</a>
+                @endif&nbsp;&nbsp;
+                @if(isset($params['state']) && $params['state'] == 2)
+                    <span class="label label-primary">全一期</span>
+                @else
+                    <a href="{{ $url.'state=2' }}">全一期</a>
+                @endif&nbsp;&nbsp;
+                @if(isset($params['state']) && $params['state'] == 0)
+                    <span class="label label-primary">连载中</span>
+                @else
+                    <a href="{{ $url.'state=0' }}">连载中</a>
+                @endif
+                &nbsp;&nbsp;
+                @if(isset($params['state']) && $params['state'] == 3)
+                    <span class="label label-primary">已坑</span>
+                @else
+                    <a href="{{ $url.'state=3' }}">已坑</a>
                 @endif
             </p>
             <p class="drama">
                 排序：&nbsp;&nbsp;
                 <?php
                     $url = url('/drama?');
-                    foreach($scope as $key => $value)
+                    foreach($params as $key => $value)
                     {
                         if($key != 'sort')
-                            $url .= $key.'='.$value[1].'&';
+                            $url .= $key.'='.$value.'&';
                     }
                 ?>
-                @if($order == 'id')
-                    最新添加↓</span>
-                @else
+                @if(isset($params['sort']) && $params['sort'] != 'id')
                     <a href="{{ $url.'sort=id' }}">最新添加</a>
+                @else
+                    最新添加↓</span>
                 @endif&nbsp;&nbsp;
-                @if($order == 'reviews')
+                @if(isset($params['sort']) && $params['sort'] == 'reviews')
                     评论数量↓</span>
                 @else
                     <a href="{{ $url.'sort=reviews' }}">评论数量</a>
                 @endif&nbsp;&nbsp;
-                @if($order == 'favorites')
+                @if(isset($params['sort']) && $params['sort'] == 'favorites')
                     收藏人数↓</span>
                 @else
                     <a href="{{ $url.'sort=favorites' }}">收藏人数</a>
@@ -191,15 +228,7 @@
                     </div>
                 @endforeach
             </div>
-            <?php
-                $appends = [];
-                foreach($scope as $key => $value)
-                {
-                    $appends[$key] = $value[1];
-                }
-                $appends['sort'] = $order;
-                echo $dramas->appends($appends)->render();
-            ?>
+            <?php echo $dramas->appends($params)->render(); ?>
         </div>
         <div class="col-md-3">
             <p class="text-muted">

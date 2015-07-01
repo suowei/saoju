@@ -51,6 +51,7 @@ class FavoriteController extends Controller {
         if($favorite->save())
         {
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
+            DB::table('dramas')->where('id', $favorite->drama_id)->increment('favorites');
         }
         return redirect()->back();
     }
@@ -89,11 +90,10 @@ class FavoriteController extends Controller {
         $favorite = Favorite::find($id);
         if($favorite->user_id == Auth::id())
         {
-            $user_id = $favorite->user_id;
-            $type = $favorite->type;
             if($favorite->delete())
             {
-                DB::table('users')->where('id', $user_id)->decrement('favorite'.$type);
+                DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$favorite->type);
+                DB::table('dramas')->where('id', $favorite->drama_id)->decrement('favorites');
             }
         }
         return redirect()->back();
