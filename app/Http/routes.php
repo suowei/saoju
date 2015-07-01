@@ -33,6 +33,7 @@ Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserControl
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
 Route::get('/drama/{id}/histories', ['as' => 'drama.histories', 'uses' => 'DramaController@histories']);
+Route::get('/drama/{id}/favorites', ['as' => 'drama.favorites', 'uses' => 'DramaController@favorites']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
