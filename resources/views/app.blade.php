@@ -46,7 +46,7 @@
                 </form>
 
 				<ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url('/drama') }}"><span class="glyphicon glyphicon-film"></span> 剧集列表</a></li>
+                    <li><a href="{{ url('/drama?type=0') }}"><span class="glyphicon glyphicon-film"></span> 剧集列表</a></li>
                     <li><a href="{{ url('/review') }}"><span class="glyphicon glyphicon-comment"></span> 评论列表</a></li>
                     <li><a href="{{ url('/drama/create') }}"><span class="glyphicon glyphicon-plus"></span> 添加剧集信息</a></li>
 

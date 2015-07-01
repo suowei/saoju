@@ -27,15 +27,54 @@ class DramaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+        $scope = [];
+        //性向筛选
         if($request->has('type'))
-            $type = $request->input('type');
+        {
+            $scope['type'] = ['=', $request->input('type')];
+        }
+        //时代筛选
+        if($request->has('era'))
+        {
+            $scope['era'] = ['=', $request->input('era')];
+        }
+        //原创性筛选
+        if($request->has('original'))
+        {
+            $scope['original'] = ['=', $request->input('original')];
+        }
+        //进度筛选，结合state与count字段
+        if($request->has('state'))
+        {
+            switch($request->input('state'))
+            {
+                case 0://连载中
+                    $scope['state'] = ['=', 0];
+                    break;
+                case 1://已完结
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['>', 1];
+                    break;
+                case 2://全一期
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['=', 1];
+                    break;
+                case 3://已坑
+                    $scope['state'] = ['=', 2];
+                    break;
+            }
+        }
+        //排序
+        if($request->has('sort'))
+        {
+            $order = $request->input('sort');
+        }
         else
-            $type = 0;
-        if($type < 0)
-            $dramas = Drama::orderBy('id', 'desc')->paginate(20);
-        else
-            $dramas = Drama::where('type', $type)->orderBy('id', 'desc')->paginate(20);
-		return view('drama.index')->with('type', $type)->withDramas($dramas);
+        {
+            $order = 'id';
+        }
+        $dramas = Drama::multiwhere($scope)->orderBy($order, 'desc')->paginate(20);
+		return view('drama.index')->with('scope', $scope)->with('order', $order)->withDramas($dramas);
 	}
 
 	/**
