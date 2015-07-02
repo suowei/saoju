@@ -63,31 +63,6 @@ class EpisodeController extends Controller {
                     break;
             }
         }
-        //日期筛选
-        if($request->has('year'))
-        {
-            if($request->has('month'))
-            {
-                if($request->has('day'))
-                {
-                    $scope['release_date'] = ['=', $request->input('year').'-'.$request->input('month').'-'.$request->input('day')];
-                }
-                else
-                {
-                    $release_date = [
-                        $request->input('year').'-'.$request->input('month').'-01',
-                        $request->input('year').'-'.$request->input('month').'-31'
-                    ];
-                }
-            }
-            else
-            {
-                $release_date = [
-                    $request->input('year').'-01-01',
-                    $request->input('year').'-12-31'
-                ];
-            }
-        }
         //起止日期筛选
         if($request->has('startdate') || $request->has('enddate'))
         {

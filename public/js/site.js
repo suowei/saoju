@@ -121,6 +121,14 @@ $('#deleteConfirmModal').on('show.bs.modal', function (event) {
     $(this).find("form").prop('action', action);
 });
 
+$('.date').datepicker({
+    format: "yyyy-mm-dd",
+    endDate: "0d",
+    language: "zh-CN",
+    autoclose: true,
+    todayHighlight: true
+});
+
 $('#carousel').carousel({
     interval: false
 });

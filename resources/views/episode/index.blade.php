@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('css')
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -144,77 +148,16 @@
                         <a href="{{ $url.'state=3' }}">已坑</a>
                     @endif
                 </p>
-                <?php
-                $url = url('/episode?');
-                foreach($params as $key => $value)
-                {
-                    if($key != 'year' && $key != 'month' && $key != 'day' && $key != 'startdate' && $key != 'enddate')
-                        $url .= $key.'='.$value.'&';
-                }
-                ?>
-                <p>
-                    年份：&nbsp;&nbsp;
-                    @if(isset($params['year']))
-                        <a href="{{ $url }}">全部</a>
-                    @else
-                        <span class="label label-primary">全部</span>
-                    @endif&nbsp;&nbsp;
-                    @for($year = date('Y'); $year > 2004; $year--)
-                        @if(isset($params['year']) && $params['year'] == $year)
-                            <span class="label label-primary">{{ $year }}</span>
-                        @else
-                            <a href="{{ $url.'year='.$year }}">{{ $year }}</a>
-                        @endif&nbsp;&nbsp;
-                    @endfor
-                    @if(isset($params['year']) && $params['year'] == 2004)
-                        <span class="label label-primary">2004及以前</span>
-                    @else
-                        <a href="{{ $url.'year='.$year }}">2004及以前</a>
-                    @endif
-                </p>
-                @if(isset($params['year']))
-                    <p>
-                        月份：&nbsp;&nbsp;
-                        @if(isset($params['month']))
-                            <a href="{{ $url.'&year='.$params['year'] }}">全部</a>
-                        @else
-                            <span class="label label-primary">全部</span>
-                        @endif
-                        @for($month = 1; $month <= 12; $month++)
-                            &nbsp;&nbsp;
-                            @if(isset($params['month']) && $params['month'] == $month)
-                                <span class="label label-primary">{{ $month }}月</span>
-                            @else
-                                <a href="{{ $url.'year='.$params['year'].'&month='.$month }}">{{ $month }}月</a>
-                            @endif
-                        @endfor
-                    </p>
-                @endif
-                @if(isset($params['month']))
-                    <p>
-                        日期：&nbsp;&nbsp;
-                        @if(isset($params['day']))
-                            <a href="{{ $url.'&year='.$params['year'].'&month='.$params['month'] }}">全部</a>
-                        @else
-                            <span class="label label-primary">全部</span>
-                        @endif&nbsp;&nbsp;
-                        @for($day = 1; $day <= 31; $day++)
-                            @if(isset($params['day']) && $params['day'] == $day)
-                                <span class="label label-primary">{{ $day }}</span>
-                            @else
-                                <a href="{{ $url.'year='.$params['year'].'&month='.$params['month'].'&day='.$day }}">{{ $day }}</a>
-                            @endif
-                        @endfor
-                    </p>
-                @endif
                 <p>
                 <form class="form-inline" method="GET" action="{{ url('/episode') }}">
-                    区间：&nbsp;&nbsp;
+                    日期：&nbsp;&nbsp;
                     <?php
+                    $url = url('/episode?');
                     foreach($params as $key => $value)
                     {
-                        if($key != 'year' && $key != 'month' && $key != 'day' && $key != 'startdate' && $key != 'enddate')
+                        if($key != 'startdate' && $key != 'enddate')
                         {
+                            $url .= $key.'='.$value.'&';
                             echo '<input type="hidden" name="'.$key.'" value="'.$value.'">';
                         }
                     }
@@ -226,9 +169,15 @@
                             @if(isset($params['enddate'])){{ $params['enddate'] }}@endif
                             <a class="white-link" href="{{ $url }}"><span class="glyphicon glyphicon-remove"></span></a></span>&nbsp;&nbsp;
                     @endif
-                    <input type="text" class="form-control input-sm" name="startdate" placeholder="形如2015-07-02">
+                    <div class="input-group date">
+                        <input type="text" class="form-control input-sm" name="startdate">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
                     -
-                    <input type="text" class="form-control input-sm" name="enddate" placeholder="形如2015-07-02">
+                    <div class="input-group date">
+                        <input type="text" class="form-control input-sm" name="enddate">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
                     <button type="submit" class="btn btn-default btn-sm">确定</button>
                 </form>
                 </p>
@@ -398,4 +347,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 @endsection
