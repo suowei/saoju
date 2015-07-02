@@ -352,4 +352,13 @@
 @section('script')
     <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script type="text/javascript">
+        $('.date').datepicker({
+            format: "yyyy-mm-dd",
+            endDate: "0d",
+            language: "zh-CN",
+            autoclose: true,
+            todayHighlight: true
+        });
+    </script>
 @endsection
