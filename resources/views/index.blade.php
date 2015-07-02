@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-        <p class="visible-xs-block text-right">点击按钮即可展开导航条<span class="glyphicon glyphicon-hand-up"></span></p>
         <div class="row">
             <div class="col-md-9">
                 <p class="text-muted">

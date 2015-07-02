@@ -23,7 +23,6 @@
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-					<span class="sr-only">Toggle Navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -78,14 +77,19 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <p>
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         创意来自<a href="http://www.douban.com" target="_blank">豆瓣</a>&<a href="http://saowen.net" target="_blank">扫文小院</a>
                         ©2015 saoju.net
+                        &nbsp;&nbsp;感谢<a href="http://laravel.com/" target="_blank">Laravel</a> ·
+                        <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> ·
+                        <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> ·
+                        <a href="http://plugins.krajee.com/star-rating" target="_blank">star-rating</a> ·
+                        <a href="https://github.com/eternicode/bootstrap-datepicker" target="_blank">datepicker</a>等项目
                     </p>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-3 text-right">
                     <img src="http://weibo.com/favicon.ico" height="14px">
                     <a href="http://weibo.com/u/5634790755" target="_blank">微博</a>&nbsp;
                     <img src="http://bbs.jjwxc.net/favicon.ico" height="14px">
