@@ -12,19 +12,23 @@
                 <div class="col-md-4">
                     <div id="carousel" class="carousel slide">
                         <ol class="carousel-indicators">
-                            @for($i = 0, $count = count($episodes); $i < $count; $i++)
+                            <?php $i = 0; ?>
+                            @foreach($episodes as $episode)
                                 <li data-target="#carousel" data-slide-to="{{ $i }}"@if($i==0)class="active"@endif></li>
-                            @endfor
+                                    <?php $i++; ?>
+                                @endforeach
                         </ol>
 
                         <div class="carousel-inner" role="listbox">
-                            @for($i = 0, $count = count($episodes); $i < $count; $i++)
+                            <?php $i = 0; ?>
+                                @foreach($episodes as $episode)
                                 <div @if($i==0)class="item active"@else class="item"@endif>
-                                    <a href="{{ url('/episode/'.$episodes[$i]->id) }}" target="_blank">
-                                        <img src="{{ $episodes[$i]->poster_url }}" alt="海报">
+                                    <a href="{{ url('/episode/'.$episode->id) }}" target="_blank">
+                                        <img src="{{ $episode->poster_url }}" alt="海报">
                                     </a>
                                 </div>
-                            @endfor
+                                    <?php $i++; ?>
+                            @endforeach
                         </div>
                         <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
                             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
