@@ -15,4 +15,12 @@ class Drama extends Model {
         return $this->hasMany('App\Episode');
     }
 
+    public function scopeMultiwhere($query, $arr)
+    {
+        foreach ($arr as $key => $value) {
+            $query = $query->where($key, $value[0], $value[1]);
+        }
+        return $query;
+    }
+
 }

@@ -27,15 +27,70 @@ class DramaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+        //数据库查询参数
+        $scope = [];
+        //性向筛选
         if($request->has('type'))
-            $type = $request->input('type');
+        {
+            $scope['type'] = ['=', $request->input('type')];
+        }
+        //时代筛选
+        if($request->has('era'))
+        {
+            $scope['era'] = ['=', $request->input('era')];
+        }
+        //原创性筛选
+        if($request->has('original'))
+        {
+            $scope['original'] = ['=', $request->input('original')];
+        }
+        //进度筛选，结合state与count字段
+        if($request->has('state'))
+        {
+            switch($request->input('state'))
+            {
+                case 0://连载中
+                    $scope['state'] = ['=', 0];
+                    break;
+                case 1://已完结
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['>', 1];
+                    break;
+                case 2://全一期
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['=', 1];
+                    break;
+                case 3://已坑
+                    $scope['state'] = ['=', 2];
+                    break;
+            }
+        }
+        //主役筛选
+        if($request->has('cv'))
+        {
+            $scope['sc'] = ['LIKE', '%'.$request->input('cv').'%'];
+        }
+        //传递给视图的url参数
+        $params = $request->except('page');
+        //排序
+        if($request->has('sort'))
+        {
+            $params['sort'] = $request->input('sort');
+        }
         else
-            $type = 0;
-        if($type < 0)
-            $dramas = Drama::orderBy('id', 'desc')->paginate(20);
+        {
+            $params['sort'] = 'id';
+        }
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
         else
-            $dramas = Drama::where('type', $type)->orderBy('id', 'desc')->paginate(20);
-		return view('drama.index')->with('type', $type)->withDramas($dramas);
+        {
+            $params['order'] = 'desc';
+        }
+        $dramas = Drama::multiwhere($scope)->orderBy($params['sort'], $params['order'])->paginate(20);
+		return view('drama.index')->with('params', $params)->withDramas($dramas);
 	}
 
 	/**
