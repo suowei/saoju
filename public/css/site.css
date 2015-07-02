@@ -28,7 +28,7 @@ a:hover {
 }
 
 #navbarSearch {
-    width: 300px;
+    width: 250px;
 }
 
 #toTop {
@@ -125,4 +125,14 @@ a:hover {
 
 .white-link {
     color: #ffffff;
+}
+
+.order-select {
+    color: #fde16d;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.order {
+    color: #e3e3e3;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
 }

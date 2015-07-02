@@ -27,6 +27,7 @@ class DramaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+        //数据库查询参数
         $scope = [];
         //性向筛选
         if($request->has('type'))
@@ -69,17 +70,27 @@ class DramaController extends Controller {
         {
             $scope['sc'] = ['LIKE', '%'.$request->input('cv').'%'];
         }
+        //传递给视图的url参数
+        $params = $request->except('page');
         //排序
         if($request->has('sort'))
         {
-            $order = $request->input('sort');
+            $params['sort'] = $request->input('sort');
         }
         else
         {
-            $order = 'id';
+            $params['sort'] = 'id';
         }
-        $dramas = Drama::multiwhere($scope)->orderBy($order, 'desc')->paginate(20);
-		return view('drama.index')->with('params', $request->except('page'))->withDramas($dramas);
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
+        else
+        {
+            $params['order'] = 'desc';
+        }
+        $dramas = Drama::multiwhere($scope)->orderBy($params['sort'], $params['order'])->paginate(20);
+		return view('drama.index')->with('params', $params)->withDramas($dramas);
 	}
 
 	/**

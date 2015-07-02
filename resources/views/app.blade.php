@@ -45,6 +45,7 @@
 
 				<ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url('/drama?type=0') }}"><span class="glyphicon glyphicon-film"></span> 剧集列表</a></li>
+                    <li><a href="{{ url('/episode?type=0') }}"><span class="glyphicon glyphicon-facetime-video"></span> 分集列表</a></li>
                     <li><a href="{{ url('/review') }}"><span class="glyphicon glyphicon-comment"></span> 评论列表</a></li>
                     <li><a href="{{ url('/drama/create') }}"><span class="glyphicon glyphicon-plus"></span> 添加剧集信息</a></li>
 
@@ -89,6 +90,7 @@
                     <a href="http://weibo.com/u/5634790755" target="_blank">微博</a>&nbsp;
                     <img src="http://bbs.jjwxc.net/favicon.ico" height="14px">
                     <a href="http://bbs.jjwxc.net/board.php?board=52&page=1" target="_blank">优声由色</a>
+                    <a href="http://bbs.jjwxc.net/board.php?board=44&page=1" target="_blank">留声花园</a>
                 </div>
             </div>
         </div>

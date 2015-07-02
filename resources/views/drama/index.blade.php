@@ -144,19 +144,19 @@
                     <a href="{{ $url.'state=3' }}">已坑</a>
                 @endif
             </p>
-
+            <p>
             <form class="form-inline" method="GET" action="{{ url('/drama') }}">
                 主役：&nbsp;&nbsp;
                 <?php
-                    $url = url('/drama?');
-                    foreach($params as $key => $value)
+                $url = url('/drama?');
+                foreach($params as $key => $value)
+                {
+                    if($key != 'cv')
                     {
-                        if($key != 'cv')
-                        {
-                            $url .= $key.'='.$value.'&';
-                            echo '<input type="hidden" name="'.$key.'" value="'.$value.'">';
-                        }
+                        $url .= $key.'='.$value.'&';
+                        echo '<input type="hidden" name="'.$key.'" value="'.$value.'">';
                     }
+                }
                 ?>
                 @if(isset($params['cv']))
                     <span class="label label-primary">
@@ -166,7 +166,8 @@
                 <input type="text" class="form-control input-sm" name="cv">
                 <button type="submit" class="btn btn-default btn-sm">确定</button>
             </form>
-            <p class="drama">
+            </p>
+            <div class="drama">
                 排序：&nbsp;&nbsp;
                 <?php
                     $url = url('/drama?');
@@ -176,26 +177,44 @@
                             $url .= $key.'='.$value.'&';
                     }
                 ?>
-                @if(isset($params['sort']) && $params['sort'] != 'id')
-                    <a href="{{ $url.'sort=id' }}">最新添加</a>
+                @if($params['sort'] == 'id')
+                    <strong>
+                        @if($params['order'] == 'asc')
+                            <a href="{{ $url.'sort=id&order=desc' }}">添加顺序<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                        @else
+                            <a href="{{ $url.'sort=id&order=asc' }}">添加顺序<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                        @endif
+                    </strong>
                 @else
-                    最新添加↓</span>
+                    <a href="{{ $url.'sort=id&order=desc' }}">添加顺序<span class="glyphicon glyphicon-arrow-down order"></span></a>
                 @endif&nbsp;&nbsp;
-                @if(isset($params['sort']) && $params['sort'] == 'reviews')
-                    评论数量↓</span>
+                @if($params['sort'] == 'favorites')
+                    <strong>
+                        @if($params['order'] == 'asc')
+                            <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                        @else
+                            <a href="{{ $url.'sort=favorites&order=asc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                        @endif
+                    </strong>
                 @else
-                    <a href="{{ $url.'sort=reviews' }}">评论数量</a>
+                    <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order"></span></a>
                 @endif&nbsp;&nbsp;
-                @if(isset($params['sort']) && $params['sort'] == 'favorites')
-                    收藏人数↓</span>
+                @if($params['sort'] == 'reviews')
+                    <strong>
+                        @if($params['order'] == 'asc')
+                            <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                        @else
+                            <a href="{{ $url.'sort=reviews&order=asc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                        @endif
+                    </strong>
                 @else
-                    <a href="{{ $url.'sort=favorites' }}">收藏人数</a>
+                    <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
                 @endif
                 <span class="pull-right">
                     共{{ $dramas->total() }}部剧&nbsp;&nbsp;
                     <a href="{{ url('/drama?type=0') }}"><span class="glyphicon glyphicon-repeat"></span> 重新筛选</a>
                 </span>
-            </p>
+            </div>
             <div>
                 @foreach($dramas as $drama)
                     <div class="row drama">
@@ -256,6 +275,7 @@
             <p class="text-muted">
                 <span class="glyphicon glyphicon-asterisk"></span>
                 本页筛选面板设计参考<a href="http://movie.kankan.com/type/movie/" target="_blank">迅雷看看</a>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序链接设计参考<a href="http://www.taobao.com" target="_blank">淘宝</a>
             </p>
         </div>
     </div>

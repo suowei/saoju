@@ -289,7 +289,7 @@
                     <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank"><span class="glyphicon glyphicon-film"></span> 查看全部剧集</a>
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode') }}" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集</a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集</a>
                 </p>
                 <p>
                     <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank"><span class="glyphicon glyphicon-comment"></span> 查看全部评论</a>

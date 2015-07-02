@@ -25,33 +25,141 @@ class EpisodeController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+        //数据库查询参数
+        $scope = [];
+        //性向筛选
         if($request->has('type'))
-            $type = $request->input('type');
-        else
-            $type = 0;
-        if($type < 0)
         {
-            $episodes = Episode::join('dramas', 'episodes.drama_id', '=', 'dramas.id')
-                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
-                    'episodes.id as episode_id', 'episodes.title as episode_title', 'dramas.type as type',
-                    'episodes.release_date as release_date', 'dramas.sc as drama_sc', 'episodes.alias as alias',
-                    'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
-                ->orderBy('episodes.id', 'desc')->paginate(20);
+            $scope['dramas.type'] = ['=', $request->input('type')];
         }
-        else
+        //时代筛选
+        if($request->has('era'))
         {
-            $episodes = Episode::join('dramas', function($join) use($type)
+            $scope['dramas.era'] = ['=', $request->input('era')];
+        }
+        //原创性筛选
+        if($request->has('original'))
+        {
+            $scope['dramas.original'] = ['=', $request->input('original')];
+        }
+        //进度筛选，结合state与count字段
+        if($request->has('state'))
+        {
+            switch($request->input('state'))
             {
-                $join->on('episodes.drama_id', '=', 'dramas.id')
-                    ->where('dramas.type', '=', $type);
-            })
-                ->select('dramas.id as drama_id', 'dramas.title as drama_title',
-                    'episodes.id as episode_id', 'episodes.title as episode_title',
-                    'episodes.release_date as release_date', 'dramas.sc as drama_sc', 'episodes.alias as alias',
-                    'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
-                ->orderBy('episodes.id', 'desc')->paginate(20);
+                case 0://连载中
+                    $scope['dramas.state'] = ['=', 0];
+                    break;
+                case 1://已完结
+                    $scope['dramas.state'] = ['=', 1];
+                    $scope['dramas.count'] = ['>', 1];
+                    break;
+                case 2://全一期
+                    $scope['dramas.state'] = ['=', 1];
+                    $scope['dramas.count'] = ['=', 1];
+                    break;
+                case 3://已坑
+                    $scope['dramas.state'] = ['=', 2];
+                    break;
+            }
         }
-        return view('episode.index')->with('type', $type)->withEpisodes($episodes);
+        //日期筛选
+        if($request->has('year'))
+        {
+            if($request->has('month'))
+            {
+                if($request->has('day'))
+                {
+                    $scope['release_date'] = ['=', $request->input('year').'-'.$request->input('month').'-'.$request->input('day')];
+                }
+                else
+                {
+                    $release_date = [
+                        $request->input('year').'-'.$request->input('month').'-01',
+                        $request->input('year').'-'.$request->input('month').'-31'
+                    ];
+                }
+            }
+            else
+            {
+                $release_date = [
+                    $request->input('year').'-01-01',
+                    $request->input('year').'-12-31'
+                ];
+            }
+        }
+        //起止日期筛选
+        if($request->has('startdate') || $request->has('enddate'))
+        {
+            if(!$request->has('startdate'))//如果只有截止日期
+                $scope['release_date'] = ['<=', $request->input('enddate')];
+            else if(!$request->has('enddate'))//如果只有起始日期
+                $scope['release_date'] = ['>=', $request->input('startdate')];
+            else//既有起始日期又有终止日期时需要使用between另外编写查询语句
+                $release_date = [$request->input('startdate'), $request->input('enddate')];
+        }
+        //主役筛选
+        if($request->has('cv'))
+        {
+            $scope['dramas.sc'] = ['LIKE', '%'.$request->input('cv').'%'];
+        }
+        //SC筛选
+        if($request->has('sc'))
+        {
+            $scope['episodes.sc'] = ['LIKE', '%'.$request->input('sc').'%'];
+        }
+        //传递给视图的url参数
+        $params = $request->except('page');
+        //排序
+        if($request->has('sort'))
+        {
+            $params['sort'] = $request->input('sort');
+        }
+        else
+        {
+            $params['sort'] = 'id';
+        }
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
+        else
+        {
+            $params['order'] = 'desc';
+        }
+        //连接剧集表查询
+        if(isset($release_date))
+        {
+            $episodes = Episode::whereBetween('release_date', $release_date)
+                ->join('dramas', function($join) use($scope)
+            {
+                $join->on('episodes.drama_id', '=', 'dramas.id');
+                foreach($scope as $key => $value)
+                {
+                    $join = $join->where($key, $value[0], $value[1]);
+                }
+            })
+                ->select('episodes.*', 'dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.state as state',
+                    'dramas.sc as cv')
+                ->orderBy('episodes.'.$params['sort'], $params['order'])->paginate(20);
+        }
+        else
+        {
+            $episodes = Episode::join('dramas', function($join) use($scope)
+            {
+                $join->on('episodes.drama_id', '=', 'dramas.id');
+                foreach($scope as $key => $value)
+                {
+                    $join = $join->where($key, $value[0], $value[1]);
+                }
+            })
+                ->select('episodes.*', 'dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.state as state',
+                    'dramas.sc as cv')
+                ->orderBy('episodes.'.$params['sort'], $params['order'])->paginate(20);
+        }
+        return view('episode.index')->with('params', $params)->withEpisodes($episodes);
 	}
 
 	/**
