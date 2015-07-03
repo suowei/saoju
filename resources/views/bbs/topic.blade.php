@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $topic->title.' - ')
+
 @section('content')
 <div class="container">
     <p><a href="{{ url('/bbs') }}"><span class="glyphicon glyphicon-send"></span> 返回留言板</a></p>

@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $drama->title.'的评论 - ')
+
 @section('content')
     <div class="container">
         <div class="row">

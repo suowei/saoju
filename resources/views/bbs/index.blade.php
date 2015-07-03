@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '留言板 - ')
+
 @section('content')
 <div class="container">
     <h4 class="text-success">留言板</h4>

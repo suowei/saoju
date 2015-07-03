@@ -1,11 +1,17 @@
 @extends('app')
 
+@section('title', '编辑我对'.$review->drama->title.($review->episode_id?$review->episode->title:'').'的评论 - ')
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">编辑评论</div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            编辑我对《{{ $review->drama->title }}》{{ $review->episode_id?$review->episode->title:'' }}的评论
+                        </h4>
+                    </div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">

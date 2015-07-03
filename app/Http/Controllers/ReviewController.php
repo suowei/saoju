@@ -63,9 +63,11 @@ class ReviewController extends Controller {
 	 */
 	public function create(Request $request)
 	{
-        return view('review.create')
-            ->withDrama(Drama::find($request->input('drama')))
-            ->withEpisode(Episode::find($request->input('episode')));
+        if($request->has('episode'))
+            return view('review.create')->withDrama(Drama::find($request->input('drama', ['id', 'title'])))
+                ->withEpisode(Episode::find($request->input('episode', ['id', 'title'])));
+        else
+            return view('review.create')->withDrama(Drama::find($request->input('drama', ['id', 'title'])));
 	}
 
 	/**
@@ -109,6 +111,21 @@ class ReviewController extends Controller {
         if(!$review)
             return redirect()->to('/');
         $replies = Reply::where('review_id', $id)->get();
+        $review->load(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }]);
+        $review->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+        if($review->episode_id)
+        {
+            $review->load(['episode' => function($query)
+            {
+                $query->select('id', 'title');
+            }]);
+        }
         return view('review.show')->withReview($review)->withReplies($replies);
 	}
 
@@ -123,6 +140,17 @@ class ReviewController extends Controller {
         $review = Review::find($id);
         if($review->user_id == Auth::id())
         {
+            $review->load(['drama' => function($query)
+            {
+                $query->select('id', 'title');
+            }]);
+            if($review->episode_id)
+            {
+                $review->load(['episode' => function($query)
+                {
+                    $query->select('id', 'title');
+                }]);
+            }
             return view('review.edit')->withReview($review);
         }
         else

@@ -1,11 +1,15 @@
 @extends('app')
 
+@section('title', '添加分集 - '.$drama->title.' - ')
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">添加分集信息</div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title">添加《{{ $drama->title }}》的分集信息</h4>
+                    </div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
@@ -26,7 +30,7 @@
 
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/episode') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="drama_id" value="{{ $drama }}">
+                            <input type="hidden" name="drama_id" value="{{ $drama->id }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">分集标题</label>
