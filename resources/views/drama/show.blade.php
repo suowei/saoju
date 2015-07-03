@@ -187,7 +187,7 @@
                                 </form>
                             </div>
                         </div>
-                    @endif&nbsp;&nbsp;
+                    @endif
                 @else
                     <a class="btn btn-info btn-xs" href="{{ url('/favorite/create?drama='.$drama->id) }}">
                         <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
