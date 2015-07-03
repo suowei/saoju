@@ -219,7 +219,12 @@ class EpisodeController extends Controller {
 	 */
 	public function edit($id)
 	{
-        return view('episode.edit')->withEpisode(Episode::find($id));
+        $episode = Episode::find($id);
+        $episode->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+        return view('episode.edit')->withEpisode($episode);
 	}
 
 	/**
