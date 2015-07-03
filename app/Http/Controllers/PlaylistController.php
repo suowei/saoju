@@ -25,7 +25,7 @@ class PlaylistController extends Controller
             $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
                 ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title',
                     'episodes.title as episode_title', 'episodes.url as url');
-        }])->where('user_id', Auth::id())->where('type', $request->input('type'))->orderBy('created_at', 'desc')->paginate(50);
+        }])->where('user_id', Auth::id())->where('type', $request->input('type'))->orderBy('updated_at', 'desc')->paginate(50);
         return view('user.playlist', ['type' => $request->input('type'), 'playlists' => $playlists]);
     }
 
@@ -51,7 +51,8 @@ class PlaylistController extends Controller
     public function edit($episode_id)
     {
         //将状态修改为已听
-        DB::table('playlists')->where('user_id', Auth::id())->where('episode_id', $episode_id)->update(['type' => 1]);
+        DB::table('playlists')->where('user_id', Auth::id())->where('episode_id', $episode_id)
+            ->update(['type' => 1, 'updated_at' => date("Y-m-d H:i:s")]);
         return redirect()->back();
     }
 
@@ -60,8 +61,10 @@ class PlaylistController extends Controller
         //
     }
 
-    public function destroy()
+    public function destroy($episode_id)
     {
-        //
+        //删除记录
+        DB::table('playlists')->where('user_id', Auth::id())->where('episode_id', $episode_id)->delete();
+        return redirect()->back();
     }
 }
