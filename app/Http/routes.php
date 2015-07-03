@@ -48,6 +48,8 @@ Route::resource('favorite', 'FavoriteController');
 
 //Route::resource('reply', 'ReplyController');
 
+Route::resource('playlist', 'PlaylistController');
+
 Route::group(['prefix' => 'bbs'], function()
 {
     Route::get('/', ['as' => 'bbs.index', 'uses' => 'TopicController@index']);

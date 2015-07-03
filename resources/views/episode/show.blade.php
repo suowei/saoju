@@ -12,6 +12,15 @@
                     <a class="btn btn-warning btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写本期评论
                     </a>
+                    @if(Auth::check() && $playlist = \App\Playlist::where('user_id', Auth::id())->where('episode_id', $episode->id)->first())
+                        <a class="btn btn-success btn-xs" href="{{ url('/playlist?type='.$playlist->type) }}" target="_blank">
+                            {{ $playlist->type ? '已听' : '待听'}}
+                        </a>
+                    @else
+                        <a class="btn btn-success btn-xs" href="{{ url('/playlist/create?episode='.$episode->id) }}">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 加入待听列表
+                        </a>
+                    @endif
                 </h3>
                 <div class="row">
                     <div class="col-md-6">
