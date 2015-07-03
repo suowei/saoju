@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '编辑分集信息 - ')
+
 @section('content')
     <div class="container">
         <div class="row">

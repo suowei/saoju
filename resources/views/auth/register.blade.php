@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '注册 - ')
+
 @section('content')
 <div class="container">
 	<div class="row">

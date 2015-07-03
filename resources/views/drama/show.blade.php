@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $drama->title.' - ')
+
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
 @endsection

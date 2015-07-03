@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '添加剧集 - ')
+
 @section('content')
 <div class="container">
     <div class="row">

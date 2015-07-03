@@ -3,6 +3,7 @@
 use App\Episode;
 use App\Review;
 use App\History;
+use App\Drama;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -144,7 +145,8 @@ class EpisodeController extends Controller {
 	 */
 	public function create(Request $request)
 	{
-        return view('episode.create')->withDrama($request->input('drama'));
+        $drama = Drama::find($request->input('drama'), ['id', 'title']);
+        return view('episode.create')->withDrama($drama);
 	}
 
 	/**
@@ -300,6 +302,10 @@ class EpisodeController extends Controller {
     {
         $episode = Episode::with('drama')->find($id);
         $reviews = Review::with('user')->where('episode_id', $id)->paginate(20);
+        $episode->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
         return view('episode.reviews')->withEpisode($episode)->withReviews($reviews);
     }
 
@@ -307,6 +313,10 @@ class EpisodeController extends Controller {
     {
         $episode = Episode::find($id);
         $histories = History::where('model', 1)->where('model_id', $id)->get();
+        $episode->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
         return view('episode.histories')->withEpisode($episode)->withHistories($histories);
     }
 

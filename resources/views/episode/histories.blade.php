@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $episode->drama->title.$episode->title.'的编辑历史 - ')
+
 @section('content')
     <div class="container">
         <div class="row">

@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '分集列表 - ')
+
 @section('css')
     <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 @endsection
