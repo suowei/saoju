@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $episode->drama->title.$episode->title.' - ')
+
 @section('content')
     <div class="container">
         <div class="row">

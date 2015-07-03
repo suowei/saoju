@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '编辑'.$drama->title.'的信息 - ')
+
 @section('content')
     <div class="container">
         <div class="row">

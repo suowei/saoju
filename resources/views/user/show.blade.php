@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $user->name.'的主页 - ')
+
 @section('content')
     <div class="container">
         <div class="row">

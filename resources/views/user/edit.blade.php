@@ -1,11 +1,13 @@
 @extends('app')
 
+@section('title', '修改我的信息 - ')
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">修改信息</div>
+                    <div class="panel-heading">修改我的信息</div>
                     <div class="panel-body">
                         @if (session('status'))
                             <div class="alert alert-success">

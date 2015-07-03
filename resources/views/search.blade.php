@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', '搜索 - '.$search.' - ')
+
 @section('content')
     <div class="container">
         <div class="row">

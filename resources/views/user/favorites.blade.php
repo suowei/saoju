@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', $user->name.'的收藏 - ')
+
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
 @endsection

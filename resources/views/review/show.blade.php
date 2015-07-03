@@ -1,16 +1,19 @@
 @extends('app')
 
+@section('title', $review->user->name.'评论'.$review->drama->title.($review->episode_id?$review->episode->title:'').' - ')
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-9">
                 <h4>
-                    《<a href="{{ url('/drama/'.$review->drama_id) }}">{{ $review->drama->title }}</a>》@if ($review->episode_id)<a href="{{ url('/episode/'.$review->episode_id) }}">{{$review->episode->title}}</a>@endif的评论
+                    <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a>
+                    评论《<a href="{{ url('/drama/'.$review->drama_id) }}">{{ $review->drama->title }}</a>》@if ($review->episode_id)<a href="{{ url('/episode/'.$review->episode_id) }}">{{$review->episode->title}}</a>@endif
                 </h4>
                 <div class="review-show">
                     <h3>{{ $review->title }}</h3>
                     <div class="review-show-title">
-                        <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a> {{ $review->created_at }}
+                        {{ $review->created_at }}
                         <span class="pull-right">
                             @if(Auth::id() == $review->user_id)
                                 <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
