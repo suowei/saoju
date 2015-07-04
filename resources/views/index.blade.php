@@ -28,18 +28,21 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-info">
-                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 今日新剧</h4></div>
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 两日新剧</h4>
+                            </div>
                             <ul class="list-group">
                                 @foreach($todays as $episode)
                                     <li class="list-group-item">
                                         <h4>
-                                            《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
-                                            <small>
-                                                @if($episode->alias)
-                                                    {{ $episode->alias }}
-                                                @endif
-                                            </small>
-                                            <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
+                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                            <span class="pull-right">
+                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                    {{ $episode->reviews }}评论
+                                                </a>
+                                            </span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
@@ -79,22 +82,22 @@
                                         </div>
                                     </li>
                                 @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="panel panel-warning">
-                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-headphones"></span> 昨日新剧</h4></div>
-                            <ul class="list-group">
+                                <div class="text-center">
+                                    ↑{{ date('Y-m-d') }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    ↓{{ date('Y-m-d', strtotime('-1 day')) }}
+                                </div>
                                 @foreach($yesterdays as $episode)
                                     <li class="list-group-item">
                                         <h4>
-                                            《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
-                                            <small>
-                                                @if($episode->alias)
-                                                    {{ $episode->alias }}
-                                                @endif
-                                            </small>
-                                            <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
+                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                            <span class="pull-right">
+                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                    {{ $episode->reviews }}评论
+                                                </a>
+                                            </span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
@@ -139,19 +142,20 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-success">
-                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-volume-down"></span>一周新剧</h4></div>
+                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-headphones"></span> 一周新剧</h4></div>
                             <ul class="list-group">
                                 @for($i = 0, $count = count($todays) + count($yesterdays), $length = count($thisweeks); $i < $count && $i < $length; $i++)
                                     <?php $episode = $thisweeks[$i]; ?>
                                     <li class="list-group-item">
                                         <h4>
-                                            《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
-                                            <small>
-                                                @if($episode->alias)
-                                                    {{ $episode->alias }}
-                                                @endif
-                                            </small>
-                                            <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
+                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                            <span class="pull-right">
+                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                    {{ $episode->reviews }}评论
+                                                </a>
+                                            </span>
                                         </h4>
                                         {{ $episode->sc }}
                                         <div class="text-muted">
@@ -193,19 +197,22 @@
                                     </li>
                                 @endfor
                                     @if($i < $length)
-                                        <button type="button" class="btn btn-info btn-xs btn-block" data-toggle="collapse" data-target="#week"><span class="caret"></span></button>
+                                        <div class="text-center" data-toggle="collapse" data-target="#week">
+                                            <span class="caret"></span>
+                                        </div>
                                         <div class="collapse" id="week">
                                             @while($i < $length)
                                                 <?php $episode = $thisweeks[$i++]; ?>
                                                 <li class="list-group-item">
                                                     <h4>
-                                                        《<a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>》<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
-                                                        <small>
-                                                            @if($episode->alias)
-                                                                {{ $episode->alias }}
-                                                            @endif
-                                                        </small>
-                                                        <span class="pull-right"><a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">{{ $episode->reviews }}评论</a></span>
+                                                        <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                                        [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                                        <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                                        <span class="pull-right">
+                                                            <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                                {{ $episode->reviews }}评论
+                                                            </a>
+                                                        </span>
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <div class="text-muted">
@@ -253,13 +260,17 @@
                     </div>
                 </div>
 
-                <h4 class="text-success"><span class="glyphicon glyphicon-comment"></span> 最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）</h4>
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> 最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）
+                </h4>
                 @foreach ($reviews as $review)
                     <div class="review">
                         <div class="review-title">
                             <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a> 评论
                             《<a href="{{ url('/drama/'.$review->drama_id) }}" target="_blank">{{ $review->drama_title }}</a>》
-                            @if ($review->episode_id) [<a href="{{ url('/episode/'.$review->episode_id) }}" target="_blank">{{ $review->episode->title }}</a>]@endif
+                            @if ($review->episode_id)
+                                [<a href="{{ url('/episode/'.$review->episode_id) }}" target="_blank">{{ $review->episode->title }}</a>]
+                            @endif
                             {{ $review->created_at }}
                             {{ $review->title }}
                             <span class="pull-right">
@@ -274,7 +285,9 @@
                 <h4 class="text-warning">添加新剧请看上边<span class="glyphicon glyphicon-hand-up"></span></h4>
                 <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down"></span>也行</h5>
                 <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank"><span class="glyphicon glyphicon-plus"></span> 添加剧集信息</a>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
+                        <span class="glyphicon glyphicon-plus"></span> 添加剧集信息
+                    </a>
                 </p>
                 <p class="text-danger">
                     <span class="glyphicon glyphicon-info-sign"></span>
@@ -285,13 +298,19 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank"><span class="glyphicon glyphicon-film"></span> 查看全部剧集</a>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
+                        <span class="glyphicon glyphicon-film"></span> 查看全部剧集
+                    </a>
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集</a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank">
+                        <span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集
+                    </a>
                 </p>
                 <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank"><span class="glyphicon glyphicon-comment"></span> 查看全部评论</a>
+                    <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank">
+                        <span class="glyphicon glyphicon-comment"></span> 查看全部评论
+                    </a>
                 </p>
                 <p class="text-info">
                     <span class="glyphicon glyphicon-hand-down"></span> 意见建议捉虫反馈看这里
@@ -299,17 +318,23 @@
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">留言板</a>
                 </p>
-                <div class="panel panel-info">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">性向分区功能上线</a>
-                        <a href="{{ url('/bbs/topic/18') }}" class="list-group-item" target="_blank">服务已恢复，给大家造成的不便我们深表抱歉</a>
-                        <a href="{{ url('/bbs/topic/13') }}" class="list-group-item" target="_blank">关于写评和收藏系统是否需要结合起来的意见征询</a>
+                        <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">
+                            性向分区功能上线
+                        </a>
+                        <a href="{{ url('/bbs/topic/18') }}" class="list-group-item" target="_blank">
+                            服务已恢复，给大家造成的不便我们深表抱歉
+                        </a>
+                        <a href="{{ url('/bbs/topic/13') }}" class="list-group-item" target="_blank">
+                            关于写评和收藏系统是否需要结合起来的意见征询
+                        </a>
                     </div>
                 </div>
-                <div class="panel panel-danger">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>
@@ -324,7 +349,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="panel panel-success">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-stats"></span> 月热门剧集</h4>
                     </div>
