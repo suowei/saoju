@@ -4,14 +4,11 @@ body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
 
 a:hover {
     text-decoration: none;
-    background-color: #fbed01;
+    background-color: #337ab6;
+    color: #fdfdfe;
 }
 
 .carousel > a:hover {
-    background-color: transparent;
-}
-
-.navbar-default {
     background-color: transparent;
 }
 
