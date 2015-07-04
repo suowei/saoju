@@ -4,6 +4,7 @@ use App\Drama;
 use App\History;
 use App\Favorite;
 use App\Review;
+use App\Episode;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -210,7 +211,7 @@ class DramaController extends Controller {
 	public function show($id)
 	{
         $drama = Drama::find($id);
-        $episodes = $drama->episodes->sortBy('release_date');
+        $episodes = Episode::where('drama_id', $id)->orderByRaw('release_date, id')->get();
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
