@@ -282,8 +282,11 @@
                 @endforeach
             </div>
             <div class="col-md-3">
-                <h4 class="text-warning">添加新剧请看上边<span class="glyphicon glyphicon-hand-up"></span></h4>
-                <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down"></span>也行</h5>
+                <h4>
+                    <a style="color:red;" href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
+                        <span class="glyphicon glyphicon-link"></span><strong>2015年YS发剧统计半年版</strong>
+                    </a>
+                </h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加剧集信息
