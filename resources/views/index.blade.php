@@ -1,5 +1,10 @@
 @extends('app')
 
+@section('meta')
+    <meta name="description" content="中抓扫剧是一个中文广播剧扫剧平台，在这里你可以查看最新的广播剧信息及评论，分类记录广播剧，打分，写评。">
+    <meta name="keywords" content="广播剧,中文广播剧,中抓,剧评,扫剧">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">

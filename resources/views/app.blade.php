@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
 	<title>@yield('title')中抓扫剧</title>
+    @yield('meta')
 
 	<link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     @yield('css')
@@ -17,6 +18,8 @@
 		<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
 		<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
 	<![endif]-->
+
+    <link rel="icon" href="{{ asset('/favicon.ico') }}">
 </head>
 <body>
 	<nav class="navbar navbar-default">
