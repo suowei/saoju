@@ -2,6 +2,11 @@
 
 @section('title', $drama->title.' - ')
 
+@section('meta')
+    <meta name="description" content="广播剧《{{ $drama->title }}》">
+    <meta name="keywords" content="广播剧《{{ $drama->title }}》">
+@endsection
+
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
 @endsection
