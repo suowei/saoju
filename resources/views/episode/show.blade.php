@@ -1,6 +1,11 @@
 @extends('app')
 
-@section('title', $episode->drama->title.$episode->title.' - ')
+@section('title', '《'.$episode->drama->title.'》'.$episode->title.' - ')
+
+@section('meta')
+    <meta name="description" content="广播剧《{{ $drama->title }}》{{ $episode->title }}">
+    <meta name="keywords" content="广播剧《{{ $drama->title }}》{{ $episode->title }}">
+@endsection
 
 @section('content')
     <div class="container">

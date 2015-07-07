@@ -1,5 +1,10 @@
 @extends('app')
 
+@section('meta')
+    <meta name="description" content="中抓扫剧是一个中文广播剧扫剧平台，在这里你可以查看最新的广播剧及评论，写评并分类记录广播剧。">
+    <meta name="keywords" content="广播剧,中文广播剧,中抓,剧评,扫剧">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -326,11 +331,8 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a href="{{ url('/bbs/topic/19') }}" class="list-group-item" target="_blank">
-                            性向分区功能上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/18') }}" class="list-group-item" target="_blank">
-                            服务已恢复，给大家造成的不便我们深表抱歉
+                        <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" style="color: red;" target="_blank">
+                            个人收藏和评论导出功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/13') }}" class="list-group-item" target="_blank">
                             关于写评和收藏系统是否需要结合起来的意见征询
