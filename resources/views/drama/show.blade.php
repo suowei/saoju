@@ -308,7 +308,7 @@
                     @foreach ($favorites as $favorite)
                         <li class="list-group-item">
                             <a href="{{ url('/user/'.$favorite->user->id) }}" target="_blank">{{ $favorite->user->name }}</a>
-                            {{ $favorite->created_at->format('m-d') }}
+                            {{ $favorite->updated_at->format('m-d') }}
                             @if($favorite->type == 0)想听@elseif($favorite->type == 1)在追@elseif($favorite->type == 2)听过@elseif($favorite->type == 3)搁置@else抛弃@endif
                         </li>
                     @endforeach
