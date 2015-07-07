@@ -103,4 +103,66 @@ class UserController extends Controller {
         return view('user.reviews')->withUser(User::find($id))->withReviews($reviews);
     }
 
+    public function exportReviews()
+    {
+        $reviews = Review::with(['drama' => function($query)
+        {
+            $query->select('id', 'title', 'sc');
+        }, 'episode' => function($query)
+        {
+            $query->select('id', 'title');
+        }])->select('drama_id', 'episode_id', 'title','content','created_at','updated_at')
+            ->where('user_id', Auth::id())->get();
+        $str = "\xEF\xBB\xBF剧集,主役,分集,标题,内容,发表时间,更新时间\n";
+        foreach($reviews as $review)
+        {
+            $str .= "\"".str_replace("\"", "\"\"", $review->drama->title)."\",\"".str_replace("\"", "\"\"", $review->drama->sc)
+                ."\",\"".str_replace("\"", "\"\"", $review->episode ? $review->episode->title : '')
+                ."\",\"".str_replace("\"", "\"\"", $review->title)."\",\"".str_replace("\"", "\"\"", $review->content)."\","
+                .$review->created_at.",".$review->updated_at."\n";
+        }
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="reviews.csv"',
+        );
+        return response($str, 200, $headers);
+    }
+
+    public function exportFavorites()
+    {
+        $favorites = Favorite::with(['drama' => function($query)
+        {
+            $query->select('id', 'title', 'sc');
+        }])->select('drama_id', 'type', 'rating', 'updated_at')
+            ->where('user_id', Auth::id())->get();
+        $str = "\xEF\xBB\xBF剧集,主役,收藏类型,评分,更新时间\n";
+        foreach($favorites as $favorite)
+        {
+            switch($favorite->type)
+            {
+                case 0:
+                    $type = '想听';
+                    break;
+                case 1:
+                    $type = '在追';
+                    break;
+                case 2:
+                    $type = '听过';
+                    break;
+                case 3:
+                    $type = '搁置';
+                    break;
+                default:
+                    $type = '抛弃';
+            }
+            $str .= "\"".str_replace("\"", "\"\"", $favorite->drama->title)."\",\"".str_replace("\"", "\"\"", $favorite->drama->sc)
+                ."\",".$type.",\"".($favorite->rating != 0 ? $favorite->rating : '')."\",".$favorite->updated_at."\n";
+        }
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="favorites.csv"',
+        );
+        return response($str, 200, $headers);
+    }
+
 }

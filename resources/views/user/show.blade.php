@@ -118,7 +118,23 @@
                     <h4 class="text-warning">修改信息请点击名字<span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></h4>
                     <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>也行</h5>
                     <p>
-                        <a class="btn btn-success btn-xs" href="{{ url('/user/edit') }}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 修改信息</a>
+                        <a class="btn btn-success btn-xs" href="{{ url('/user/edit') }}">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 修改信息
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-warning btn-xs" href="{{ url('/user/export/favorites') }}">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有收藏
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-primary btn-xs" href="{{ url('/user/export/reviews') }}">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有评论
+                        </a>
+                    </p>
+                    <p class="text-danger">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        导出文件格式为CSV，可直接用Excel或记事本等软件打开。
                     </p>
                 @endif
             </div>
