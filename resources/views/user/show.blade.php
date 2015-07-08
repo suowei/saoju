@@ -19,7 +19,7 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 <a href="{{ url('/drama/'.$favorite->drama->id) }}" target="_blank">
-                                    <img src="{{ $favorite->drama->poster_url }}" alt="海报">
+                                    <img src="{{ $favorite->drama->poster_url }}" alt="{{ $favorite->drama->title }}" title="{{ $favorite->drama->title }}">
                                 </a>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 <a href="{{ url('/drama/'.$favorite->drama->id) }}" target="_blank">
-                                    <img src="{{ $favorite->drama->poster_url }}" alt="海报">
+                                    <img src="{{ $favorite->drama->poster_url }}" alt="{{ $favorite->drama->title }}" title="{{ $favorite->drama->title }}">
                                 </a>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 <a href="{{ url('/drama/'.$favorite->drama->id) }}" target="_blank">
-                                    <img src="{{ $favorite->drama->poster_url }}" alt="海报">
+                                    <img src="{{ $favorite->drama->poster_url }}" alt="{{ $favorite->drama->title }}" title="{{ $favorite->drama->title }}">
                                 </a>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 <a href="{{ url('/drama/'.$favorite->drama->id) }}" target="_blank">
-                                    <img src="{{ $favorite->drama->poster_url }}" alt="海报">
+                                    <img src="{{ $favorite->drama->poster_url }}" alt="{{ $favorite->drama->title }}" title="{{ $favorite->drama->title }}">
                                 </a>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 <a href="{{ url('/drama/'.$favorite->drama->id) }}" target="_blank">
-                                    <img src="{{ $favorite->drama->poster_url }}" alt="海报">
+                                    <img src="{{ $favorite->drama->poster_url }}" alt="{{ $favorite->drama->title }}" title="{{ $favorite->drama->title }}">
                                 </a>
                             </div>
                         </div>
