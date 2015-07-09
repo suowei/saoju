@@ -108,18 +108,20 @@ $("#favoriteEdit :radio").change(function() {
     }
 });
 
-$(".favorite-form :radio").change(function() {
-    var type = $("input[name='type']:checked").val();
-    if (type == "0") {
-        $("#ratingSelect").hide();
+$('#favModal').on('show.bs.modal', function (event) {
+    var method = $(event.relatedTarget).data('method');
+    var modal = $(this);
+    if (method == 'POST') {
+        modal.find("input[name='_method']").remove();
+        modal.find("input[name='type']").eq(1).prop('checked', true);
+        modal.find("input[name='rating']").rating('update', 0);
     }
-    else {
-        $("#ratingSelect").show();
+    else if (method == 'PUT') {
+        var favorite = $(event.relatedTarget).data('favorite');
+        modal.find("input[name='type']").eq(favorite.type).prop('checked', true);
+        modal.find("input[name='rating']").rating('update', favorite.rating);
     }
-});
-
-$("#favModal").on("hidden.bs.modal", function() {
-    $(this).removeData("bs.modal");
+    modal.find("form").prop('action', $(event.relatedTarget).data('action'));
 });
 
 $('#favoriteModal').on('show.bs.modal', function (event) {

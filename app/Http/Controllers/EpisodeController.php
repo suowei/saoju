@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Epfav;
 use App\Episode;
 use App\Review;
 use App\History;
@@ -208,7 +209,15 @@ class EpisodeController extends Controller {
         $episode = Episode::find($id);
         $drama = $episode->drama;
         $reviews = Review::with('user', 'episode')->where('episode_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
-		return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews);
+        if(Auth::check())
+        {
+            $favorite = Epfav::where('user_id', Auth::id())->where('episode_id', $id)->first();
+        }
+        else
+        {
+            $favorite = 0;
+        }
+        return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews)->with('favorite', $favorite);
 	}
 
 	/**

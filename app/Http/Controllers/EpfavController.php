@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use DB;
+
 class EpfavController extends Controller
 {
     public function __construct()
@@ -42,7 +44,7 @@ class EpfavController extends Controller
 
         $epfav = new Epfav;
         $epfav->user_id = $request->user()->id;
-        $epfav->episode_id = $request->input('episode');
+        $epfav->episode_id = $request->input('episode_id');
         $epfav->type = $request->input('type');
         if($epfav->type == 0)//想听状态下不能评分
         {
@@ -89,7 +91,7 @@ class EpfavController extends Controller
             $favorite->rating = $request->input('rating');
         }
         $result = DB::table('epfavs')->where('user_id', $favorite->user_id)->where('episode_id', $episode_id)
-            ->update(['type' => 1, 'rating' => $favorite->rating, 'updated_at' => date("Y-m-d H:i:s")]);
+            ->update(['type' => $favorite->type, 'rating' => $favorite->rating, 'updated_at' => date("Y-m-d H:i:s")]);
         if($result)
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('epfav'.$oldType);
