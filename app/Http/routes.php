@@ -52,6 +52,8 @@ Route::resource('favorite', 'FavoriteController');
 
 Route::resource('playlist', 'PlaylistController');
 
+Route::resource('epfav', 'EpfavController');
+
 Route::group(['prefix' => 'bbs'], function()
 {
     Route::get('/', ['as' => 'bbs.index', 'uses' => 'TopicController@index']);

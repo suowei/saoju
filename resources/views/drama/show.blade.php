@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <div class="favorite-panel">
+            <p>
                 @if (Auth::check())
                     @if ($favorite = \App\Favorite::where('user_id', Auth::id())->where('drama_id', $drama->id)->first())
                         <span class="pull-left"><span class="glyphicon glyphicon-headphones"></span>
@@ -114,84 +114,10 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;<a class="text-muted" data-toggle="collapse" href="#favoriteEdit" aria-expanded="false" aria-controls="favoriteEdit">修改</a>
                             <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/favorite/'.$favorite->id) }}">删除</a>
                         </span>
-                        <div class="collapse panel panel-default" id="favoriteEdit">
-                            <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/favorite/'.$favorite->id) }}">
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">状态：</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="0" @if($favorite->type==0) checked @endif><span class="btn btn-primary btn-xs">想听</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="1" @if($favorite->type==1) checked @endif><span class="btn btn-success btn-xs">在追</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="2" @if($favorite->type==2) checked @endif><span class="btn btn-info btn-xs">听过</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="3" @if($favorite->type==3) checked @endif><span class="btn btn-warning btn-xs">搁置</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="4" @if($favorite->type==4) checked @endif><span class="btn btn-danger btn-xs">抛弃</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group" id="ratingEdit">
-                                        <label class="col-md-2 control-label">评分：</label>
-                                        <div class="col-md-10">
-                                            <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs" value="{{ $favorite->rating }}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-10 col-md-offset-2">
-                                            <button type="submit" class="btn btn-info btn-sm">保存</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     @else
                         <a class="btn btn-info btn-xs" data-toggle="collapse" href="#favoriteCreate" aria-expanded="false" aria-controls="favoriteCreate">
                             <span class="glyphicon glyphicon-gift"></span> 收藏本剧及评分
                         </a>
-                        <div class="collapse panel panel-default" id="favoriteCreate">
-                            <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/favorite') }}">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="hidden" name="drama_id" value="{{ $drama->id }}">
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">状态：</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="1"><span class="btn btn-success btn-xs">在追</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="2" checked><span class="btn btn-info btn-xs">听过</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="3"><span class="btn btn-warning btn-xs">搁置</span>
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="type" value="4"><span class="btn btn-danger btn-xs">抛弃</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group" id="ratingCreate">
-                                        <label class="col-md-2 control-label">评分：</label>
-                                        <div class="col-md-10">
-                                            <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-10 col-md-offset-2">
-                                            <button type="submit" class="btn btn-info btn-sm">保存</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     @endif
                 @else
                     <a class="btn btn-info btn-xs" href="{{ url('/favorite/create?drama='.$drama->id) }}">
@@ -201,6 +127,80 @@
                     <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id) }}">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写整剧评论
                     </a>
+            </p>
+            <div class="collapse panel panel-default" id="favoriteEdit">
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/favorite/'.$favorite->id) }}">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="0" @if($favorite->type==0) checked @endif><span class="btn btn-primary btn-xs">想听</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="1" @if($favorite->type==1) checked @endif><span class="btn btn-success btn-xs">在追</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="2" @if($favorite->type==2) checked @endif><span class="btn btn-info btn-xs">听过</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="3" @if($favorite->type==3) checked @endif><span class="btn btn-warning btn-xs">搁置</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="4" @if($favorite->type==4) checked @endif><span class="btn btn-danger btn-xs">抛弃</span>
+                            </label>
+                        </div>
+                        <div class="form-group" id="ratingEdit">
+                            <label class="col-md-2 control-label">评分：</label>
+                            <div class="col-md-10">
+                                <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs" value="{{ $favorite->rating }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
+                                <button type="submit" class="btn btn-info btn-sm">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="collapse panel panel-default" id="favoriteCreate">
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/favorite') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="drama_id" value="{{ $drama->id }}">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="1"><span class="btn btn-success btn-xs">在追</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="2" checked><span class="btn btn-info btn-xs">听过</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="3"><span class="btn btn-warning btn-xs">搁置</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="4"><span class="btn btn-danger btn-xs">抛弃</span>
+                            </label>
+                        </div>
+                        <div class="form-group" id="ratingCreate">
+                            <label class="col-md-2 control-label">评分：</label>
+                            <div class="col-md-10">
+                                <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
+                                <button type="submit" class="btn btn-info btn-sm">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div role="tabpanel">

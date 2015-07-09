@@ -108,6 +108,20 @@ $("#favoriteEdit :radio").change(function() {
     }
 });
 
+$(".favorite-form :radio").change(function() {
+    var type = $("input[name='type']:checked").val();
+    if (type == "0") {
+        $("#ratingSelect").hide();
+    }
+    else {
+        $("#ratingSelect").show();
+    }
+});
+
+$("#favModal").on("hidden.bs.modal", function() {
+    $(this).removeData("bs.modal");
+});
+
 $('#favoriteModal').on('show.bs.modal', function (event) {
     var favorite = $(event.relatedTarget).data('favorite');
     var modal = $(this);

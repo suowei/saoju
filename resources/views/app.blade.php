@@ -62,8 +62,6 @@
                                 <span class="caret"></span>
                             </a>
 							<ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/playlist?type=0') }}"><span class="glyphicon glyphicon-step-forward"></span> 待听列表</a></li>
-                                <li class="divider"></li>
                                 <li><a href="{{ url('/user/edit') }}"><span class="glyphicon glyphicon-cog"></span> 修改信息</a></li>
                                 <li class="divider"></li>
 								<li><a href="{{ url('/auth/logout') }}"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>

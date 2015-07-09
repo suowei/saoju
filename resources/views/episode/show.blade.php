@@ -7,6 +7,10 @@
     <meta name="keywords" content="广播剧《{{ $drama->title }}》{{ $episode->title }}">
 @endsection
 
+@section('css')
+    <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -14,19 +18,26 @@
                 <h3>
                     《<a href="{{ url('/drama/'.$drama->id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
                     @if($episode->alias){{ $episode->alias }}@endif
+                </h3>
+                <p>
+                    @if(Auth::check())
+                        @if($favorite = \App\Epfav::where('user_id', Auth::id())->where('episode_id', $episode->id)->first())
+
+                        @else
+                            <a class="btn btn-info btn-xs" data-toggle="modal" href="{{ url('/epfav/create?episode='.$episode->id) }}" data-target="#favModal" data-backdrop="static">
+                                <span class="glyphicon glyphicon-gift"></span> 收藏本集并评分
+                            </a>
+                        @endif
+                    @else
+                        <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
+                            <span class="glyphicon glyphicon-gift"></span> 收藏本集并评分
+                        </a>
+                    @endif
                     <a class="btn btn-warning btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写本期评论
                     </a>
-                    @if(Auth::check() && $playlist = \App\Playlist::where('user_id', Auth::id())->where('episode_id', $episode->id)->first())
-                        <a class="btn btn-success btn-xs" href="{{ url('/playlist?type='.$playlist->type) }}" target="_blank">
-                            {{ $playlist->type ? '已听' : '待听'}}
-                        </a>
-                    @else
-                        <a class="btn btn-success btn-xs" href="{{ url('/playlist/create?episode='.$episode->id) }}">
-                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 加入待听列表
-                        </a>
-                    @endif
-                </h3>
+                </p>
+
                 <div class="row">
                     <div class="col-md-6">
                         <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
@@ -98,6 +109,13 @@
         </div>
     </div>
 
+    <div class="modal fade" id="favModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
     <div id="deleteConfirmModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -119,4 +137,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('/js/star-rating.min.js') }}"></script>
 @endsection

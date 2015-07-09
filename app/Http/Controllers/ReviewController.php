@@ -64,10 +64,10 @@ class ReviewController extends Controller {
 	public function create(Request $request)
 	{
         if($request->has('episode'))
-            return view('review.create')->withDrama(Drama::find($request->input('drama', ['id', 'title'])))
-                ->withEpisode(Episode::find($request->input('episode', ['id', 'title'])));
+            return view('review.create')->withDrama(Drama::find($request->input('drama'), ['id', 'title']))
+                ->withEpisode(Episode::find($request->input('episode'), ['id', 'title']));
         else
-            return view('review.create')->withDrama(Drama::find($request->input('drama', ['id', 'title'])));
+            return view('review.create')->withDrama(Drama::find($request->input('drama'), ['id', 'title']));
 	}
 
 	/**
