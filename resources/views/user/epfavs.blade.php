@@ -25,7 +25,7 @@
                         </span>
                         @if(Auth::id() == $user->id)&nbsp;
                             <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
-                               data-action="{{ url('/epfav/'.$favorite->id) }}" data-method="PUT" data-idname="episode_id">修改</a>
+                               data-action="{{ url('/epfav/'.$favorite->episode_id) }}" data-method="PUT" data-idname="episode_id">修改</a>
                             <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/epfav/'.$favorite->episode_id) }}">删除</a>
                         @endif
                     </div>

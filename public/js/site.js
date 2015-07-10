@@ -111,13 +111,14 @@ $('#favModal').on('show.bs.modal', function (event) {
         modal.find("input[name='type']").eq(3).parent().show();
     }
     if (method == 'POST') {
-        modal.find("input[name='_method']").remove();
+        modal.find("input[name='_method']").prop('name', 'none');
         modal.find("input[name='id']").prop('value', $(event.relatedTarget).data('idvalue'));
         modal.find("input[name='id']").prop('name', idname);
         modal.find("input[name='type']").eq(2).prop('checked', true);
         modal.find("input[name='rating']").rating('update', 0);
     }
     else if (method == 'PUT') {
+        modal.find("input[name='none']").prop('name', '_method');
         var favorite = $(event.relatedTarget).data('favorite');
         modal.find("input[name='type']").eq(favorite.type).prop('checked', true);
         modal.find("input[name='rating']").rating('update', favorite.rating);
