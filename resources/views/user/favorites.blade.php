@@ -25,22 +25,19 @@
                                 <a href="{{ url('/drama/'.$favorite->drama_id) }}" target="_blank">{{ $favorite->drama->title }}</a>
                             </h4>
                             <p>{{ $favorite->drama->sc }}</p>
-                            @if($type != 0)
-                                <span class="pull-left">
-                                    @if($favorite->rating != 0)
-                                        <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
-                                    @else
-                                        未评分
-                                    @endif
-                                </span>
-                            @endif
+                            <span class="pull-left">
+                                @if($favorite->rating != 0)
+                                    <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
+                                @endif
+                            </span>
                             <span>
                                 &nbsp;&nbsp;&nbsp;&nbsp;{{ $favorite->updated_at }}
                             </span>
                             <span>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 @if(Auth::id() == $user->id)
-                                    <a class="text-muted" data-toggle="modal" href="#favoriteModal" data-favorite="{{ $favorite }}">修改</a>
+                                    <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
+                                       data-action="{{ url('/favorite/'.$favorite->id) }}" data-method="PUT" data-idname="drama_id">修改</a>
                                     <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/favorite/'.$favorite->id) }}">删除</a>
                                 @endif
                             </span>
@@ -76,34 +73,37 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="favoriteModal" tabindex="-1" role="dialog" aria-labelledby="favoriteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="favModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="favoriteModalLabel">修改收藏状态及评分</h4>
+                    <h4 class="modal-title">收藏及评分</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="favoriteEdit" role="form" method="POST" action="/unknown">
+                    <form class="form-horizontal" id="favoriteEdit" role="form" method="POST" action="action">
                         <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        {!! csrf_field() !!}
+                        <input type="hidden" name="id" value="id">
                         <div class="form-group">
                             <label class="col-md-2 control-label">状态：</label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="1"><span class="btn btn-success btn-xs">在追</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="2"><span class="btn btn-info btn-xs">听过</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="3"><span class="btn btn-warning btn-xs">搁置</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="4"><span class="btn btn-danger btn-xs">抛弃</span>
-                            </label>
+                            <div class="col-md-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="1"><span class="btn btn-info btn-xs">在追</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="2"><span class="btn btn-success btn-xs">听过</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="3"><span class="btn btn-warning btn-xs">搁置</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="4"><span class="btn btn-danger btn-xs">抛弃</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group" id="ratingEdit">
                             <label class="col-md-2 control-label">评分：</label>

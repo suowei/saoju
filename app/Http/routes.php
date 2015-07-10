@@ -46,12 +46,12 @@ Route::resource('review', 'ReviewController');
 
 Route::get('/search', 'SearchController@index');
 
+Route::post('/favorite2', 'FavoriteController@store2');
+Route::put('/favorite2/{id}', 'FavoriteController@update2');
 Route::resource('favorite', 'FavoriteController');
 
-//Route::resource('reply', 'ReplyController');
-
-Route::resource('playlist', 'PlaylistController');
-
+Route::post('/epfav2', 'EpfavController@store2');
+Route::put('/epfav2/{id}', 'EpfavController@update2');
 Route::resource('epfav', 'EpfavController');
 
 Route::group(['prefix' => 'bbs'], function()

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Epfav;
 use App\History;
 use App\Favorite;
 use App\Review;
@@ -208,7 +209,7 @@ class DramaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request, $id)
 	{
         $drama = Drama::find($id);
         $episodes = Episode::where('drama_id', $id)->orderByRaw('release_date, id')->get();
@@ -220,8 +221,23 @@ class DramaController extends Controller {
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        //若用户已登录则取得其对整部剧及每个分集的收藏状态
+        $favorite = null;
+        $epfavs = [];
+        if(Auth::check())
+        {
+            $user_id = $request->user()->id;
+            $favorite = Favorite::select('id', 'type', 'rating')->where('user_id', $user_id)->where('drama_id', $id)->first();
+            $ids = $episodes->pluck('id');
+            $rows = Epfav::select('episode_id', 'type', 'rating')
+                ->where('user_id', $user_id)->whereIn('episode_id', $ids->all())->get();
+            foreach($rows as $row)
+            {
+                $epfavs[$row->episode_id] = $row;
+            }
+        }
         return view('drama.show')->withDrama($drama)->withEpisodes($episodes)
-            ->withReviews($reviews)->withFavorites($favorites);
+            ->withReviews($reviews)->withFavorites($favorites)->withFavorite($favorite)->withEpfavs($epfavs);
 	}
 
 	/**

@@ -24,20 +24,19 @@
                         @if($favorite)
                             <span class="pull-left">
                                 <span class="glyphicon glyphicon-headphones"></span>
-                                我@if($favorite->type == 0)想听@elseif($favorite->type == 1)听过@else抛弃@endif这期&nbsp;
+                                我@if($favorite->type == 0)想听@elseif($favorite->type == 2)听过@else抛弃@endif这期&nbsp;
                             </span>
                             <span class="pull-left">
                                 @if($favorite->rating != 0)
                                     <input type="number" class="rating form-control" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
                                 @endif
                             </span>
-                            <span>
-                                &nbsp;
-                                <a class="btn btn-info btn-xs" href="{{ url('/epfav/edit?episode='.$episode->id) }}">
+                            <span>&nbsp;
+                                <a class="btn btn-info btn-xs" href="{{ url('/epfav/'.$episode->id.'/edit') }}">
                                     修改收藏与评论
                                 </a>
                                 <a class="btn btn-warning btn-xs" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
-                                   data-action="{{ url('/epfav/'.$episode->id) }}" data-method="PUT">修改收藏</a>
+                                   data-action="{{ url('/epfav/'.$episode->id) }}" data-method="PUT" data-idname="episode_id">修改收藏</a>
                                 <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/epfav/'.$episode->id) }}">删除收藏</a>
                             </span>
                         @else
@@ -46,7 +45,7 @@
                                 <span class="glyphicon glyphicon-pencil"></span> 写评
                             </a>
                             <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#favModal"
-                               data-action="{{ url('/epfav') }}" data-method="POST">
+                               data-action="{{ url('/epfav') }}" data-method="POST" data-idname="episode_id" data-idvalue="{{ $episode->id }}">
                                 <span class="glyphicon glyphicon-gift"></span> 收藏本期
                             </a>
                         @endif
@@ -87,7 +86,6 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             {{ $review->created_at }}
-                                            @if ($review->episode_id) [{{ $review->episode->title }}]@endif
                                             {{ $review->title }}
                                         </div>
                                         <div class="col-md-2 text-right">
@@ -143,18 +141,26 @@
                     <form class="form-horizontal" id="favoriteEdit" role="form" method="POST" action="action">
                         <input type="hidden" name="_method" value="PUT">
                         {!! csrf_field() !!}
-                        <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                        <input type="hidden" name="id" value="id">
                         <div class="form-group">
                             <label class="col-md-2 control-label">状态：</label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="1"><span class="btn btn-success btn-xs">听过</span>
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="2"><span class="btn btn-info btn-xs">抛弃</span>
-                            </label>
+                            <div class="col-md-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="0"><span class="btn btn-primary btn-xs">想听</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="1"><span class="btn btn-info btn-xs">在追</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="2"><span class="btn btn-success btn-xs">听过</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="3"><span class="btn btn-warning btn-xs">搁置</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" value="4"><span class="btn btn-danger btn-xs">抛弃</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group" id="ratingEdit">
                             <label class="col-md-2 control-label">评分：</label>

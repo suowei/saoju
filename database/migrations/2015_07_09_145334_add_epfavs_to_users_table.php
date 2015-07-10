@@ -14,8 +14,8 @@ class AddEpfavsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('epfav0')->after('favorite4')->default(0);
-            $table->integer('epfav1')->after('epfav0')->default(0);
-            $table->integer('epfav2')->after('epfav1')->default(0);
+            $table->integer('epfav2')->after('epfav0')->default(0);
+            $table->integer('epfav4')->after('epfav2')->default(0);
         });
     }
 
@@ -28,8 +28,8 @@ class AddEpfavsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('epfav0');
-            $table->dropColumn('epfav1');
             $table->dropColumn('epfav2');
+            $table->dropColumn('epfav4');
         });
     }
 }

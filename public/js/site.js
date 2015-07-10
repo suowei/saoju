@@ -88,16 +88,6 @@ $(function() {
     });
 });
 
-$("#favoriteCreate :radio").change(function() {
-    var type = $("input[name='type']:checked").val();
-    if (type == "0") {
-        $("#ratingCreate").hide();
-    }
-    else {
-        $("#ratingCreate").show();
-    }
-});
-
 $("#favoriteEdit :radio").change(function() {
     var type = $("input[name='type']:checked").val();
     if (type == "0") {
@@ -111,9 +101,20 @@ $("#favoriteEdit :radio").change(function() {
 $('#favModal').on('show.bs.modal', function (event) {
     var method = $(event.relatedTarget).data('method');
     var modal = $(this);
+    var idname = $(event.relatedTarget).data('idname');
+    if(idname == "episode_id") {
+        modal.find("input[name='type']").eq(1).parent().hide();
+        modal.find("input[name='type']").eq(3).parent().hide();
+    }
+    else {
+        modal.find("input[name='type']").eq(1).parent().show();
+        modal.find("input[name='type']").eq(3).parent().show();
+    }
     if (method == 'POST') {
         modal.find("input[name='_method']").remove();
-        modal.find("input[name='type']").eq(1).prop('checked', true);
+        modal.find("input[name='id']").prop('value', $(event.relatedTarget).data('idvalue'));
+        modal.find("input[name='id']").prop('name', idname);
+        modal.find("input[name='type']").eq(2).prop('checked', true);
         modal.find("input[name='rating']").rating('update', 0);
     }
     else if (method == 'PUT') {
@@ -122,14 +123,6 @@ $('#favModal').on('show.bs.modal', function (event) {
         modal.find("input[name='rating']").rating('update', favorite.rating);
     }
     modal.find("form").prop('action', $(event.relatedTarget).data('action'));
-});
-
-$('#favoriteModal').on('show.bs.modal', function (event) {
-    var favorite = $(event.relatedTarget).data('favorite');
-    var modal = $(this);
-    modal.find("input[name='type']").eq(favorite.type).prop('checked', true);
-    modal.find("input[name='rating']").rating('update', favorite.rating);
-    modal.find("form").prop('action', '/favorite/' + favorite.id);
 });
 
 $('#deleteConfirmModal').on('show.bs.modal', function (event) {
