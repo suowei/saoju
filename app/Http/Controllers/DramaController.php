@@ -222,7 +222,6 @@ class DramaController extends Controller {
             $query->select('id', 'name');
         }])->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
         //若用户已登录则取得其对整部剧及每个分集的收藏状态
-        $favorite = null;
         $epfavs = [];
         if(Auth::check())
         {
@@ -235,6 +234,10 @@ class DramaController extends Controller {
             {
                 $epfavs[$row->episode_id] = $row;
             }
+        }
+        else
+        {
+            $favorite = 0;
         }
         return view('drama.show')->withDrama($drama)->withEpisodes($episodes)
             ->withReviews($reviews)->withFavorites($favorites)->withFavorite($favorite)->withEpfavs($epfavs);
@@ -415,10 +418,10 @@ class DramaController extends Controller {
 
     public function favorites($id)
     {
-        $drama = Drama::find($id);
+        $drama = Drama::find($id, ['id', 'title']);
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->where('drama_id', $id)->paginate(20);
+        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at')->paginate(20);
         return view('drama.favorites')->withDrama($drama)->withFavorites($favorites);
     }
 

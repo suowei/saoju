@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function()
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
+Route::get('/user/{id}/epfavs/{type}', ['as' => 'user.epfavs', 'uses' => 'UserController@epfavs']);
 Route::get('/user/{id}/favorites/{type}', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
 Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserController@reviews']);
 
@@ -40,6 +41,7 @@ Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
 Route::get('/episode/{id}/histories', ['as' => 'episode.histories', 'uses' => 'EpisodeController@histories']);
+Route::get('/episode/{id}/favorites', ['as' => 'episode.favorites', 'uses' => 'EpisodeController@favorites']);
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');

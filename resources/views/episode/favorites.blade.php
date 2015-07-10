@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', $drama->title.'的收藏 - ')
+@section('title', '《'.$episode->drama->title.'》'.$episode->title.'的收藏 - ')
 
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h3>《<a href="{{ url('/drama/'.$drama->id) }}">{{ $drama->title }}</a>》的收藏<small>（{{ $favorites->total() }}）</small></h3>
+                <h3>《<a href="{{ url('/drama/'.$episode->drama_id) }}">{{ $episode->drama->title }}</a>》<a href="{{ url('/episode/'.$episode->id) }}">{{ $episode->title }}</a>的收藏<small>（{{ $favorites->total() }}）</small></h3>
                 @foreach ($favorites as $favorite)
                     <p>
                         <a href="{{ url('/user/'.$favorite->user->id) }}" target="_blank">{{ $favorite->user->name }}</a>
