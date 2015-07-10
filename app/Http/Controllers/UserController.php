@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Epfav;
 use App\Review;
 use App\User;
 use App\Favorite;
@@ -14,6 +15,15 @@ class UserController extends Controller {
     public function show($id)
     {
         $user = User::find($id);
+        $epfavs = [];
+        for($type = 0; $type <= 4; $type+=2)
+        {
+            $epfavs[$type] = Epfav::with(['episode' => function($query)
+            {
+                $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
+                    ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title');
+            }])->select('episode_id')->where('user_id', $id)->where('type', $type)->orderBy('updated_at', 'desc')->take(8)->get();
+        }
         $favorites = [];
         for($type = 0; $type <= 4; $type++)
         {
@@ -22,7 +32,7 @@ class UserController extends Controller {
                 ->orderBy('updated_at', 'desc')->take(6)->get();
         }
         $reviews = Review::with('drama')->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
-        return view('user.show')->withUser($user)->with('favorites', $favorites)->withReviews($reviews);
+        return view('user.show')->withUser($user)->with('epfavs', $epfavs)->with('favorites', $favorites)->withReviews($reviews);
     }
 
     public function edit()
@@ -95,6 +105,25 @@ class UserController extends Controller {
             $favorites = Favorite::with('drama')->where('user_id', $id)->where('type', $type)->orderBy('updated_at', 'desc')->paginate(20);
             return view('user.favorites')->withUser(User::find($id))->with('type', $type)->withFavorites($favorites)->with('sort', 'time');
         }
+    }
+
+    public function epfavs(Request $request, $id, $type)
+    {
+        $user = User::find($id, ['id', 'name']);
+        if($request->has('sort'))
+        {
+            $sort = $request->input('sort');
+        }
+        else
+        {
+            $sort = 'updated_at';
+        }
+        $favorites = Epfav::with(['episode' => function($query)
+        {
+            $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
+                ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title');
+        }])->select('episode_id', 'type', 'rating')->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
+        return view('user.epfavs', ['user' => $user, 'type' => $type, 'favorites' => $favorites, 'sort' => $sort]);
     }
 
     public function reviews($id)

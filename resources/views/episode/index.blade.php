@@ -271,6 +271,17 @@
                         </strong>
                     @else
                         <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
+                    @endif&nbsp;&nbsp;
+                    @if($params['sort'] == 'favorites')
+                        <strong>
+                            @if($params['order'] == 'asc')
+                                <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                            @else
+                                <a href="{{ $url.'sort=favorites&order=asc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                            @endif
+                        </strong>
+                    @else
+                        <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order"></span></a>
                     @endif
                     <span class="pull-right">
                         共{{ $episodes->total() }}部剧&nbsp;&nbsp;
