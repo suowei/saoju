@@ -6,11 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddEpfavsToUsersTable' => $baseDir . '/database/migrations/2015_07_09_145334_add_epfavs_to_users_table.php',
     'AddEraToDramasTable' => $baseDir . '/database/migrations/2015_06_22_121015_add_era_to_dramas_table.php',
     'AddFavoritesToDramasTable' => $baseDir . '/database/migrations/2015_07_01_195617_add_favorites_to_dramas_table.php',
+    'AddFavoritesToEpisodesTable' => $baseDir . '/database/migrations/2015_07_09_145140_add_favorites_to_episodes_table.php',
     'AddTypeToDramasTable' => $baseDir . '/database/migrations/2015_06_22_120924_add_type_to_dramas_table.php',
     'CreateCommentsTable' => $baseDir . '/database/migrations/2015_06_15_114702_create_comments_table.php',
     'CreateDramasTable' => $baseDir . '/database/migrations/2015_05_18_162627_create_dramas_table.php',
+    'CreateEpfavsTable' => $baseDir . '/database/migrations/2015_07_09_131738_create_epfavs_table.php',
     'CreateEpisodesTable' => $baseDir . '/database/migrations/2015_05_28_092626_create_episodes_table.php',
     'CreateFavoritesTable' => $baseDir . '/database/migrations/2015_06_03_082301_create_favorites_table.php',
     'CreateHistoriesTable' => $baseDir . '/database/migrations/2015_06_12_161946_create_histories_table.php',

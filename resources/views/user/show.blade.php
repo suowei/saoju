@@ -8,7 +8,65 @@
             <div class="col-md-9">
                 <h3>{{ $user->name }}</h3>
                 <p>{{ $user->created_at }}加入</p>
-                <p>自我介绍：@if($user->introduction){{ $user->introduction }}@else无@endif</p><br>
+                <p>自我介绍：@if($user->introduction){{ $user->introduction }}@else无@endif</p>
+                <h4 class="text-success"><span class="glyphicon glyphicon-facetime-video"></span> 分集收藏</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="{{ url('/user/'.$user->id.'/epfavs/0') }}" target="_blank">
+                                        <span class="glyphicon glyphicon-headphones"></span> 想听：{{ $user->epfav0 }}期
+                                    </a>
+                                </h4>
+                            </div>
+                            <ul class="list-group">
+                                @foreach($epfavs[0] as $favorite)
+                                    <li class="list-group-item">
+                                        《<a href="{{ url('/drama/'.$favorite->episode->drama_id) }}" target="_blank">{{ $favorite->episode->drama_title }}</a>》<a href="{{ url('/episode/'.$favorite->episode_id) }}" target="_blank">{{ $favorite->episode->title }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="{{ url('/user/'.$user->id.'/epfavs/2') }}" target="_blank">
+                                        <span class="glyphicon glyphicon-headphones"></span> 听过：{{ $user->epfav2 }}期
+                                    </a>
+                                </h4>
+                            </div>
+                            <ul class="list-group">
+                                @foreach($epfavs[2] as $favorite)
+                                    <li class="list-group-item">
+                                        《<a href="{{ url('/drama/'.$favorite->episode->drama_id) }}" target="_blank">{{ $favorite->episode->drama_title }}</a>》<a href="{{ url('/episode/'.$favorite->episode_id) }}" target="_blank">{{ $favorite->episode->title }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="{{ url('/user/'.$user->id.'/epfavs/4') }}" target="_blank">
+                                        <span class="glyphicon glyphicon-headphones"></span> 抛弃：{{ $user->epfav4 }}期
+                                    </a>
+                                </h4>
+                            </div>
+                            <ul class="list-group">
+                                @foreach($epfavs[4] as $favorite)
+                                    <li class="list-group-item">
+                                        《<a href="{{ url('/drama/'.$favorite->episode->drama_id) }}" target="_blank">{{ $favorite->episode->drama_title }}</a>》<a href="{{ url('/episode/'.$favorite->episode_id) }}" target="_blank">{{ $favorite->episode->title }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="text-success"><span class="glyphicon glyphicon-film"></span> 剧集收藏</h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/user/'.$user->id.'/favorites/0') }}" target="_blank">
                         <span class="glyphicon glyphicon-headphones"></span> 想听：{{ $user->favorite0 }}部
@@ -26,7 +84,7 @@
                     @endforeach
                 </div>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/favorites/1') }}" target="_blank">
+                    <a class="btn btn-info btn-xs" href="{{ url('/user/'.$user->id.'/favorites/1') }}" target="_blank">
                         <span class="glyphicon glyphicon-play"></span> 在追：{{ $user->favorite1 }}部
                     </a>
                 </p>
@@ -42,7 +100,7 @@
                     @endforeach
                 </div>
                 <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/user/'.$user->id.'/favorites/2') }}" target="_blank">
+                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/favorites/2') }}" target="_blank">
                         <span class="glyphicon glyphicon-check"></span> 听过：{{ $user->favorite2 }}部
                     </a>
                 </p>
@@ -89,11 +147,10 @@
                         </div>
                     @endforeach
                 </div>
-                <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/user/'.$user->id.'/reviews') }}" target="_blank">
-                        <span class="glyphicon glyphicon-comment"></span> 评论：{{ $user->reviews }}篇
-                    </a>
-                </p>
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> 评论
+                    <a href="{{ url('/user/'.$user->id.'/reviews') }}" target="_blank">{{ $user->reviews }}篇</a>
+                </h4>
                 @foreach ($reviews as $review)
                     <div class="review">
                         <div class="review-title">

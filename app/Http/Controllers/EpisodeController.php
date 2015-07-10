@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Epfav;
 use App\Episode;
 use App\Review;
 use App\History;
@@ -16,7 +17,7 @@ class EpisodeController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show', 'reviews', 'histories']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
     }
 
 	/**
@@ -208,7 +209,19 @@ class EpisodeController extends Controller {
         $episode = Episode::find($id);
         $drama = $episode->drama;
         $reviews = Review::with('user', 'episode')->where('episode_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
-		return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews);
+        $favorites = Epfav::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('user_id', 'type', 'updated_at')->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        if(Auth::check())
+        {
+            $favorite = Epfav::where('user_id', Auth::id())->where('episode_id', $id)->first();
+        }
+        else
+        {
+            $favorite = 0;
+        }
+        return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews)
+            ->with('favorites', $favorites)->with('favorite', $favorite);
 	}
 
 	/**
@@ -323,6 +336,19 @@ class EpisodeController extends Controller {
             $query->select('id', 'title');
         }]);
         return view('episode.histories')->withEpisode($episode)->withHistories($histories);
+    }
+
+    public function favorites($id)
+    {
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $episode->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+        $favorites = Epfav::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('user_id', 'type', 'updated_at')->where('episode_id', $id)->orderBy('updated_at')->paginate(20);
+        return view('episode.favorites', ['episode' => $episode, 'favorites' => $favorites]);
     }
 
 }
