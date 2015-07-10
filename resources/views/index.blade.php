@@ -331,6 +331,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a href="{{ url('/bbs/topic/25') }}" class="list-group-item" style="color: red;" target="_blank">
+                            分集收藏功能上线以及添加“收藏并写评”链接
+                        </a>
                         <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" style="color: red;" target="_blank">
                             个人收藏和评论导出功能上线
                         </a>
