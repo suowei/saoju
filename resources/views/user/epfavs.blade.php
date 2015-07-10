@@ -11,53 +11,23 @@
         <div class="row">
             <div class="col-md-9">
                 <h4 class="text-success">
-                    <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>@if($type == 0)想听@elseif($type == 1)在追@elseif($type == 2)听过@elseif($type == 3)搁置@else抛弃@endif的剧（{{ $favorites->total() }}部）
+                    <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>@if($type == 0)想听@elseif($type == 2)听过@else抛弃@endif的剧（{{ $favorites->total() }}期）
                 </h4>
                 @foreach($favorites as $favorite)
-                    <div class="row drama">
-                        <div class="col-md-2">
-                            <a href="{{ url('/drama/'.$favorite->drama_id) }}" target="_blank">
-                                <img src="{{ $favorite->drama->poster_url }}" class="img-responsive" alt="海报">
-                            </a>
-                        </div>
-                        <div class="col-md-10">
-                            <h4>
-                                <a href="{{ url('/drama/'.$favorite->drama_id) }}" target="_blank">{{ $favorite->drama->title }}</a>
-                            </h4>
-                            <p>{{ $favorite->drama->sc }}</p>
-                            <span class="pull-left">
-                                @if($favorite->rating != 0)
-                                    <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
-                                @endif
-                            </span>
-                            <span>
-                                &nbsp;&nbsp;&nbsp;&nbsp;{{ $favorite->updated_at }}
-                            </span>
-                            <span>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                @if(Auth::id() == $user->id)
-                                    <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
-                                       data-action="{{ url('/favorite/'.$favorite->id) }}" data-method="PUT" data-idname="drama_id">修改</a>
-                                    <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/favorite/'.$favorite->id) }}">删除</a>
-                                @endif
-                            </span>
-                            @foreach(\App\Review::where('user_id', $user->id)->where('drama_id', $favorite->drama_id)->take($user->reviews)->get() as $review)
-                                <div class="review">
-                                    <div class="review-title">
-                                        @if ($review->episode_id) [<a href="{{ url('/episode/'.$review->episode_id) }}" target="_blank">{{ $review->episode->title }}</a>]@endif
-                                        {{ $review->title }} {{ $review->created_at }}
-                                        <span class="pull-right">
-                                            <a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a>
-                                            @if(Auth::id() == $user->id)
-                                                <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
-                                                <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/review/'.$review->id) }}">删除</a>
-                                            @endif
-                                        </span>
-                                    </div>
-                                    <div class="review-content">{{ $review->content }}</div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="drama">
+                        <span class="pull-left">
+                            《<a href="{{ url('/drama/'.$favorite->episode->drama_id) }}" target="_blank">{{ $favorite->episode->drama_title }}</a>》<a href="{{ url('/episode/'.$favorite->episode_id) }}" target="_blank">{{ $favorite->episode->title }}</a>
+                        &nbsp;</span>
+                        <span class="pull-left">
+                            @if($favorite->rating != 0)
+                                <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
+                            @endif
+                        </span>
+                        @if(Auth::id() == $user->id)&nbsp;
+                            <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
+                               data-action="{{ url('/epfav/'.$favorite->episode_id) }}" data-method="PUT" data-idname="episode_id">修改</a>
+                            <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/epfav/'.$favorite->episode_id) }}">删除</a>
+                        @endif
                     </div>
                 @endforeach
                 <?php echo $favorites->appends(['sort' => $sort])->render(); ?>
@@ -65,10 +35,10 @@
             <div class="col-md-3">
                 <h4 class="text-warning">排序看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/favorites/'.$type.'?sort=rating') }}"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 按评分排序</a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/epfavs/'.$type.'?sort=rating') }}"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 按评分排序</a>
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/user/'.$user->id.'/favorites/'.$type.'?sort=time') }}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 按时间排序</a>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/user/'.$user->id.'/epfavs/'.$type.'?sort=updated_at') }}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 按时间排序</a>
                 </p>
             </div>
         </div>
