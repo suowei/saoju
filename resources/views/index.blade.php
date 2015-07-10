@@ -334,11 +334,8 @@
                         <a href="{{ url('/bbs/topic/25') }}" class="list-group-item" style="color: red;" target="_blank">
                             分集收藏功能上线以及添加“收藏并写评”链接
                         </a>
-                        <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" style="color: red;" target="_blank">
+                        <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" target="_blank">
                             个人收藏和评论导出功能上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/13') }}" class="list-group-item" target="_blank">
-                            关于写评和收藏系统是否需要结合起来的意见征询
                         </a>
                     </div>
                 </div>
