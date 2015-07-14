@@ -91,7 +91,7 @@ class ReviewController extends Controller {
             DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
             if($review->episode_id)
                 DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
-            return redirect()->route('review.show', [$review]);
+            return redirect('success?url='.url('/review/'.$review->id));
         }
         else
         {
@@ -178,7 +178,7 @@ class ReviewController extends Controller {
 
         if($review->save())
         {
-            return redirect()->route('review.show', [$review]);
+            return redirect('success?url='.url('/review/'.$review->id));
         }
         else
         {

@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', 'IndexController@index');
 
 Route::controllers([
@@ -61,4 +63,8 @@ Route::group(['prefix' => 'bbs'], function()
     Route::get('/', ['as' => 'bbs.index', 'uses' => 'TopicController@index']);
     Route::resource('topic', 'TopicController');
     Route::resource('comment', 'CommentController');
+});
+
+Route::get('success', function (Request $request) {
+    return view('success', ['url' => $request->input('url')]);
 });

@@ -190,7 +190,7 @@ class EpisodeController extends Controller {
                 $history->content .= '；本集简介：'.$episode->introduction;
             $history->save();
 
-            return redirect()->route('episode.show', [$episode]);
+            return redirect('success?url='.url('/episode/'.$episode->id));
         }
         else
         {
@@ -297,7 +297,7 @@ class EpisodeController extends Controller {
         {
             if(!empty($history->content))
                 $history->save();
-            return redirect()->route('episode.show', [$id]);
+            return redirect('success?url='.url('/episode/'.$episode->id));
         }
         else
         {

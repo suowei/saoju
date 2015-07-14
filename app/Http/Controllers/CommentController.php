@@ -46,7 +46,7 @@ class CommentController extends Controller {
         ]);
         if ($comment = Comment::create($request->all())) {
             Topic::find($comment->topic_id)->increment('comments');
-            return redirect()->route('bbs.topic.show', [$comment->topic_id]);
+            return redirect('success?url='.url('/bbs/topic/'.$comment->topic_id));
         } else {
             return redirect()->back()->withInput()->withErrors('发表回帖失败！');
         }
