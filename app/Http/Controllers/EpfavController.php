@@ -111,7 +111,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $epfav->user_id)->increment('epfav'.$epfav->type);
             DB::table('episodes')->where('id', $epfav->episode_id)->increment('favorites');
-            return redirect('success?url='.url('/episode/'.$epfav->episode_id));
+            return redirect()->route('episode.show', [$epfav->episode_id]);
         }
         else
         {
@@ -218,7 +218,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('epfav'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('epfav'.$favorite->type);
-            return redirect('success?url='.url('/episode/'.$episode_id));
+            return redirect()->route('episode.show', [$episode_id]);
         }
         else
         {

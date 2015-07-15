@@ -28,7 +28,7 @@
                         <span class="text-danger">4. 添加前请先搜索，以免重复添加^ ^</span>
                     </p><br>
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/drama') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/drama') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
@@ -151,7 +151,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" name="submit" class="btn btn-primary">
                                     提交
                                 </button>
                             </div>

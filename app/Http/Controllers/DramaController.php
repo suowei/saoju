@@ -195,7 +195,7 @@ class DramaController extends Controller {
                 $history->content .= '；剧情简介：'.$drama->introduction;
             $history->save();
 
-            return redirect('success?url='.url('/drama/'.$drama->id));
+            return redirect()->route('drama.show', [$drama]);
         }
         else
         {
@@ -374,7 +374,7 @@ class DramaController extends Controller {
         {
             if(!empty($history->content))
                 $history->save();
-            return redirect('success?url='.url('/drama/'.$drama->id));
+            return redirect()->route('drama.show', [$id]);
         }
         else
         {
@@ -414,7 +414,7 @@ class DramaController extends Controller {
             {
                 $history->delete();
             }
-            return redirect('success?url='.url('/'));
+            return redirect('/');
         }
         else
         {

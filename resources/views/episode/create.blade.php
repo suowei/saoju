@@ -28,7 +28,7 @@
                             2. 请注意剧组版权声明中关于转载部分的内容。
                         </p>
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/episode') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/episode') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="drama_id" value="{{ $drama->id }}">
 
@@ -91,7 +91,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" name="submit" class="btn btn-primary">
                                         提交
                                     </button>
                                 </div>
