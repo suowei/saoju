@@ -47,7 +47,7 @@ class TopicController extends Controller {
             'user_id' => 'required',
         ]);
         if ($topic = Topic::create(Input::all())) {
-            return redirect('success?url='.url('/bbs/topic/'.$topic->id));
+            return redirect()->route('bbs.topic.show', [$topic]);
         } else {
             return redirect()->back()->withInput()->withErrors('发表新帖失败！');
         }

@@ -116,7 +116,7 @@ class FavoriteController extends Controller {
         {
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
             DB::table('dramas')->where('id', $favorite->drama_id)->increment('favorites');
-            return redirect('success?url='.url('/drama/'.$favorite->drama_id));
+            return redirect()->route('drama.show', [$favorite->drama_id]);
         }
         else
         {
@@ -214,7 +214,7 @@ class FavoriteController extends Controller {
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
-            return redirect('success?url='.url('/drama/'.$drama_id));
+            return redirect()->route('drama.show', [$drama_id]);
         }
         else
         {
