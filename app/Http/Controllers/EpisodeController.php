@@ -2,6 +2,7 @@
 
 use App\Epfav;
 use App\Episode;
+use App\Favorite;
 use App\Review;
 use App\History;
 use App\Drama;
@@ -165,11 +166,11 @@ class EpisodeController extends Controller {
             'sc' => 'required',
             'duration' => 'required|integer',
             'poster_url' => 'url',
-            'drama_id' => 'required|exists:dramas,id',
+            'drama_id' => 'required',
         ]);
 
         $history = new History;
-        $history->user_id = Auth::id();
+        $history->user_id = $request->user()->id;
         $history->model = 1;
         $history->type = 0;
 
@@ -305,15 +306,39 @@ class EpisodeController extends Controller {
         }
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+	public function destroy(Request $request, $id)
 	{
-		//
+		$history = History::select('id', 'user_id')->where('model', 1)->where('model_id', $id)->where('type', 0)->first();
+        if($history->user_id != $request->user()->id)
+        {
+            return '抱歉, 目前仅支持添加此条目的用户删除分集> <';
+        }
+        $favorite = Epfav::select('user_id')->where('episode_id', $id)->first();
+        if($favorite)
+        {
+            return '抱歉, 已有人收藏本集，不能删除> <';
+        }
+        $review = Review::select('id')->where('episode_id', $id)->first();
+        if($review)
+        {
+            return '抱歉，已有人评论本集，不能删除> <';
+        }
+        $episode = Episode::find($id, ['id', 'drama_id']);
+        if($episode->delete())
+        {
+            $history->delete();
+            //删除剩余编辑历史
+            $histories = History::select('id')->where('model', 1)->where('model_id', $id)->get();
+            foreach($histories as $history)
+            {
+                $history->delete();
+            }
+            return redirect('success?url='.url('/drama/'.$episode->drama_id));
+        }
+        else
+        {
+            return '删除失败';
+        }
 	}
 
     public function reviews($id)

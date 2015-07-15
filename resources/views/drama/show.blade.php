@@ -249,10 +249,14 @@
         <div class="col-md-3">
             <h4 class="text-warning">信息维护看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
             <p>
-                <a class="btn btn-primary btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 更新剧集（添加分集）</a>
+                <a class="btn btn-primary btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 更新剧集（添加分集）
+                </a>
             </p>
             <p>
-                <a class="btn btn-warning btn-xs" href="{{ url('/drama/'.$drama->id.'/edit') }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑剧集信息</a>
+                <a class="btn btn-warning btn-xs" href="{{ url('/drama/'.$drama->id.'/edit') }}">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑剧集信息
+                </a>
             </p>
             <p class="text-danger">
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -263,7 +267,15 @@
                 出于一些考虑，评分目前仅作为个人收藏和展示之用，不作统计，不与评论绑定
             </p>
             <p>
-                <a class="btn btn-success btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史</a>
+                <a class="btn btn-success btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                </a>
+            </p>
+            <p>
+                <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/drama/'.$drama->id) }}">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本剧
+                </a>
+                <span class="text-muted">请先逐一删除分集，确保已无分集后，再删除本剧</span>
             </p>
             <p class="text-success"><span class="glyphicon glyphicon-hand-down"></span> 下面是剧集海报，用于收藏列表和搜索结果等的展示，最左边的是分集海报展示</p>
             <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>

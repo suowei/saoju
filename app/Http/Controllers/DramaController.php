@@ -126,7 +126,7 @@ class DramaController extends Controller {
         ]);
 
         $history = new History;
-        $history->user_id = Auth::id();
+        $history->user_id = $request->user()->id;
         $history->model = 0;
         $history->type = 0;
 
@@ -382,15 +382,44 @@ class DramaController extends Controller {
         }
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+	public function destroy(Request $request, $id)
 	{
-		//
+        $history = History::select('id', 'user_id')->where('model', 0)->where('model_id', $id)->where('type', 0)->first();
+        if($history->user_id != $request->user()->id)
+        {
+            return '抱歉, 目前仅支持添加此条目的用户删除剧集> <';
+        }
+        $episode = Episode::select('id')->where('drama_id', $id)->first();
+        if($episode)
+        {
+            return '抱歉，请先逐一删除分集后再删除本剧';
+        }
+        $favorite = Favorite::select('user_id')->where('drama_id', $id)->first();
+        if($favorite)
+        {
+            return '抱歉, 已有人收藏本剧，不能删除> <';
+        }
+        $review = Review::select('id')->where('drama_id', $id)->first();
+        if($review)
+        {
+            return '抱歉，已有人评论本剧，不能删除> <';
+        }
+        $drama = Drama::find($id, ['id']);
+        if($drama->delete())
+        {
+            $history->delete();
+            //删除剩余编辑历史
+            $histories = History::select('id')->where('model', 0)->where('model_id', $id)->get();
+            foreach($histories as $history)
+            {
+                $history->delete();
+            }
+            return redirect('success?url='.url('/'));
+        }
+        else
+        {
+            return '删除失败';
+        }
 	}
 
     public function reviews($id)

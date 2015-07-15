@@ -121,10 +121,19 @@
             <div class="col-md-3">
                 <h4 class="text-warning">信息维护看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
                 <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑本集信息</a>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑本集信息
+                    </a>
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode/'.$episode->id.'/histories') }}" target="_blank"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史</a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/episode/'.$episode->id.'/histories') }}" target="_blank">
+                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/episode/'.$episode->id) }}">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本期分集
+                    </a>
                 </p>
                 <div class="panel panel-success">
                     <div class="panel-heading">
