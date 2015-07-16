@@ -171,7 +171,8 @@
                 @endforeach
             </div>
             <div class="col-md-3">
-                <p class="text-info">以下勋章仅代表网站态度，<br>与谦逊的用户本人无关……</p>
+                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
+                <h5 class="text-info">以下勋章仅代表网站态度，<br>与谦逊的用户本人无关……</h5>
                 @if($user->reviews > 100)
                     <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧大师</h3>
                 @elseif($user->reviews > 50)

@@ -119,6 +119,7 @@
                 </div>
             </div>
             <div class="col-md-3">
+                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <h4 class="text-warning">信息维护看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
