@@ -171,6 +171,38 @@
                 @endforeach
             </div>
             <div class="col-md-3">
+                <p class="text-info">以下勋章仅代表网站态度，<br>与谦逊的用户本人无关……</p>
+                @if($user->reviews > 100)
+                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧大师</h3>
+                @elseif($user->reviews > 50)
+                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧专家</h3>
+                @elseif($user->reviews > 10)
+                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧精英</h3>
+                @elseif($user->reviews > 0)
+                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧新星</h3>
+                @endif
+                    @if(($favcount = $user->favorite1 + $user->favorite2) > 200)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 听遍中抓无敌</h3>
+                    @elseif($favcount > 100)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深听众</h3>
+                    @elseif($favcount > 20)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 听剧小能手</h3>
+                    @elseif($favcount > 0)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓听众</h3>
+                    @endif
+                    @if(($addcount = \App\History::where('user_id', $user->id)->where('type', 0)->count()) > 50)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小飞机</h3>
+                    @elseif($addcount > 25)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小火车</h3>
+                    @elseif($addcount > 5)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小汽车</h3>
+                    @elseif($addcount > 0)
+                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小马车</h3>
+                    @endif
+                @if($user->reviews == 0 && $favcount == 0 && $addcount == 0)
+                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深围观党</h3>
+                @endif
+                <br>
                 @if(Auth::check() && Auth::id() == $user->id)
                     <h4 class="text-warning">修改信息请点击名字<span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></h4>
                     <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>也行</h5>
