@@ -22,8 +22,8 @@
                             @if($favorite->rating != 0)
                                 <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
                             @endif
-                        </span>
-                        @if(Auth::id() == $user->id)&nbsp;
+                        </span>&nbsp;
+                        @if(Auth::check() && Auth::id() == $user->id)
                             <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
                                data-action="{{ url('/epfav/'.$favorite->episode_id) }}" data-method="PUT" data-idname="episode_id">修改</a>
                             <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/epfav/'.$favorite->episode_id) }}">删除</a>
