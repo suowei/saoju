@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:wb="http://open.weibo.com/wb">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +19,7 @@
 		<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
 	<![endif]-->
 
-    <link rel="icon" href="{{ asset('/favicon.ico') }}">
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default">

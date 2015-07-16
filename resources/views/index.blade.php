@@ -338,6 +338,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
+                            部分页面添加微博分享按钮
+                        </a>
                         <a href="{{ url('/bbs/topic/27') }}" class="list-group-item" target="_blank">
                             简单删除功能上线，可删除自己添加的剧集和分集
                         </a>

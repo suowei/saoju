@@ -91,6 +91,7 @@
                     <p>
                         <span class="introduction content-pre-line">@if($drama->introduction){{ $drama->introduction }}@endif</span>
                     </p>
+                    <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 </div>
             </div>
 
