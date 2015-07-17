@@ -91,8 +91,10 @@ class DramaController extends Controller {
         {
             $params['order'] = 'desc';
         }
-        $dramas = Drama::multiwhere($scope)->orderBy($params['sort'], $params['order'])->paginate(20);
-		return view('drama.index')->with('params', $params)->withDramas($dramas);
+        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre',
+            'original', 'count', 'state', 'sc', 'poster_url', 'introduction')
+            ->multiwhere($scope)->orderBy($params['sort'], $params['order'])->paginate(20);
+		return view('drama.index', ['params' => $params, 'dramas' => $dramas]);
 	}
 
 	/**
@@ -211,17 +213,20 @@ class DramaController extends Controller {
 	 */
 	public function show(Request $request, $id)
 	{
-        $drama = Drama::find($id);
-        $episodes = Episode::where('drama_id', $id)->orderByRaw('release_date, id')->get();
+        $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
+            'original', 'count', 'state', 'sc', 'poster_url', 'introduction', 'reviews', 'favorites']);
+        $episodes = Episode::select('id', 'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction')
+            ->where('drama_id', $id)->orderByRaw('release_date, id')->get();
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
             $query->select('id', 'title');
-        }])->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
+        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+            ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
-        //若用户已登录则取得其对整部剧及每个分集的收藏状态
+        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        //若用户已登录则取得其对整部剧及每个分集的收藏状态，及其全部评论
         $epfavs = [];
         if(Auth::check())
         {
@@ -234,13 +239,17 @@ class DramaController extends Controller {
             {
                 $epfavs[$row->episode_id] = $row;
             }
+            $userReviews = Review::with(['episode' => function($query) {
+                $query->select('id', 'title');
+            }])->select('id', 'episode_id', 'title', 'content', 'created_at')
+                ->where('user_id', $user_id)->where('drama_id', $id)->get();
         }
         else
         {
             $favorite = 0;
         }
-        return view('drama.show')->withDrama($drama)->withEpisodes($episodes)
-            ->withReviews($reviews)->withFavorites($favorites)->withFavorite($favorite)->withEpfavs($epfavs);
+        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
+            'favorites' => $favorites, 'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
 	}
 
 	/**
@@ -251,7 +260,9 @@ class DramaController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return view('drama.edit')->withDrama(Drama::find($id));
+        $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
+            'original', 'count', 'state', 'sc', 'poster_url', 'introduction']);
+		return view('drama.edit', ['drama' => $drama]);
 	}
 
 	/**
@@ -278,7 +289,7 @@ class DramaController extends Controller {
         $drama = Drama::find($id);
 
         $history = new History;
-        $history->user_id = Auth::id();
+        $history->user_id = $request->user()->id;
         $history->model = 0;
         $history->type = 1;
         $history->model_id = $id;
@@ -424,16 +435,23 @@ class DramaController extends Controller {
 
     public function reviews($id)
     {
-        $drama = Drama::find($id);
-        $reviews = Review::with('user', 'episode')->where('drama_id', $id)->paginate(20);
-        return view('drama.reviews')->withDrama($drama)->withReviews($reviews);
+        $drama = Drama::find($id, ['id', 'title']);
+        $reviews = Review::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }, 'episode' => function($query) {
+            $query->select('id', 'title');
+        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+            ->where('drama_id', $id)->paginate(20);
+        return view('drama.reviews', ['drama' => $drama, 'reviews' => $reviews]);
     }
 
     public function histories($id)
     {
-        $drama = Drama::find($id);
-        $histories = History::where('model', 0)->where('model_id', $id)->get();
-        return view('drama.histories')->withDrama($drama)->withHistories($histories);
+        $drama = Drama::find($id, ['id', 'title']);
+        $histories = History::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('user_id', 'type', 'content', 'created_at')->where('model', 0)->where('model_id', $id)->get();
+        return view('drama.histories', ['drama' => $drama, 'histories' => $histories]);
     }
 
     public function search(Request $request)

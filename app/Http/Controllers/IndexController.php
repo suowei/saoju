@@ -148,8 +148,9 @@ class IndexController extends Controller {
         }
 
         //查询最新15条新剧的添加历史
-        $dramas = Drama::select('id', 'title', 'sc')->orderBy('id', 'desc')->take(15)->get();
-        $histories = History::where('model', 0)->where('type', 0)->orderBy('model_id', 'desc')->take(15)->get();
+        $dramas = Drama::select('title', 'sc')->orderBy('id', 'desc')->take(15)->get();
+        $histories = History::select('user_id', 'model_id', 'created_at')->where('model', 0)->where('type', 0)
+            ->orderBy('model_id', 'desc')->take(15)->get();
         $histories->load(['user' => function($query)
         {
             $query->select('id', 'name');

@@ -80,8 +80,8 @@ class ReviewController extends Controller {
 		$this->validate($request, [
             'content' => 'required',
             'title' => 'max:255',
-            'user_id' => 'required|exists:users,id',
-            'drama_id' => 'required|exists:dramas,id',
+            'user_id' => 'required',
+            'drama_id' => 'required',
             'episode_id' => 'exists:episodes,id',
         ]);
 

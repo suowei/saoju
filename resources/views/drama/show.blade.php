@@ -25,7 +25,6 @@
                                     <?php $i++; ?>
                                 @endforeach
                         </ol>
-
                         <div class="carousel-inner" role="listbox">
                             <?php $i = 0; ?>
                                 @foreach($episodes as $episode)
@@ -211,7 +210,7 @@
             @if (Auth::check())
                 <div class="reviews">
                     <h4 class="text-success">我的评论</h4>
-                    @foreach (\App\Review::where('user_id', Auth::id())->where('drama_id', $drama->id)->get() as $review)
+                    @foreach ($userReviews as $review)
                         <div class="review">
                             <div class="review-title">
                                 {{ $review->created_at }}
