@@ -129,8 +129,8 @@ class EpfavController extends Controller
         $episode = Episode::find($episode_id, ['id', 'drama_id', 'title']);
         $drama = Drama::find($episode->drama_id, ['title']);
         $user_id = $request->user()->id;
-        $favorite = Epfav::where('user_id', $user_id)->where('episode_id', $episode_id)->first();
-        $review = Review::where('user_id', $user_id)->where('episode_id', $episode_id)->first();
+        $favorite = Epfav::select('type', 'rating')->where('user_id', $user_id)->where('episode_id', $episode_id)->first();
+        $review = Review::select('title', 'content')->where('user_id', $user_id)->where('episode_id', $episode_id)->first();
         return view('epfav.edit', ['episode' => $episode, 'drama' => $drama, 'favorite' => $favorite, 'review' => $review]);
     }
 

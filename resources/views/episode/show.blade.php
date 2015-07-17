@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', '《'.$episode->drama->title.'》'.$episode->title.' - ')
+@section('title', '《'.$drama->title.'》'.$episode->title.' - ')
 
 @section('meta')
     <meta name="description" content="广播剧《{{ $drama->title }}》{{ $episode->title }}">
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-9">
                 <h3>
-                    《<a href="{{ url('/drama/'.$drama->id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
+                    《<a href="{{ url('/drama/'.$episode->drama_id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
                     @if($episode->alias){{ $episode->alias }}@endif
                 </h3>
                 <p>
@@ -55,7 +55,7 @@
                             <span class="glyphicon glyphicon-pencil"></span> 写评
                         </a>
                     @endif
-                    <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
+                    <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
                         <span class="glyphicon glyphicon-pencil"></span> 写本期评论
                     </a>
                 </p>
@@ -80,7 +80,7 @@
                 @if (Auth::check())
                     <div class="reviews">
                         <h4 class="text-success">我的评论</h4>
-                        @foreach (\App\Review::where('user_id', Auth::id())->where('episode_id', $episode->id)->get() as $review)
+                        @foreach ($userReviews as $review)
                             <div class="review">
                                 <div class="review-title">
                                     <div class="row">

@@ -2,7 +2,6 @@
 
 use App\Epfav;
 use App\Episode;
-use App\Favorite;
 use App\Review;
 use App\History;
 use App\Drama;
@@ -137,7 +136,7 @@ class EpisodeController extends Controller {
                     'dramas.sc as cv')
                 ->orderBy('episodes.'.$params['sort'], $params['order'])->paginate(20);
         }
-        return view('episode.index')->with('params', $params)->withEpisodes($episodes);
+        return view('episode.index', ['params'=> $params, 'episodes' => $episodes]);
 	}
 
 	/**
@@ -148,7 +147,7 @@ class EpisodeController extends Controller {
 	public function create(Request $request)
 	{
         $drama = Drama::find($request->input('drama'), ['id', 'title']);
-        return view('episode.create')->withDrama($drama);
+        return view('episode.create', ['drama' => $drama]);
 	}
 
 	/**
@@ -205,24 +204,32 @@ class EpisodeController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request, $id)
 	{
-        $episode = Episode::find($id);
-        $drama = $episode->drama;
-        $reviews = Review::with('user', 'episode')->where('episode_id', $id)->orderBy('created_at', 'desc')->take(20)->get();
+        $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url', 'sc',
+            'duration', 'poster_url', 'introduction', 'reviews', 'favorites']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        $reviews = Review::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'user_id', 'title', 'content', 'created_at')
+            ->where('episode_id', $id)->orderBy('id', 'desc')->take(20)->get();
         $favorites = Epfav::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('user_id', 'type', 'updated_at')->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        }])->select('user_id', 'type', 'updated_at')
+            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
         if(Auth::check())
         {
-            $favorite = Epfav::where('user_id', Auth::id())->where('episode_id', $id)->first();
+            $user_id = $request->user()->id;
+            $favorite = Epfav::select('type', 'rating')->where('user_id', $user_id)->where('episode_id', $id)->first();
+            $userReviews = Review::select('id', 'title', 'content', 'created_at')
+                ->where('user_id', $user_id)->where('episode_id', $id)->get();
         }
         else
         {
             $favorite = 0;
         }
-        return view('episode.show')->withEpisode($episode)->withDrama($drama)->withReviews($reviews)
-            ->with('favorites', $favorites)->with('favorite', $favorite);
+        return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews,
+            'favorites' => $favorites, 'favorite' => $favorite, 'userReviews' => $userReviews]);
 	}
 
 	/**
@@ -233,12 +240,10 @@ class EpisodeController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $episode = Episode::find($id);
-        $episode->load(['drama' => function($query)
-        {
-            $query->select('id', 'title');
-        }]);
-        return view('episode.edit')->withEpisode($episode);
+        $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url',
+            'sc', 'duration', 'poster_url', 'introduction']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        return view('episode.edit', ['episode' => $episode, 'drama' => $drama]);
 	}
 
 	/**
@@ -262,7 +267,7 @@ class EpisodeController extends Controller {
         $episode = Episode::find($id);
 
         $history = new History;
-        $history->user_id = Auth::id();
+        $history->user_id = $request->user()->id;
         $history->model = 1;
         $history->type = 1;
         $history->model_id = $id;
@@ -343,37 +348,32 @@ class EpisodeController extends Controller {
 
     public function reviews($id)
     {
-        $episode = Episode::with('drama')->find($id);
-        $reviews = Review::with('user')->where('episode_id', $id)->paginate(20);
-        $episode->load(['drama' => function($query)
-        {
-            $query->select('id', 'title');
-        }]);
-        return view('episode.reviews')->withEpisode($episode)->withReviews($reviews);
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        $reviews = Review::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'user_id', 'title', 'content', 'created_at')->where('episode_id', $id)->paginate(20);
+        return view('episode.reviews', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews]);
     }
 
     public function  histories($id)
     {
-        $episode = Episode::find($id);
-        $histories = History::where('model', 1)->where('model_id', $id)->get();
-        $episode->load(['drama' => function($query)
-        {
-            $query->select('id', 'title');
-        }]);
-        return view('episode.histories')->withEpisode($episode)->withHistories($histories);
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        $histories = History::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('user_id', 'type', 'content', 'created_at')->where('model', 1)->where('model_id', $id)->get();
+        return view('episode.histories', ['episode' => $episode, 'drama' => $drama, 'histories' => $histories]);
     }
 
     public function favorites($id)
     {
         $episode = Episode::find($id, ['id', 'drama_id', 'title']);
-        $episode->load(['drama' => function($query)
-        {
-            $query->select('id', 'title');
-        }]);
+        $drama = Drama::find($episode->drama_id, ['title']);
         $favorites = Epfav::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')->where('episode_id', $id)->orderBy('updated_at')->paginate(20);
-        return view('episode.favorites', ['episode' => $episode, 'favorites' => $favorites]);
+        return view('episode.favorites', ['episode' => $episode, 'drama' => $drama, 'favorites' => $favorites]);
     }
 
 }
