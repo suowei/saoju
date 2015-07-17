@@ -24,6 +24,7 @@ return array(
     'CreateTopicsTable' => $baseDir . '/database/migrations/2015_06_15_113302_create_topics_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'DropDeletedAtFromFavoritesTable' => $baseDir . '/database/migrations/2015_07_17_155424_drop_deleted_at_from_favorites_table.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',

@@ -33,18 +33,9 @@ class FavoriteController extends Controller {
             'drama_id' => 'required',
         ]);
 
-        if($favorite = Favorite::onlyTrashed()
-            ->where('user_id', Auth::id())
-            ->where('drama_id', $request->input('drama_id'))->first())
-        {
-            $favorite->restore();
-        }
-        else
-        {
-            $favorite = new Favorite;
-            $favorite->user_id = Auth::id();
-            $favorite->drama_id = $request->input('drama_id');
-        }
+        $favorite = new Favorite;
+        $favorite->user_id = $request->user()->id;
+        $favorite->drama_id = $request->input('drama_id');
         $favorite->type = $request->input('type');
         if($favorite->type == 0)//想听状态下不能评分
         {
@@ -73,18 +64,9 @@ class FavoriteController extends Controller {
             'title' => 'max:255',
         ]);
 
-        if($favorite = Favorite::onlyTrashed()
-            ->where('user_id', $request->user()->id)
-            ->where('drama_id', $request->input('drama_id'))->first())
-        {
-            $favorite->restore();
-        }
-        else
-        {
-            $favorite = new Favorite;
-            $favorite->user_id = $request->user()->id;
-            $favorite->drama_id = $request->input('drama_id');
-        }
+        $favorite = new Favorite;
+        $favorite->user_id = $request->user()->id;
+        $favorite->drama_id = $request->input('drama_id');
         $favorite->type = $request->input('type');
         if($favorite->type == 0)//想听状态下不能评分
         {
@@ -126,10 +108,10 @@ class FavoriteController extends Controller {
 
     public function edit(Request $request, $drama_id)
     {
-        $user_id = $request->user()->id;
-        $favorite = Favorite::where('user_id', $user_id)->where('drama_id', $drama_id)->first();
-        $review = Review::where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
         $drama = Drama::find($drama_id, ['id', 'title']);
+        $user_id = $request->user()->id;
+        $favorite = Favorite::select('type', 'rating')->where('user_id', $user_id)->where('drama_id', $drama_id)->first();
+        $review = Review::select('title', 'content')->where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
         return view('favorite.edit', ['drama' => $drama, 'favorite' => $favorite, 'review' => $review]);
     }
 
@@ -141,7 +123,7 @@ class FavoriteController extends Controller {
         ]);
 
         $favorite = Favorite::find($id);
-        if($favorite->user_id == Auth::id())
+        if($favorite->user_id == $request->user()->id)
         {
             $oldType = $favorite->type;
             $favorite->type = $request->input('type');
@@ -222,10 +204,10 @@ class FavoriteController extends Controller {
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $favorite = Favorite::find($id);
-        if($favorite->user_id == Auth::id())
+        if($favorite->user_id == $request->user()->id)
         {
             if($favorite->delete())
             {
