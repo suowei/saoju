@@ -227,6 +227,7 @@ class EpisodeController extends Controller {
         else
         {
             $favorite = 0;
+            $userReviews = 0;
         }
         return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews,
             'favorites' => $favorites, 'favorite' => $favorite, 'userReviews' => $userReviews]);

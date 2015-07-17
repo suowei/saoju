@@ -247,6 +247,7 @@ class DramaController extends Controller {
         else
         {
             $favorite = 0;
+            $userReviews = 0;
         }
         return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
             'favorites' => $favorites, 'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
