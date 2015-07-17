@@ -33,6 +33,13 @@
                             <input type="hidden" name="drama_id" value="{{ $drama->id }}">
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label">发布地址</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="url" value="{{ old('url') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-4 control-label">分集标题</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="title" required="required" placeholder="必填，如预告、第一期、番外等" value="{{ old('title') }}">
@@ -47,16 +54,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">发布日期</label>
+                                <label class="col-md-4 control-label">海报地址</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="release_date" placeholder="必填，形如2015-05-28" value="{{ old('release_date') }}" required="required">
+                                    <input type="text" class="form-control" name="poster_url" value="{{ old('poster_url') }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">发布地址</label>
+                                <label class="col-md-4 control-label">本集简介</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="url" value="{{ old('url') }}">
+                                    <textarea class="form-control" name="introduction" rows="5">{{ old('introduction') }}</textarea>
                                 </div>
                             </div>
 
@@ -76,16 +83,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">海报地址</label>
+                                <label class="col-md-4 control-label">发布日期</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="poster_url" value="{{ old('poster_url') }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">本集简介</label>
-                                <div class="col-md-6">
-                                    <textarea class="form-control" name="introduction" rows="5">{{ old('introduction') }}</textarea>
+                                    <input type="text" class="form-control" name="release_date" placeholder="必填，形如2015-05-28" value="{{ old('release_date') }}" required="required">
                                 </div>
                             </div>
 
