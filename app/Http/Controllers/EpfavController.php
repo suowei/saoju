@@ -234,7 +234,7 @@ class EpfavController extends Controller
         if($result)
         {
             DB::table('users')->where('id', $user_id)->decrement('epfav'.$favorite->type);
-            DB::table('dramas')->where('id', $episode_id)->decrement('favorites');
+            DB::table('episodes')->where('id', $episode_id)->decrement('favorites');
         }
         return redirect()->back();
     }
