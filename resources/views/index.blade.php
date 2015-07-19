@@ -7,13 +7,6 @@
 
 @section('content')
     <div class="container">
-        <a href="{{ url('/bbs/topic/29') }}" target="_blank">
-            <div class="jumbotron" style="color: #ffffff;background-color: #ce4646;">
-                <h2>网站满月啦！</h2>
-                <p>2015.6.16 - 2015.7.16 感谢大家一个月以来的支持。欢迎常来玩，有惊喜掉落哦~</p>
-                <p><button class="btn btn-default btn-lg" style="color: #ffffff;background-color: transparent;">领取勋章</button></p>
-            </div>
-        </a>
         <div class="row">
             <div class="col-md-9">
                 <p class="text-muted">
