@@ -62,3 +62,5 @@ Route::group(['prefix' => 'bbs'], function()
     Route::resource('topic', 'TopicController');
     Route::resource('comment', 'CommentController');
 });
+
+Route::resource('club', 'ClubController');

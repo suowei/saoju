@@ -288,8 +288,13 @@
             </div>
             <div class="col-md-3">
                 <h4>
-                    <a style="color:red;" href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
+                    <a href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
                         <span class="glyphicon glyphicon-link"></span><strong>2015年YS发剧统计半年版</strong>
+                    </a>
+                </h4>
+                <h4>
+                    <a style="color:red;" href="http://weibo.com/2304976825/Ctei24nej" target="_blank">
+                        <span class="glyphicon glyphicon-link"></span><strong>2014年YS出剧清单及盘点</strong>
                     </a>
                 </h4>
                 <p>
@@ -320,11 +325,18 @@
                         <span class="glyphicon glyphicon-comment"></span> 查看全部评论
                     </a>
                 </p>
+                <p>
+                    <a class="btn btn-danger btn-xs" href="{{ url('/club') }}" target="_blank">
+                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
+                    </a>
+                </p>
                 <p class="text-info">
                     <span class="glyphicon glyphicon-hand-down"></span> 意见建议捉虫反馈看这里
                 </p>
                 <p>
-                    <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">留言板</a>
+                    <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
+                        <span class="glyphicon glyphicon-send"></span> 留言板
+                    </a>
                 </p>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
