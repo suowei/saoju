@@ -49,7 +49,7 @@
                     <li><a href="{{ url('/drama?type=0') }}"><span class="glyphicon glyphicon-film"></span> 剧集列表</a></li>
                     <li><a href="{{ url('/episode?type=0') }}"><span class="glyphicon glyphicon-facetime-video"></span> 分集列表</a></li>
                     <li><a href="{{ url('/review') }}"><span class="glyphicon glyphicon-comment"></span> 评论列表</a></li>
-                    <li><a href="{{ url('/drama/create') }}"><span class="glyphicon glyphicon-plus"></span> 添加剧集</a></li>
+                    <li><a href="{{ url('/sc') }}"><span class="glyphicon glyphicon-camera"></span> SC列表</a></li>
 
 					@if (Auth::guest())
 						<li><a href="{{ url('/auth/login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>

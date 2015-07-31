@@ -64,3 +64,5 @@ Route::group(['prefix' => 'bbs'], function()
 });
 
 Route::resource('club', 'ClubController');
+
+Route::resource('sc', 'ScController');

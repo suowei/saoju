@@ -59,14 +59,15 @@
         tinymce.init({
             selector: "#richtext",
             plugins: [
-                "autosave link image lists hr code fullscreen table textcolor colorpicker"
+                "autosave link image lists hr code fullscreen table textcolor colorpicker preview"
             ],
             table_default_attributes: {
                 border: 1
             },
             toolbar1: "bold italic underline removeformat | fontselect | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify",
-            toolbar2: "formatselect | indent outdent blockquote | table | bullist numlist | link image hr | fullscreen code",
+            toolbar2: "formatselect | indent outdent blockquote | table | bullist numlist | link image hr | preview fullscreen code",
             menubar: false,
+            forced_root_block: false,
             font_formats: "宋体=宋体;微软雅黑=微软雅黑;楷体=楷体;黑体=黑体;隶书=隶书;"+
                 "Arial=Arial;Arial Black=Arial Black;Comic Sans MS=Comic Sans MS;Courier New=Courier New;"+
                 "Helvetica=Helvetica;Impact=Impact;Tahoma=Tahoma;Times New Roman=Times New Roman;Verdana=Verdana",

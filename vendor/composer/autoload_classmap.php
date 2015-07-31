@@ -22,6 +22,7 @@ return array(
     'CreatePlaylistsTable' => $baseDir . '/database/migrations/2015_07_03_145151_create_playlists_table.php',
     'CreateRepliesTable' => $baseDir . '/database/migrations/2015_06_11_085334_create_replies_table.php',
     'CreateReviewsTable' => $baseDir . '/database/migrations/2015_06_01_153613_create_reviews_table.php',
+    'CreateScsTable' => $baseDir . '/database/migrations/2015_07_31_161755_create_scs_table.php',
     'CreateTopicsTable' => $baseDir . '/database/migrations/2015_06_15_113302_create_topics_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

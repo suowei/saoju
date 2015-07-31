@@ -311,7 +311,7 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
+                    <a class="btn btn-success btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
                         <span class="glyphicon glyphicon-film"></span> 查看全部剧集
                     </a>
                 </p>
@@ -326,8 +326,13 @@
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-danger btn-xs" href="{{ url('/club') }}" target="_blank">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/club') }}" target="_blank">
                         <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
+                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
                     </a>
                 </p>
                 <p class="text-info">

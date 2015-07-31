@@ -2,6 +2,10 @@ body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
     font-family: "Microsoft Yahei", 微软雅黑, "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+    padding: 10px;
+}
+
 a:hover {
     text-decoration: none;
     background-color: #337ab6;
