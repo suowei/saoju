@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScsTable extends Migration
+class CreateScrevsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateScsTable extends Migration
      */
     public function up()
     {
-        Schema::create('scs', function (Blueprint $table) {
+        Schema::create('screvs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('alias')->nullable();
-            $table->integer('club_id')->unsigned();
-            $table->string('jobs')->nullable();
-            $table->text('information')->nullable();
+            $table->tinyInteger('model');
+            $table->integer('model_id');
             $table->integer('user_id')->unsigned();
-            $table->integer('reviews')->default(0);
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('title')->nullable();
+            $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateScsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('scs');
+        Schema::drop('screvs');
     }
 }

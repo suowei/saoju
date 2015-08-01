@@ -1,13 +1,13 @@
 @extends('app')
 
-@section('title', '添加SC - ')
+@section('title', '编辑'.$sc->name.'的信息 - ')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">添加SC信息</div>
+                    <div class="panel-heading">编辑{{ $sc->name }}的信息</div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
@@ -20,27 +20,28 @@
                             </div>
                         @endif
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/sc') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/sc/'.$sc->id) }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
+                            <input type="hidden" name="_method" value="PUT">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">ID</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required="required">
+                                    <input type="text" class="form-control" name="name" value="{{ $sc->name }}" required="required">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">马甲或昵称</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="alias" value="{{ old('alias') }}">
+                                    <input type="text" class="form-control" name="alias" value="{{ $sc->alias }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">社团</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="typeahead form-control" name="club" placeholder="搜索社团、工作室" value="{{ old('club') }}">
+                                    <input type="text" class="typeahead form-control" name="club" placeholder="搜索社团、工作室" value="{{ $sc->club->name or '' }}">
                                     &nbsp;如未搜到，可先不填留待以后修改，或先<a href="{{ url('/club') }}" target="_blank">添加</a>再填写。
                                 </div>
                             </div>
@@ -48,41 +49,41 @@
                             <div class="form-group" id="jobs">
                                 <label class="col-md-2 control-label">职位</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="jobs" placeholder="点击下面的复选框选择职位，点击顺序影响显示顺序，请先点击该SC主要担任职位" readonly>
+                                    <input type="text" class="form-control" name="jobs" value="{{ $sc->jobs }}" placeholder="点击下面的复选框选择职位，点击顺序影响显示顺序，请先点击该SC主要担任职位" readonly>
                                 </div>
                                 <div class="col-md-10 col-md-offset-2">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="0"> CV
+                                        <input type="checkbox" name="job[]" value="0" @if(isset($job[0])) checked @endif> CV
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="1"> 策划
+                                        <input type="checkbox" name="job[]" value="1" @if(isset($job[1])) checked @endif> 策划
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="2"> 导演
+                                        <input type="checkbox" name="job[]" value="2" @if(isset($job[2])) checked @endif> 导演
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="3"> 编剧
+                                        <input type="checkbox" name="job[]" value="3" @if(isset($job[3])) checked @endif> 编剧
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="4"> 后期
+                                        <input type="checkbox" name="job[]" value="4" @if(isset($job[4])) checked @endif> 后期
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="5"> 美工
+                                        <input type="checkbox" name="job[]" value="5" @if(isset($job[5])) checked @endif> 美工
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="6"> 宣传
+                                        <input type="checkbox" name="job[]" value="6" @if(isset($job[6])) checked @endif> 宣传
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="7"> 填词
+                                        <input type="checkbox" name="job[]" value="7" @if(isset($job[7])) checked @endif> 填词
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="8"> 歌后
+                                        <input type="checkbox" name="job[]" value="8" @if(isset($job[8])) checked @endif> 歌后
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="9"> 作者
+                                        <input type="checkbox" name="job[]" value="9" @if(isset($job[9])) checked @endif> 作者
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="job[]" value="10"> 歌手
+                                        <input type="checkbox" name="job[]" value="10" @if(isset($job[10])) checked @endif> 歌手
                                     </label>
                                 </div>
                             </div>
@@ -90,7 +91,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">SC信息</label>
                                 <div class="col-md-9">
-                                    <textarea class="form-control" id="richtext" name="information" rows="15">{{ old('information') }}</textarea>
+                                    <textarea class="form-control" id="richtext" name="information" rows="15">{{ $sc->information }}</textarea>
                                 </div>
                             </div>
 

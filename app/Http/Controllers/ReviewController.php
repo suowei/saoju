@@ -110,7 +110,6 @@ class ReviewController extends Controller {
         $review = Review::find($id);
         if(!$review)
             return redirect()->to('/');
-        $replies = Reply::where('review_id', $id)->get();
         $review->load(['user' => function($query)
         {
             $query->select('id', 'name');
@@ -126,7 +125,7 @@ class ReviewController extends Controller {
                 $query->select('id', 'title');
             }]);
         }
-        return view('review.show')->withReview($review)->withReplies($replies);
+        return view('review.show')->withReview($review);
 	}
 
 	/**

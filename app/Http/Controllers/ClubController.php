@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Club;
+use App\Sc;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -10,10 +11,35 @@ use App\Http\Controllers\Controller;
 
 class ClubController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        $clubs = Club::select('id', 'name')->get();
-        return view('club.index', ['clubs' => $clubs]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
+    }
+
+    public function index(Request $request)
+    {
+        //传递给视图的url参数
+        $params = $request->except('page');
+        //排序
+        if($request->has('sort'))
+        {
+            $params['sort'] = $request->input('sort');
+        }
+        else
+        {
+            $params['sort'] = 'id';
+        }
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
+        else
+        {
+            $params['order'] = 'desc';
+        }
+        $clubs = Club::select('id', 'name')
+            ->orderBy($params['sort'], $params['order'])->paginate(50);
+        return view('club.index', ['params' => $params, 'clubs' => $clubs]);
     }
 
     public function create()
@@ -44,7 +70,8 @@ class ClubController extends Controller
     public function show($id)
     {
         $club = Club::find($id, ['id', 'name', 'information']);
-        return view('club.show', ['club' => $club]);
+        $scs = Sc::select('id', 'name')->where('club_id', $id)->get();
+        return view('club.show', ['club' => $club, 'scs' => $scs]);
     }
 
     public function edit($id)
@@ -76,5 +103,11 @@ class ClubController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $clubs = Club::select('name')->where('name', 'LIKE', '%'.$request->input('q').'%')->get();
+        return $clubs;
     }
 }
