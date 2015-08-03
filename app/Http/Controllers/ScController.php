@@ -179,10 +179,10 @@ class ScController extends Controller
         {
             //获取sc当前job数组
             $jobs = DB::table('sc_job')->select('job_id')->where('sc_id', $id)->get();
-            $job = [];
+            $job_old = [];
             foreach($jobs as $row)
             {
-                $job[$row->job_id] = 1;
+                $job_old[$row->job_id] = 1;
             }
             //获取输入job数组
             $job_input = [];
@@ -198,11 +198,11 @@ class ScController extends Controller
             $removes = [];
             for($i = 0; $i <= 10; $i++)
             {
-                if(isset($job_input[$i]) && !isset($job[$i]))
+                if(isset($job_input[$i]) && !isset($job_old[$i]))
                 {
                     $adds[] = ['sc_id' => $id, 'job_id' => $i];//若输入有，原来没有，则添加职位
                 }
-                else if(isset($job[$i]) && !isset($job_input[$i]))
+                else if(isset($job_old[$i]) && !isset($job_input[$i]))
                 {
                     $removes[] = $i;//若原来有，输入没有，则删除职位
                 }

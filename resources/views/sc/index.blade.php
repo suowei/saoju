@@ -118,7 +118,7 @@
                     @foreach($scs as $sc)
                         <div class="drama">
                             <a href="{{ url('/sc/'.$sc->id) }}" target="_blank">{{ $sc->name }}</a>
-                            <span class="text-muted">{{ $sc->alias }} {{ $sc->club->name or '' }} {{ $sc->jobs }}</span>
+                            <span class="text-muted">{{ $sc->alias }}；{{ $sc->club->name or '' }}；{{ $sc->jobs }}</span>
                         </div>
                     @endforeach
                 </div>

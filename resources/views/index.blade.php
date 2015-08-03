@@ -353,6 +353,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a style="color:red;" href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
+                            SC、社团功能上线
+                        </a>
                         <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
                             部分页面添加微博分享按钮
                         </a>
