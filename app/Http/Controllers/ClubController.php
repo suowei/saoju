@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Club;
 use App\Sc;
+use App\Screv;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ClubController extends Controller
 {
@@ -38,7 +40,7 @@ class ClubController extends Controller
             $params['order'] = 'desc';
         }
         $clubs = Club::select('id', 'name')
-            ->orderBy($params['sort'], $params['order'])->paginate(50);
+            ->orderBy($params['sort'], $params['order'])->paginate(250);
         return view('club.index', ['params' => $params, 'clubs' => $clubs]);
     }
 
@@ -67,11 +69,24 @@ class ClubController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $club = Club::find($id, ['id', 'name', 'information']);
+        $club = Club::find($id, ['id', 'name', 'information', 'reviews']);
         $scs = Sc::select('id', 'name')->where('club_id', $id)->get();
-        return view('club.show', ['club' => $club, 'scs' => $scs]);
+        $reviews = Screv::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'user_id', 'title', 'content', 'created_at')
+            ->where('model_id', $id)->where('model', 1)->orderBy('id', 'desc')->take(20)->get();
+        if(Auth::check())
+        {
+            $userReviews = Screv::select('id', 'title', 'content', 'created_at')
+                ->where('user_id', $request->user()->id)->where('model_id', $id)->where('model', 1)->get();
+        }
+        else
+        {
+            $userReviews = 0;
+        }
+        return view('club.show', ['club' => $club, 'scs' => $scs, 'reviews' => $reviews, 'userReviews' => $userReviews]);
     }
 
     public function edit($id)

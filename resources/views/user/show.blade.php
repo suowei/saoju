@@ -160,7 +160,7 @@
                             {{ $review->title }}
                             <span class="pull-right">
                                 <a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a>
-                                @if(Auth::id() == $user->id)
+                                @if(Auth::check() && Auth::id() == $user->id)
                                     <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
                                     <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/review/'.$review->id) }}">删除</a>
                                 @endif
@@ -169,41 +169,34 @@
                         <div class="review-content">{{ $review->content }}</div>
                     </div>
                 @endforeach
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> SC、社团印象
+                    <a href="{{ url('/user/'.$user->id.'/screvs') }}" target="_blank">{{ $user->screvs }}篇</a>
+                </h4>
+                @foreach ($screvs as $review)
+                    <div class="review">
+                        <div class="review-title">
+                            @if($review->model)
+                                <a href="{{ url('/club/'.$review->model_id) }}" target="_blank">{{ $review->club_name }}</a>
+                            @else
+                                <a href="{{ url('/sc/'.$review->model_id) }}" target="_blank">{{ $review->sc_name }}</a>
+                            @endif
+                            {{ $review->created_at }}
+                            {{ $review->title }}
+                            <span class="pull-right">
+                                <a href="{{ url('/screv/'.$review->id) }}" target="_blank">查看</a>
+                                @if(Auth::check() && Auth::id() == $user->id)
+                                    <a class="text-muted" href="{{ url('/screv/'.$review->id.'/edit') }}">修改</a>
+                                    <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/screv/'.$review->id) }}">删除</a>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="review-content">{{ $review->content }}</div>
+                    </div>
+                @endforeach
             </div>
             <div class="col-md-3">
-                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-                <h5 class="text-info">以下勋章仅代表网站态度，<br>与谦逊的用户本人无关……</h5>
-                @if($user->reviews > 100)
-                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧大师</h3>
-                @elseif($user->reviews > 50)
-                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧专家</h3>
-                @elseif($user->reviews > 10)
-                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧精英</h3>
-                @elseif($user->reviews > 0)
-                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 扫剧新星</h3>
-                @endif
-                    @if(($favcount = $user->favorite1 + $user->favorite2) > 200)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 听遍中抓无敌</h3>
-                    @elseif($favcount > 100)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深听众</h3>
-                    @elseif($favcount > 20)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 听剧小能手</h3>
-                    @elseif($favcount > 0)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓听众</h3>
-                    @endif
-                    @if(($addcount = \App\History::where('user_id', $user->id)->where('type', 0)->count()) > 50)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小飞机</h3>
-                    @elseif($addcount > 25)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小火车</h3>
-                    @elseif($addcount > 5)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小汽车</h3>
-                    @elseif($addcount > 0)
-                        <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小马车</h3>
-                    @endif
-                @if($user->reviews == 0 && $favcount == 0 && $addcount == 0)
-                    <h3 style="color: #ce4646;text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深围观党</h3>
-                @endif
-                <br>
+                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
                 @if(Auth::check() && Auth::id() == $user->id)
                     <h4 class="text-warning">修改信息请点击名字<span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></h4>
                     <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>也行</h5>
@@ -220,6 +213,11 @@
                     <p>
                         <a class="btn btn-primary btn-xs" href="{{ url('/user/export/reviews') }}">
                             <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有评论
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-info btn-xs" href="{{ url('/user/export/screvs') }}">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有SC、社团印象
                         </a>
                     </p>
                     <p class="text-danger">

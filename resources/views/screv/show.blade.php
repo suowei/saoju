@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', $review->user->name.'评论'.$model->name.' - ')
+@section('title', $review->user->name.'对'.$model->name.'的印象 - ')
 
 @section('content')
     <div class="container">
@@ -8,8 +8,9 @@
             <div class="col-md-9">
                 <h4>
                     <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a>
-                    评论
+                    对
                     <a href="{{ url('/'.($review->model ? 'club' : 'sc').'/'.$review->model_id) }}">{{ $model->name }}</a>
+                    的印象
                 </h4>
                 <div class="review-show">
                     <h3>{{ $review->title }}</h3>

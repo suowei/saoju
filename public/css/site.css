@@ -24,8 +24,13 @@ a:hover {
     color: #573e7d;
 }
 
-#navbarSearch {
-    width: 250px;
+#navbarSelect {
+    font-size: 14px;
+    margin-right: -1px;
+    padding: 5px 0 6px 6px;
+    border: 1px solid #ccc;
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
 }
 
 #toTop {
@@ -132,7 +137,6 @@ a:hover {
     padding: 8px 0;
     background-color: #fff;
     border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;

@@ -311,7 +311,7 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
                         <span class="glyphicon glyphicon-film"></span> 查看全部剧集
                     </a>
                 </p>
@@ -326,13 +326,18 @@
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/club') }}" target="_blank">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
+                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
                         <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
-                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
+                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
+                        <span class="glyphicon glyphicon-comment"></span> 查看SC、社团印象
                     </a>
                 </p>
                 <p class="text-info">
@@ -353,12 +358,6 @@
                         </a>
                         <a href="{{ url('/bbs/topic/27') }}" class="list-group-item" target="_blank">
                             简单删除功能上线，可删除自己添加的剧集和分集
-                        </a>
-                        <a href="{{ url('/bbs/topic/25') }}" class="list-group-item" style="color: red;" target="_blank">
-                            分集收藏功能上线以及添加“收藏并写评”链接
-                        </a>
-                        <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" target="_blank">
-                            个人收藏和评论导出功能上线
                         </a>
                     </div>
                 </div>

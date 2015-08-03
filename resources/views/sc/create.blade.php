@@ -90,6 +90,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">SC信息</label>
                                 <div class="col-md-9">
+                                    <p>请填写作品列表等：</p>
                                     <textarea class="form-control" id="richtext" name="information" rows="15">{{ old('information') }}</textarea>
                                 </div>
                             </div>

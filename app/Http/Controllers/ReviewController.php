@@ -202,7 +202,6 @@ class ReviewController extends Controller {
                 DB::table('dramas')->where('id', $review->drama_id)->decrement('reviews');
                 if($review->episode_id)
                     DB::table('episodes')->where('id', $review->episode_id)->decrement('reviews');
-                Reply::where('review_id', $id)->delete();
             }
         }
         return redirect()->back();

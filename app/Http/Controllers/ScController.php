@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Club;
 use App\Sc;
+use App\Screv;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ScController extends Controller
@@ -113,14 +115,27 @@ class ScController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'information']);
+        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'information', 'reviews']);
         $sc->load(['club' => function($query)
         {
             $query->select('id', 'name');
         }]);
-        return view('sc.show', ['sc' => $sc]);
+        $reviews = Screv::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'user_id', 'title', 'content', 'created_at')
+            ->where('model_id', $id)->where('model', 0)->orderBy('id', 'desc')->take(20)->get();
+        if(Auth::check())
+        {
+            $userReviews = Screv::select('id', 'title', 'content', 'created_at')
+                ->where('user_id', $request->user()->id)->where('model_id', $id)->where('model', 0)->get();
+        }
+        else
+        {
+            $userReviews = 0;
+        }
+        return view('sc.show', ['sc' => $sc, 'reviews' => $reviews, 'userReviews' => $userReviews]);
     }
 
     public function edit($id)

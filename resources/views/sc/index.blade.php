@@ -101,13 +101,13 @@
                     @if($params['sort'] == 'reviews')
                         <strong>
                             @if($params['order'] == 'asc')
-                                <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                                <a href="{{ $url.'sort=reviews&order=desc' }}">印象数量<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
                             @else
-                                <a href="{{ $url.'sort=reviews&order=asc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                                <a href="{{ $url.'sort=reviews&order=asc' }}">印象数量<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
                             @endif
                         </strong>
                     @else
-                        <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
+                        <a href="{{ $url.'sort=reviews&order=desc' }}">印象数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
                     @endif
                     <span class="pull-right">
                         共{{ $scs->total() }}位SC&nbsp;&nbsp;
