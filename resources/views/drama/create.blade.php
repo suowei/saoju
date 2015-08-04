@@ -129,13 +129,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">主役CV</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="必填" name="sc" value="{{ old('sc') }}" required="required">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">海报地址</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="poster_url" value="{{ old('poster_url') }}">
@@ -146,6 +139,13 @@
                             <label class="col-md-4 control-label">剧情简介</label>
                             <div class="col-md-6">
                                 <textarea class="form-control" name="introduction" rows="5">{{ old('introduction') }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">主役CV</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="必填" name="sc" value="{{ old('sc') }}" required="required">
                             </div>
                         </div>
 

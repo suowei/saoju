@@ -18,6 +18,9 @@
                         <span class="pull-left">
                             《<a href="{{ url('/drama/'.$favorite->episode->drama_id) }}" target="_blank">{{ $favorite->episode->drama_title }}</a>》<a href="{{ url('/episode/'.$favorite->episode_id) }}" target="_blank">{{ $favorite->episode->title }}</a>
                         &nbsp;</span>
+                        @if($type == 0)
+                            {{ $favorite->episode->cv }}；{{ $favorite->episode->duration }}分钟
+                        @endif
                         <span class="pull-left">
                             @if($favorite->rating != 0)
                                 <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>

@@ -26,12 +26,14 @@ Route::group(['middleware' => 'auth'], function()
     Route::put('/user/updatePassword', ['as' => 'user.updatPassword', 'uses' => 'UserController@updatePassword']);
     Route::get('/user/export/reviews', ['as' => 'user.export.reviews', 'uses' => 'UserController@exportReviews']);
     Route::get('/user/export/favorites', ['as' => 'user.export.favorites', 'uses' => 'UserController@exportFavorites']);
+    Route::get('/user/export/screvs', ['as' => 'user.export.screvs', 'uses' => 'UserController@exportScrevs']);
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
 Route::get('/user/{id}/epfavs/{type}', ['as' => 'user.epfavs', 'uses' => 'UserController@epfavs']);
 Route::get('/user/{id}/favorites/{type}', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
 Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserController@reviews']);
+Route::get('/user/{id}/screvs', ['as' => 'user.screvs', 'uses' => 'UserController@screvs']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
@@ -62,3 +64,10 @@ Route::group(['prefix' => 'bbs'], function()
     Route::resource('topic', 'TopicController');
     Route::resource('comment', 'CommentController');
 });
+
+Route::get('/club/search', 'ClubController@search');
+Route::resource('club', 'ClubController');
+
+Route::resource('sc', 'ScController');
+
+Route::resource('screv', 'ScrevController');

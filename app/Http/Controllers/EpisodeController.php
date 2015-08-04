@@ -17,7 +17,7 @@ class EpisodeController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
 	/**
@@ -227,6 +227,7 @@ class EpisodeController extends Controller {
         else
         {
             $favorite = 0;
+            $userReviews = 0;
         }
         return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews,
             'favorites' => $favorites, 'favorite' => $favorite, 'userReviews' => $userReviews]);

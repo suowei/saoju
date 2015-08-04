@@ -2,6 +2,7 @@
 
 use App\Epfav;
 use App\Review;
+use App\Screv;
 use App\User;
 use App\Favorite;
 
@@ -14,7 +15,9 @@ class UserController extends Controller {
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::find($id, ['id', 'name', 'introduction', 'reviews',
+            'favorite0', 'favorite1', 'favorite2', 'favorite3', 'favorite4',
+            'epfav0', 'epfav2', 'epfav4', 'screvs', 'created_at']);
         $epfavs = [];
         for($type = 0; $type <= 4; $type+=2)
         {
@@ -27,12 +30,37 @@ class UserController extends Controller {
         $favorites = [];
         for($type = 0; $type <= 4; $type++)
         {
-            $favorites[$type] = Favorite::with('drama')
+            $favorites[$type] = Favorite::with(['drama' => function($query)
+            {
+                $query->select('id', 'title', 'poster_url');
+            }])
                 ->where('user_id', $id)->where('type', $type)
                 ->orderBy('updated_at', 'desc')->take(6)->get();
         }
-        $reviews = Review::with('drama')->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
-        return view('user.show')->withUser($user)->with('epfavs', $epfavs)->with('favorites', $favorites)->withReviews($reviews);
+        $reviews = Review::with(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        },
+            'episode' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
+        $screvs = Screv::leftJoin('scs', function($join)
+        {
+            $join->on('screvs.model_id', '=', 'scs.id')
+                ->where('screvs.model', '=', 0);
+        })
+            ->leftJoin('clubs', function($join)
+            {
+                $join->on('screvs.model_id', '=', 'clubs.id')
+                    ->where('screvs.model', '=', 1);
+            })
+            ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
+            ->where('screvs.user_id', $id)
+            ->orderBy('id', 'desc')->take(6)->get();
+        return view('user.show', ['user' => $user, 'epfavs' => $epfavs,
+            'favorites' => $favorites, 'reviews' => $reviews, 'screvs' => $screvs]);
     }
 
     public function edit()
@@ -121,7 +149,8 @@ class UserController extends Controller {
         $favorites = Epfav::with(['episode' => function($query)
         {
             $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
-                ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title');
+                ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title',
+                    'dramas.sc as cv', 'episodes.duration as duration');
         }])->select('episode_id', 'type', 'rating')->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
         return view('user.epfavs', ['user' => $user, 'type' => $type, 'favorites' => $favorites, 'sort' => $sort]);
     }
@@ -130,6 +159,25 @@ class UserController extends Controller {
     {
         $reviews = Review::where('user_id', $id)->paginate(20);
         return view('user.reviews')->withUser(User::find($id))->withReviews($reviews);
+    }
+
+    public function screvs($id)
+    {
+        $user = User::find($id, ['id', 'name']);
+        $reviews = Screv::leftJoin('scs', function($join)
+        {
+            $join->on('screvs.model_id', '=', 'scs.id')
+                ->where('screvs.model', '=', 0);
+        })
+            ->leftJoin('clubs', function($join)
+            {
+                $join->on('screvs.model_id', '=', 'clubs.id')
+                    ->where('screvs.model', '=', 1);
+            })
+            ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
+            ->where('screvs.user_id', $id)
+            ->orderBy('id', 'desc')->paginate(20);
+        return view('user.screvs', ['user' => $user, 'reviews' => $reviews]);
     }
 
     public function exportReviews()
@@ -190,6 +238,36 @@ class UserController extends Controller {
         $headers = array(
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="favorites.csv"',
+        );
+        return response($str, 200, $headers);
+    }
+
+    public function exportScrevs()
+    {
+        $reviews = Screv::leftJoin('scs', function($join)
+        {
+            $join->on('screvs.model_id', '=', 'scs.id')
+                ->where('screvs.model', '=', 0);
+        })
+            ->leftJoin('clubs', function($join)
+            {
+                $join->on('screvs.model_id', '=', 'clubs.id')
+                    ->where('screvs.model', '=', 1);
+            })
+            ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
+            ->where('screvs.user_id', Auth::id())->orderBy('screvs.id')->get();
+        $str = "\xEF\xBB\xBF属性,名称,标题,内容,发表时间,更新时间\n";
+        foreach($reviews as $review)
+        {
+            $str .= ($review->model ? '社团' : 'SC')
+                .",".($review->model ? $review->club_name : $review->sc_name)
+                .",\"".str_replace("\"", "\"\"", $review->title)
+                ."\",\"".str_replace("\"", "\"\"", $review->content)."\","
+                .$review->created_at.",".$review->updated_at."\n";
+        }
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="screvs.csv"',
         );
         return response($str, 200, $headers);
     }

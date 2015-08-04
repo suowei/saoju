@@ -175,7 +175,7 @@
                     $url = url('/drama?');
                     foreach($params as $key => $value)
                     {
-                        if($key != 'sort')
+                        if($key != 'sort' && $key != 'order')
                             $url .= $key.'='.$value.'&';
                     }
                 ?>

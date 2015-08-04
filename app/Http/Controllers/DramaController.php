@@ -19,7 +19,7 @@ class DramaController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
 	/**
@@ -247,6 +247,7 @@ class DramaController extends Controller {
         else
         {
             $favorite = 0;
+            $userReviews = 0;
         }
         return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
             'favorites' => $favorites, 'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
