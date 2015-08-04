@@ -288,8 +288,13 @@
             </div>
             <div class="col-md-3">
                 <h4>
-                    <a style="color:red;" href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
+                    <a href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
                         <span class="glyphicon glyphicon-link"></span><strong>2015年YS发剧统计半年版</strong>
+                    </a>
+                </h4>
+                <h4>
+                    <a style="color:red;" href="http://weibo.com/2304976825/Ctei24nej" target="_blank">
+                        <span class="glyphicon glyphicon-link"></span><strong>2014年YS出剧清单及盘点</strong>
                     </a>
                 </h4>
                 <p>
@@ -320,28 +325,42 @@
                         <span class="glyphicon glyphicon-comment"></span> 查看全部评论
                     </a>
                 </p>
+                <p>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
+                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
+                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
+                        <span class="glyphicon glyphicon-comment"></span> 查看SC、社团印象
+                    </a>
+                </p>
                 <p class="text-info">
                     <span class="glyphicon glyphicon-hand-down"></span> 意见建议捉虫反馈看这里
                 </p>
                 <p>
-                    <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">留言板</a>
+                    <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
+                        <span class="glyphicon glyphicon-send"></span> 留言板
+                    </a>
                 </p>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a style="color:red;" href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
+                            SC、社团功能上线
+                        </a>
                         <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
                             部分页面添加微博分享按钮
                         </a>
                         <a href="{{ url('/bbs/topic/27') }}" class="list-group-item" target="_blank">
                             简单删除功能上线，可删除自己添加的剧集和分集
-                        </a>
-                        <a href="{{ url('/bbs/topic/25') }}" class="list-group-item" style="color: red;" target="_blank">
-                            分集收藏功能上线以及添加“收藏并写评”链接
-                        </a>
-                        <a href="{{ url('/bbs/topic/21') }}" class="list-group-item" target="_blank">
-                            个人收藏和评论导出功能上线
                         </a>
                     </div>
                 </div>

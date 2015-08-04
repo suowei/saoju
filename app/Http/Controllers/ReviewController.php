@@ -110,7 +110,6 @@ class ReviewController extends Controller {
         $review = Review::find($id);
         if(!$review)
             return redirect()->to('/');
-        $replies = Reply::where('review_id', $id)->get();
         $review->load(['user' => function($query)
         {
             $query->select('id', 'name');
@@ -126,7 +125,7 @@ class ReviewController extends Controller {
                 $query->select('id', 'title');
             }]);
         }
-        return view('review.show')->withReview($review)->withReplies($replies);
+        return view('review.show')->withReview($review);
 	}
 
 	/**
@@ -203,7 +202,6 @@ class ReviewController extends Controller {
                 DB::table('dramas')->where('id', $review->drama_id)->decrement('reviews');
                 if($review->episode_id)
                     DB::table('episodes')->where('id', $review->episode_id)->decrement('reviews');
-                Reply::where('review_id', $id)->delete();
             }
         }
         return redirect()->back();

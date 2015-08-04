@@ -41,24 +41,36 @@
                 @endif
 
                 <form class="navbar-form navbar-left" role="search" method="GET" action="{{ url('/search') }}">
-                    <input type="text" class="form-control" id="navbarSearch" name="search" placeholder="剧名或别名">
-                    <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <select name="type" id="navbarSelect">
+                                <option value="0">剧集</option>
+                                <option value="1">SC</option>
+                                <option value="2">社团</option>
+                            </select>
+                        </span>
+                        <input type="text" class="form-control" name="keyword" placeholder="剧名或别名、SC、社团">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
                 </form>
 
 				<ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url('/drama?type=0') }}"><span class="glyphicon glyphicon-film"></span> 剧集列表</a></li>
                     <li><a href="{{ url('/episode?type=0') }}"><span class="glyphicon glyphicon-facetime-video"></span> 分集列表</a></li>
                     <li><a href="{{ url('/review') }}"><span class="glyphicon glyphicon-comment"></span> 评论列表</a></li>
-                    <li><a href="{{ url('/drama/create') }}"><span class="glyphicon glyphicon-plus"></span> 添加剧集</a></li>
+                    <li><a href="{{ url('/sc') }}"><span class="glyphicon glyphicon-camera"></span> SC列表</a></li>
+                    <li><a href="{{ url('/club') }}"><span class="glyphicon glyphicon-ice-lolly"></span> 社团列表</a></li>
 
 					@if (Auth::guest())
 						<li><a href="{{ url('/auth/login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
 						<li><a href="{{ url('/auth/register') }}"><span class="glyphicon glyphicon-list-alt"></span> 注册</a></li>
 					@else
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" title="{{ $name = Auth::user()->name }}">
                                 <span class="glyphicon glyphicon-user"></span>
-                                {{ Auth::user()->name }}
+                                {{ mb_strlen($name) > 4 ? mb_substr($name, 0, 4).'...' : $name}}
                                 <span class="caret"></span>
                             </a>
 							<ul class="dropdown-menu" role="menu">
@@ -87,11 +99,6 @@
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         创意来自<a href="http://www.douban.com" target="_blank">豆瓣</a>&<a href="http://saowen.net" target="_blank">扫文小院</a>
                         ©2015 saoju.net
-                        &nbsp;&nbsp;感谢<a href="http://laravel.com/" target="_blank">Laravel</a> ·
-                        <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> ·
-                        <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> ·
-                        <a href="http://plugins.krajee.com/star-rating" target="_blank">star-rating</a> ·
-                        <a href="https://github.com/eternicode/bootstrap-datepicker" target="_blank">datepicker</a>等项目
                     </p>
                 </div>
                 <div class="col-md-3 text-right">
@@ -105,7 +112,6 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
 	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     @yield('script')

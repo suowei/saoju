@@ -135,6 +135,24 @@ $('#carousel').carousel({
     interval: false
 });
 
+$("#jobs :checkbox").change(function() {
+    var jobs = $("input[name='jobs']");
+    var job = $.trim($(this).parent().text());
+    if ($(this).prop('checked') == true) {
+        if (jobs.val() == '') {
+            jobs.prop('value', job);
+        }
+        else {
+            jobs.prop('value', jobs.val() + '，' + job);
+        }
+    }
+    else {
+        jobs.prop('value', jobs.val().replace('，' + job, ''));
+        jobs.prop('value', jobs.val().replace(job + '，', ''));
+        jobs.prop('value', jobs.val().replace(job, ''));
+    }
+});
+
 $('.rating').rating({
     clearCaption: '未评分',
     starCaptions: {
