@@ -5,32 +5,34 @@
 @section('content')
 <div class="container">
     <h4 class="text-success">留言板</h4>
-    <table class="table">
-        <thead>
-        <tr>
-            <th class="text-warning"><span class="glyphicon glyphicon-comment"></span> 回复</th>
-            <th class="text-danger"><span class="glyphicon glyphicon-bullhorn"></span> 标题</th>
-            <th class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> 作者</th>
-            <th class="text-primary"><span class="glyphicon glyphicon-time"></span> 最后回复</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($topics as $topic)
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
             <tr>
-                <td class="col-md-1">{{ $topic->comments }}</td>
-                <td class="col-md-8"><a href="{{ url('/bbs/topic/'.$topic->id) }}" target="_blank">{{ $topic->title }}</a></td>
-                <td>
-                    @if($topic->user_id)
-                        <a href="{{ url('/user/'.$topic->user_id) }}" target="_blank">{{ $topic->user->name }}</a>
-                    @else
-                        {{ preg_replace('/((?:\d+\.){3})\d+/', "\\1*", $topic->ip) }}
-                    @endif
-                </td>
-                <td>{{ $topic->updated_at }}</td>
+                <th class="text-warning col-md-1"><span class="glyphicon glyphicon-comment"></span> 回复</th>
+                <th class="text-danger col-md-8"><span class="glyphicon glyphicon-bullhorn"></span> 标题</th>
+                <th class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> 作者</th>
+                <th class="text-primary"><span class="glyphicon glyphicon-time"></span> 最后回复</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach($topics as $topic)
+                <tr>
+                    <td >{{ $topic->comments }}</td>
+                    <td><a href="{{ url('/bbs/topic/'.$topic->id) }}" target="_blank">{{ $topic->title }}</a></td>
+                    <td>
+                        @if($topic->user_id)
+                            <a href="{{ url('/user/'.$topic->user_id) }}" target="_blank">{{ $topic->user->name }}</a>
+                        @else
+                            {{ preg_replace('/((?:\d+\.){3})\d+/', "\\1*", $topic->ip) }}
+                        @endif
+                    </td>
+                    <td>{{ $topic->updated_at }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
     <?php echo $topics->render(); ?>
 
     <h4 class="text-success">发表新帖</h4>

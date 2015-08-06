@@ -116,8 +116,7 @@
                         </span>
                     @else
                         <a class="btn btn-info btn-xs" href="{{ url('/favorite/create?drama='.$drama->id) }}">
-                            <span class="glyphicon glyphicon-gift"></span> 收藏本剧并
-                            <span class="glyphicon glyphicon-pencil"></span> 写评
+                            收藏本剧并写评
                         </a>
                         <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#favModal"
                            data-action="{{ url('/favorite') }}" data-method="POST" data-idname="drama_id" data-idvalue="{{ $drama->id }}">
@@ -126,8 +125,7 @@
                     @endif
                 @else
                     <a class="btn btn-info btn-xs" href="{{ url('/favorite/create?drama='.$drama->id) }}">
-                        <span class="glyphicon glyphicon-gift"></span> 收藏本剧并
-                        <span class="glyphicon glyphicon-pencil"></span> 写评
+                        收藏本剧并写评
                     </a>
                 @endif
                     <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id) }}">
@@ -144,7 +142,7 @@
                     @endforeach
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content" id="dramaTabContent">
                     @foreach ($episodes as $episode)
                         <div role="tabpanel" class="tab-pane fade" id="{{ $episode->id }}">
                             <p>
@@ -169,8 +167,7 @@
                                         </span>
                                     @else
                                         <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
-                                            <span class="glyphicon glyphicon-gift"></span> 收藏本期并
-                                            <span class="glyphicon glyphicon-pencil"></span> 写评
+                                            收藏本期并写评
                                         </a>
                                         <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#favModal"
                                            data-action="{{ url('/epfav') }}" data-method="POST" data-idname="episode_id" data-idvalue="{{ $episode->id }}">
@@ -179,8 +176,7 @@
                                     @endif
                                 @else
                                     <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
-                                        <span class="glyphicon glyphicon-gift"></span> 收藏本期并
-                                        <span class="glyphicon glyphicon-pencil"></span> 写评
+                                        收藏本期并写评
                                     </a>
                                 @endif
                                 <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$drama->id.'&episode='.$episode->id) }}">
@@ -189,7 +185,10 @@
                                 <a class="btn btn-primary btn-xs" href="{{ url('/episode/'.$episode->id) }}" target="_blank">
                                     <span class="glyphicon glyphicon-share-alt"></span> 去分集页面
                                 </a>
-                                <a class="btn btn-danger btn-xs" role="button" data-toggle="collapse" href="#sc{{ $episode->id }}">查看制作组名单 <span class="caret"></span></a>
+                                <a class="btn btn-danger btn-xs" role="button" data-toggle="collapse" href="#sc{{ $episode->id }}">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                    制作组名单 <span class="caret"></span>
+                                </a>
                             </p>
                             <p class="collapse content-pre-line" id="sc{{ $episode->id }}">{{ $episode->sc }}</p>
                             @if ($episode->url)
@@ -247,41 +246,61 @@
             </div>
         </div>
         <div class="col-md-3">
-            <h4 class="text-warning">信息维护看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
             <p>
-                <a class="btn btn-primary btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 更新剧集（添加分集）
+                <a class="btn btn-success btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
+                    <span class="glyphicon glyphicon-plus"></span> 更新剧集（添加分集）
                 </a>
-            </p>
-            <p>
                 <a class="btn btn-warning btn-xs" href="{{ url('/drama/'.$drama->id.'/edit') }}">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑剧集信息
+                    <span class="glyphicon glyphicon-edit"></span> 编辑剧集信息
                 </a>
             </p>
             <p class="text-danger">
-                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                分集信息维护请点击分集标签，进入分集页面后右侧有编辑链接
-            </p>
-            <p class="text-warning">
-                <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
-                出于一些考虑，评分目前仅作为个人收藏和展示之用，不作统计，不与评论绑定
+                <span class="glyphicon glyphicon-info-sign"></span>
+                分集信息维护请进入分集页面操作
             </p>
             <p>
-                <a class="btn btn-success btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank">
-                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                <a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#sc">
+                    查看关联SC <span class="caret"></span>
                 </a>
             </p>
+            <div class="panel panel-primary collapse" id="sc">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
+                            <span class="glyphicon glyphicon-list-alt"></span> 主要SC
+                        </a>
+                        <small class="pull-right">
+                            <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
+                                查看全部<span class="glyphicon glyphicon-menu-right"></span>
+                            </a>
+                        </small>
+                    </h4>
+                </div>
+                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
+                <ul class="list-group">
+                    @foreach ($roles as $role)
+                        <li class="list-group-item">
+                            {{ $role->note ? $role->note : $jobs[$role->job] }}：<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a><br>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
             <p>
+                <a class="btn btn-info btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                </a>
                 <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/drama/'.$drama->id) }}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本剧
                 </a>
-                <span class="text-muted">请先逐一删除分集，确保已无分集后，再删除本剧</span>
             </p>
-            <p class="text-success"><span class="glyphicon glyphicon-hand-down"></span> 下面是剧集海报，用于收藏列表和搜索结果等的展示，最左边的是分集海报展示</p>
+            <p class="text-info"><span class="glyphicon glyphicon-hand-down"></span> 剧集海报，用于剧集列表的展示</p>
             <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/drama/'.$drama->id.'/favorites') }}" target="_blank">查看全部{{ $drama->favorites }}条收藏</a>）</small></h4>
+                    <h4 class="panel-title">
+                        <span class="glyphicon glyphicon-gift"></span> 最新收藏
+                        <small>（<a href="{{ url('/drama/'.$drama->id.'/favorites') }}" target="_blank">查看全部{{ $drama->favorites }}条收藏</a>）</small>
+                    </h4>
                 </div>
                 <ul class="list-group">
                     @foreach ($favorites as $favorite)

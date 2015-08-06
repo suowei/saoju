@@ -24,6 +24,7 @@ return array(
     'CreatePlaylistsTable' => $baseDir . '/database/migrations/2015_07_03_145151_create_playlists_table.php',
     'CreateRepliesTable' => $baseDir . '/database/migrations/2015_06_11_085334_create_replies_table.php',
     'CreateReviewsTable' => $baseDir . '/database/migrations/2015_06_01_153613_create_reviews_table.php',
+    'CreateRolesTable' => $baseDir . '/database/migrations/2015_08_05_180204_create_roles_table.php',
     'CreateScJobTable' => $baseDir . '/database/migrations/2015_08_01_155724_create_sc_job_table.php',
     'CreateScrevsTable' => $baseDir . '/database/migrations/2015_08_02_000747_create_screvs_table.php',
     'CreateScsTable' => $baseDir . '/database/migrations/2015_07_31_161755_create_scs_table.php',

@@ -10,6 +10,7 @@ use App\Episode;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Role;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -217,6 +218,9 @@ class DramaController extends Controller {
             'original', 'count', 'state', 'sc', 'poster_url', 'introduction', 'reviews', 'favorites']);
         $episodes = Episode::select('id', 'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction')
             ->where('drama_id', $id)->orderByRaw('release_date, id')->get();
+        $roles = Role::with(['sc' => function($query) {
+            $query->select('id', 'name');
+        }])->select('sc_id', 'job', 'note')->distinct()->where('drama_id', $id)->whereIn('job', [0, 1, 2, 3, 4, 11])->orderBy('job')->get();
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
@@ -225,7 +229,7 @@ class DramaController extends Controller {
             ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
         //若用户已登录则取得其对整部剧及每个分集的收藏状态，及其全部评论
         $epfavs = [];
         if(Auth::check())
@@ -249,7 +253,7 @@ class DramaController extends Controller {
             $favorite = 0;
             $userReviews = 0;
         }
-        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
+        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews, 'roles' => $roles,
             'favorites' => $favorites, 'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
 	}
 
@@ -471,6 +475,17 @@ class DramaController extends Controller {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at')->paginate(20);
         return view('drama.favorites')->withDrama($drama)->withFavorites($favorites);
+    }
+
+    public function sc($id)
+    {
+        $drama = Drama::find($id, ['id', 'title']);
+        $episodes = Episode::select('id', 'title')->where('drama_id', $id)->orderByRaw('release_date, id')->get();
+        $roles = Role::with(['sc' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'episode_id', 'sc_id', 'job', 'note')->where('drama_id', $id)->orderBy('job')->get();
+        $roles = $roles->groupBy('episode_id');
+        return view('drama.sc', ['drama' => $drama, 'episodes' => $episodes, 'roles' => $roles]);
     }
 
 }

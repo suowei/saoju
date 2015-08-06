@@ -43,6 +43,11 @@
 $(".review-content").shorten();
 $(".introduction").shorten({showChars: 150});
 
+$('#dateTab a:first').tab('show');
+$('#dateTab a').hover(function () {
+    $(this).tab('show');
+});
+
 $('#episodeTab a:first').tab('show');
 $('#episodeTab a').click(function (e) {
     e.preventDefault();

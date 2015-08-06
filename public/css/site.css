@@ -56,7 +56,16 @@ a:hover {
     padding: 10px;
 }
 
-.tab-content {
+#dateTab > li > a:hover {
+    cursor: pointer;
+}
+
+.carousel-control.myright {
+    right: 0;
+    left: auto;
+}
+
+#dramaTabContent {
     margin-top: 10px;
 }
 

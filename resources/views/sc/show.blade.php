@@ -18,6 +18,14 @@
                 <div>
                     {!! $sc->information !!}
                 </div>
+                <h4 class="text-success">
+                    新关联作品<small>（<a href="{{ url('/sc/'.$sc->id.'/episodes') }}" target="_blank">查看全部</a>）</small>
+                </h4>
+                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
+                @foreach($roles as $role)
+                    《<a href="{{ url('/drama/'.$role->drama_id) }}">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}">{{ $role->episode->title }}</a>
+                    {{ $jobs[$role->job] }} {{ $role->note }}<br>
+                @endforeach
                 @if (Auth::check())
                     <div class="reviews">
                         <h4 class="text-success">我的印象</h4>

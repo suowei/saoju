@@ -29,7 +29,7 @@ class IndexController extends Controller {
             })
                 ->select('dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
-                    'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias',
+                    'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
                 ->get();
         }
@@ -43,27 +43,15 @@ class IndexController extends Controller {
             })
                 ->select('dramas.id as drama_id', 'dramas.title as drama_title',
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
-                    'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias',
+                    'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
                 ->get();
         }
-        //按发布日期倒序排列，用于一周新剧的显示
-        $episodes = $episodes->sortByDesc('release_date');
-        //将今日和昨日新剧筛选出来，剩下的放在一周新剧里
-        $today = date("Y-m-d", strtotime("now"));
-        $yesterday = date("Y-m-d", strtotime("-1 day"));
-        $todays = [];
-        $yesterdays = [];
-        $thisweeks = [];
-        foreach($episodes as $episode)
-        {
-            if($episode->release_date == $today)
-                $todays[] = $episode;
-            else if($episode->release_date == $yesterday)
-                $yesterdays[] = $episode;
-            else
-                $thisweeks[] = $episode;
-        }
+        //按添加顺序倒序排列
+        $episodes = $episodes->sortByDesc('id');
+        $top10 = $episodes->take(10);
+        //将一周新剧按发剧日期分组
+        $episodes = $episodes->groupBy('release_date');
 
         //按照分类选取最新20条评论
         if($type < 0)
@@ -156,10 +144,8 @@ class IndexController extends Controller {
             $query->select('id', 'name');
         }]);
 
-        return view('index')->with('type', $type)->with('todays', $todays)
-            ->with('yesterdays', $yesterdays)->with('thisweeks', $thisweeks)->withReviews($reviews)
-            ->with('hotDramas', $hotDramas)->with('hotFavorites', $hotFavorites)
-            ->withDramas($dramas)->withHistories($histories);
+        return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10, 'reviews' => $reviews,
+            'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'dramas' => $dramas, 'histories' => $histories]);
 	}
 
 }

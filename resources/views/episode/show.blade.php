@@ -15,23 +15,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h3>
-                    《<a href="{{ url('/drama/'.$episode->drama_id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
-                    @if($episode->alias){{ $episode->alias }}@endif
-                </h3>
-                <p>
-                    @if(Auth::check())
-                        @if($favorite)
-                            <span class="pull-left">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>
+                            《<a href="{{ url('/drama/'.$episode->drama_id) }}">{{ $drama->title }}</a>》{{ $episode->title }}
+                            @if($episode->alias){{ $episode->alias }}@endif
+                        </h3>
+                        <p>
+                            @if(Auth::check())
+                                @if($favorite)
+                                    <span class="pull-left">
                                 <span class="glyphicon glyphicon-headphones"></span>
                                 我@if($favorite->type == 0)想听@elseif($favorite->type == 2)听过@else抛弃@endif这期&nbsp;
                             </span>
-                            <span class="pull-left">
+                                    <span class="pull-left">
                                 @if($favorite->rating != 0)
-                                    <input type="number" class="rating form-control" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
-                                @endif
+                                            <input type="number" class="rating form-control" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
+                                        @endif
                             </span>
-                            <span>&nbsp;
+                                    <span>&nbsp;
                                 <a class="btn btn-info btn-xs" href="{{ url('/epfav/'.$episode->id.'/edit') }}">
                                     修改收藏与评论
                                 </a>
@@ -39,34 +41,54 @@
                                    data-action="{{ url('/epfav/'.$episode->id) }}" data-method="PUT" data-idname="episode_id">修改收藏</a>
                                 <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/epfav/'.$episode->id) }}">删除收藏</a>
                             </span>
-                        @else
-                            <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
-                                <span class="glyphicon glyphicon-gift"></span> 收藏并
-                                <span class="glyphicon glyphicon-pencil"></span> 写评
+                                @else
+                                    <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
+                                        收藏本期并写评
+                                    </a>
+                                    <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#favModal"
+                                       data-action="{{ url('/epfav') }}" data-method="POST" data-idname="episode_id" data-idvalue="{{ $episode->id }}">
+                                        <span class="glyphicon glyphicon-gift"></span> 收藏本期
+                                    </a>
+                                @endif
+                            @else
+                                <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
+                                    收藏本期并写评
+                                </a>
+                            @endif
+                            <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
+                                <span class="glyphicon glyphicon-pencil"></span> 写本期评论
                             </a>
-                            <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#favModal"
-                               data-action="{{ url('/epfav') }}" data-method="POST" data-idname="episode_id" data-idvalue="{{ $episode->id }}">
-                                <span class="glyphicon glyphicon-gift"></span> 收藏本期
-                            </a>
-                        @endif
-                    @else
-                        <a class="btn btn-info btn-xs" href="{{ url('/epfav/create?episode='.$episode->id) }}">
-                            <span class="glyphicon glyphicon-gift"></span> 收藏并
-                            <span class="glyphicon glyphicon-pencil"></span> 写评
-                        </a>
-                    @endif
-                    <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
-                        <span class="glyphicon glyphicon-pencil"></span> 写本期评论
-                    </a>
-                </p>
+                        </p>
 
-                <div class="row">
-                    <div class="col-md-6">
                         <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
                         <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
+                        <p><a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#sc">查看关联SC <span class="caret"></span></a></p>
+                        <div class="panel panel-primary collapse" id="sc">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
+                                        <span class="glyphicon glyphicon-list-alt"></span> 关联SC
+                                    </a>
+                                    <small class="pull-right">
+                                        <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
+                                            查看<span class="glyphicon glyphicon-menu-right"></span>
+                                        </a>
+                                    </small>
+                                </h4>
+                            </div>
+                            <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
+                            <div style="padding: 5px 10px;">
+                                @foreach ($roles as $role)
+                                    {{ $role->note ? $role->note : $jobs[$role->job] }}：<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a><br>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <p class="content-pre-line">{{ $episode->sc }}</p>
+                        @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
+                        <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <p>
                             <a href="{{ $episode->poster_url  }}" target="_blank">
                                 <img src="{{ $episode->poster_url }}" class="img-responsive" alt="海报">
@@ -74,8 +96,6 @@
                         </p>
                     </div>
                 </div>
-                @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
-                <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
 
                 @if (Auth::check())
                     <div class="reviews">
@@ -119,10 +139,9 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-                <h4 class="text-warning">信息维护看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
+                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑本集信息
                     </a>
                 </p>
@@ -136,7 +155,7 @@
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本期分集
                     </a>
                 </p>
-                <div class="panel panel-success">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/episode/'.$episode->id.'/favorites') }}" target="_blank">查看全部{{ $episode->favorites }}条收藏</a>）</small></h4>
                     </div>
