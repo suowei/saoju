@@ -6,6 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
+                <h4 class="text-success"><a href="{{ url('/sc/'.$sc->id) }}" target="_blank">{{ $sc->name }}</a>的作品列表</h4>
                 <p>
                     职位：&nbsp;&nbsp;
                     <?php

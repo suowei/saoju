@@ -54,7 +54,7 @@
                                         @endforeach
                                     @endif
                                     <div class="text-center">
-                                        ↑{{ $days[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓{{ $days[0] }}
+                                        ↑{{ $days[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓{{ $days[1] }}
                                     </div>
                                         @if(isset($episodes[$days[1]]))
                                             @foreach ($episodes[$days[1]] as $episode)
@@ -240,7 +240,10 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
+                        <a style="color:red;" href="{{ url('/bbs/topic/38') }}" class="list-group-item" target="_blank">
+                            SC作品关联功能上线及首页排版调整
+                        </a>
+                        <a href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
                             SC、社团功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
