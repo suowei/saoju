@@ -131,22 +131,24 @@
                             </p>
                             <div id="carousel" class="carousel slide">
                                 <ol class="carousel-indicators">
-                                    <?php $i = 0; ?>
-                                    @foreach($top10 as $episode)
-                                        <li data-target="#carousel" data-slide-to="{{ $i }}"@if($i==0)class="active"@endif></li>
-                                        <?php $i++; ?>
-                                    @endforeach
+                                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                                    @for($i = 1; $i < 10; $i++)
+                                        <li data-target="#carousel" data-slide-to="{{ $i }}"></li>
+                                    @endfor
                                 </ol>
                                 <div class="carousel-inner" role="listbox">
-                                    <?php $i = 0; ?>
-                                    @foreach($top10 as $episode)
-                                        <div @if($i==0)class="item active"@else class="item"@endif>
-                                            <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">
-                                                <img src="{{ $episode->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $episode->drama_title }}{{ $episode->episode_title }}">
+                                    <div class="item active">
+                                        <a href="{{ url('/episode/'.$top10[0]->episode_id) }}" target="_blank">
+                                            <img src="{{ $top10[0]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
+                                        </a>
+                                    </div>
+                                    @for($i = 1; $i < 10; $i++)
+                                        <div class="item">
+                                            <a href="{{ url('/episode/'.$top10[$i]->episode_id) }}" target="_blank">
+                                                <img src="{{ $top10[$i]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[$i]->drama_title }}{{ $top10[$i]->episode_title }}">
                                             </a>
                                         </div>
-                                        <?php $i++; ?>
-                                    @endforeach
+                                    @endfor
                                 </div>
                                 <a class="carousel-control" href="#carousel" role="button" data-slide="prev">
                                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

@@ -48,7 +48,7 @@ class IndexController extends Controller {
                 ->get();
         }
         //按添加顺序倒序排列
-        $episodes = $episodes->sortByDesc('id');
+        $episodes = $episodes->sortByDesc('episode_id');
         $top10 = $episodes->take(10);
         //将一周新剧按发剧日期分组
         $episodes = $episodes->groupBy('release_date');
