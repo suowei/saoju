@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Club;
+use App\Role;
 use App\Sc;
 use App\Screv;
 use Illuminate\Http\Request;
@@ -122,6 +123,12 @@ class ScController extends Controller
         {
             $query->select('id', 'name');
         }]);
+        $roles = Role::with(['drama' => function($query) {
+            $query->select('id', 'title');
+        }, 'episode' => function($query) {
+            $query->select('id', 'title');
+        }])->select('drama_id', 'episode_id', 'job', 'note')
+            ->where('sc_id', $id)->orderBy('id', 'desc')->take(10)->get();
         $reviews = Screv::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -135,7 +142,7 @@ class ScController extends Controller
         {
             $userReviews = 0;
         }
-        return view('sc.show', ['sc' => $sc, 'reviews' => $reviews, 'userReviews' => $userReviews]);
+        return view('sc.show', ['sc' => $sc, 'roles' => $roles, 'reviews' => $reviews, 'userReviews' => $userReviews]);
     }
 
     public function edit($id)
@@ -220,5 +227,74 @@ class ScController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('q');
+        $scs = Sc::select('name', 'alias')->where('name', 'LIKE', '%'.$keyword.'%')->orWhere('alias', 'LIKE', '%'.$keyword.'%')->get();
+        return $scs;
+    }
+
+    public function episodes(Request $request, $id)
+    {
+        $sc = Sc::find($id, ['id', 'name']);
+        //职位筛选
+        if($request->has('job'))
+        {
+            $job = $request->input('job');
+        }
+        else
+        {
+            $job = -2;
+        }
+        //传递给视图的url参数
+        $params = $request->all();
+        //排序
+        if($request->has('sort'))
+        {
+            $params['sort'] = $request->input('sort');
+        }
+        else
+        {
+            $params['sort'] = 'release_date';
+        }
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
+        else
+        {
+            $params['order'] = 'asc';
+        }
+        if($job < 0)
+        {
+            $roles = Role::join('episodes', function($join) use($id)
+            {
+                $join->on('episodes.id', '=', 'roles.episode_id')
+                    ->where('roles.sc_id', '=', $id);
+            })->select('roles.drama_id as drama_id', 'episode_id',
+                'episodes.title as episode_title', 'job', 'note', 'release_date')
+                ->orderBy($params['sort'], $params['order'])->get();
+        }
+        else
+        {
+            $roles = Role::join('episodes', function($join) use($id, $job)
+            {
+                $join->on('episodes.id', '=', 'roles.episode_id')
+                    ->where('roles.sc_id', '=', $id)->where('roles.job', '=', $job);
+            })->select('roles.drama_id as drama_id', 'episode_id',
+                'episodes.title as episode_title', 'job', 'note', 'release_date')
+                ->orderBy($params['sort'], $params['order'])->get();
+        }
+        $roles->load(['drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+        $count = count($roles);
+        if($job == -2)
+            $roles = $roles->groupBy('job');
+        return view('sc.episodes', ['params' => $params, 'roles' => $roles, 'sc' => $sc,
+            'count' => $count, 'job' => $job]);
     }
 }

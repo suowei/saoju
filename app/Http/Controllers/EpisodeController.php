@@ -9,6 +9,7 @@ use App\Drama;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Role;
 use Illuminate\Http\Request;
 
 use Input, Auth;
@@ -216,7 +217,10 @@ class EpisodeController extends Controller {
         $favorites = Epfav::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')
-            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(20)->get();
+            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(5)->get();
+        $roles = Role::with(['sc' => function($query) {
+            $query->select('id', 'name');
+        }])->select('sc_id', 'job', 'note')->where('episode_id', $id)->orderBy('job')->get();
         if(Auth::check())
         {
             $user_id = $request->user()->id;
@@ -230,7 +234,7 @@ class EpisodeController extends Controller {
             $userReviews = 0;
         }
         return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews,
-            'favorites' => $favorites, 'favorite' => $favorite, 'userReviews' => $userReviews]);
+            'favorites' => $favorites, 'roles' => $roles, 'favorite' => $favorite, 'userReviews' => $userReviews]);
 	}
 
 	/**
@@ -329,6 +333,11 @@ class EpisodeController extends Controller {
         {
             return '抱歉，已有人评论本集，不能删除> <';
         }
+        $role = Role::select('id')->where('episode_id', $id)->first();
+        if($role)
+        {
+            return '抱歉，请先逐一删除SC关联后再删除本集';
+        }
         $episode = Episode::find($id, ['id', 'drama_id']);
         if($episode->delete())
         {
@@ -357,7 +366,7 @@ class EpisodeController extends Controller {
         return view('episode.reviews', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews]);
     }
 
-    public function  histories($id)
+    public function histories($id)
     {
         $episode = Episode::find($id, ['id', 'drama_id', 'title']);
         $drama = Drama::find($episode->drama_id, ['title']);
@@ -375,6 +384,16 @@ class EpisodeController extends Controller {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')->where('episode_id', $id)->orderBy('updated_at')->paginate(20);
         return view('episode.favorites', ['episode' => $episode, 'drama' => $drama, 'favorites' => $favorites]);
+    }
+
+    public function sc($id)
+    {
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        $roles = Role::with(['sc' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'sc_id', 'job', 'note')->where('episode_id', $id)->orderBy('job')->get();
+        return view('episode.sc', ['episode' => $episode, 'drama' => $drama, 'roles' => $roles]);
     }
 
 }

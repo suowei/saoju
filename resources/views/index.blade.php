@@ -9,260 +9,153 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <p class="text-muted">
-                    <span class="glyphicon glyphicon-map-marker"></span>
-                    <a href="{{ url('/?type=-1') }}">全部</a>
-                    @if($type == 0)
-                        / 耽美
-                    @elseif($type == 1)
-                        / 全年龄
-                    @elseif($type == 2)
-                        / 言情
-                    @elseif($type == 3)
-                        / 百合
-                    @endif
-                    <span class="pull-right">
-                        <span class="glyphicon glyphicon-repeat"></span>
-                        切换至
-                        @if($type != 0)<a href="{{ url('/?type=0') }}">耽美</a>@endif
-                        @if($type != 1)<a href="{{ url('/?type=1') }}">全年龄</a>@endif
-                        @if($type != 2)<a href="{{ url('/?type=2') }}">言情</a>@endif
-                        @if($type != 3)<a href="{{ url('/?type=3') }}">百合</a>@endif
-                    </span>
-                </p>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 两日新剧</h4>
-                            </div>
-                            <ul class="list-group">
-                                @foreach($todays as $episode)
-                                    <li class="list-group-item">
-                                        <h4>
-                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                            <span class="pull-right">
-                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                    {{ $episode->reviews }}评论
-                                                </a>
-                                            </span>
-                                        </h4>
-                                        {{ $episode->sc }}
-                                        <div class="text-muted">
-                                            @if($type < 0)
-                                                @if($episode->type == 0)
-                                                    耽美，
-                                                @elseif($episode->type == 1)
-                                                    全年龄，
-                                                @elseif($episode->type == 2)
-                                                    言情，
-                                                @else
-                                                    百合，
-                                                @endif
-                                            @endif
-                                            @if($episode->era == 0)
-                                                现代，
-                                            @elseif($episode->era == 1)
-                                                古风，
-                                            @elseif($episode->era == 2)
-                                                民国，
-                                            @elseif($episode->era == 3)
-                                                未来，
-                                            @else
-                                                其他时代，
-                                            @endif
-                                            @if($episode->genre)
-                                                {{ $episode->genre }}，
-                                            @endif
-                                            @if($episode->state == 0)
-                                                连载，
-                                            @elseif($episode->state == 1)
-                                                完结，
-                                            @else
-                                                已坑，
-                                            @endif
-                                            {{ $episode->duration }}分钟
-                                        </div>
-                                    </li>
-                                @endforeach
-                                <div class="text-center">
-                                    ↑{{ date('Y-m-d') }}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    ↓{{ date('Y-m-d', strtotime('-1 day')) }}
-                                </div>
-                                @foreach($yesterdays as $episode)
-                                    <li class="list-group-item">
-                                        <h4>
-                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                            <span class="pull-right">
-                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                    {{ $episode->reviews }}评论
-                                                </a>
-                                            </span>
-                                        </h4>
-                                        {{ $episode->sc }}
-                                        <div class="text-muted">
-                                            @if($type < 0)
-                                                @if($episode->type == 0)
-                                                    耽美，
-                                                @elseif($episode->type == 1)
-                                                    全年龄，
-                                                @elseif($episode->type == 2)
-                                                    言情，
-                                                @else
-                                                    百合，
-                                                @endif
-                                            @endif
-                                            @if($episode->era == 0)
-                                                现代，
-                                            @elseif($episode->era == 1)
-                                                古风，
-                                            @elseif($episode->era == 2)
-                                                民国，
-                                            @elseif($episode->era == 3)
-                                                未来，
-                                            @else
-                                                其他时代，
-                                            @endif
-                                            @if($episode->genre)
-                                                {{ $episode->genre }}，
-                                            @endif
-                                            @if($episode->state == 0)
-                                                连载，
-                                            @elseif($episode->state == 1)
-                                                完结，
-                                            @else
-                                                已坑，
-                                            @endif
-                                            {{ $episode->duration }}分钟
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="panel panel-success">
-                            <div class="panel-heading"><h4 class="panel-title"><span class="glyphicon glyphicon-headphones"></span> 一周新剧</h4></div>
-                            <ul class="list-group">
-                                @for($i = 0, $count = count($todays) + count($yesterdays), $length = count($thisweeks); $i < $count && $i < $length; $i++)
-                                    <?php $episode = $thisweeks[$i]; ?>
-                                    <li class="list-group-item">
-                                        <h4>
-                                            <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                            [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                            <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                            <span class="pull-right">
-                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                    {{ $episode->reviews }}评论
-                                                </a>
-                                            </span>
-                                        </h4>
-                                        {{ $episode->sc }}
-                                        <div class="text-muted">
-                                            {{ $episode->release_date }}
-                                            @if($type < 0)
-                                                @if($episode->type == 0)
-                                                    耽美，
-                                                @elseif($episode->type == 1)
-                                                    全年龄，
-                                                @elseif($episode->type == 2)
-                                                    言情，
-                                                @else
-                                                    百合，
-                                                @endif
-                                            @endif
-                                            @if($episode->era == 0)
-                                                现代，
-                                            @elseif($episode->era == 1)
-                                                古风，
-                                            @elseif($episode->era == 2)
-                                                民国，
-                                            @elseif($episode->era == 3)
-                                                未来，
-                                            @else
-                                                其他时代，
-                                            @endif
-                                            @if($episode->genre)
-                                                {{ $episode->genre }}，
-                                            @endif
-                                            @if($episode->state == 0)
-                                                连载，
-                                            @elseif($episode->state == 1)
-                                                完结，
-                                            @else
-                                                已坑，
-                                            @endif
-                                            {{ $episode->duration }}分钟
-                                        </div>
-                                    </li>
-                                @endfor
-                                    @if($i < $length)
-                                        <div class="text-center" data-toggle="collapse" data-target="#week">
-                                            <span class="caret"></span>
-                                        </div>
-                                        <div class="collapse" id="week">
-                                            @while($i < $length)
-                                                <?php $episode = $thisweeks[$i++]; ?>
+                    <?php $days = [date("Y-m-d", strtotime("now")), date("Y-m-d", strtotime("-1 day")),
+                            date("Y-m-d", strtotime("-2 day")), date("Y-m-d", strtotime("-3 day")),
+                            date("Y-m-d", strtotime("-4 day")), date("Y-m-d", strtotime("-5 day")),
+                            date("Y-m-d", strtotime("-6 day")), date("Y-m-d", strtotime("-7 day")),]; ?>
+                    <div class="col-md-8">
+                        <ul class="nav nav-tabs" id="dateTab">
+                            <li role="presentation">
+                                <a href="#{{ $days[0] }}" role="tab" data-toggle="tab">两日新剧</a>
+                            </li>
+                            @for($i = 2; $i <= 7; $i++)
+                                <li role="presentation">
+                                    <a href="#{{ $days[$i] }}" role="tab" data-toggle="tab">{{ date("m-d", strtotime("-".$i." day")) }}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane" id="{{ $days[0] }}">
+                                <ul class="list-group">
+                                    @if(isset($episodes[$days[0]]))
+                                        @foreach ($episodes[$days[0]] as $episode)
+                                            <li class="list-group-item">
+                                                <h4>
+                                                    <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                                    [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                                    <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                                    <span class="pull-right">
+                                                        <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                            {{ $episode->reviews }}评论
+                                                        </a>
+                                                    </span>
+                                                </h4>
+                                                {{ $episode->sc }}；
+                                                <span class="text-muted">
+                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
+                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
+                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
+                                                    @if($episode->genre){{ $episode->genre }}，@endif
+                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
+                                                    {{ $episode->duration }}分钟
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                    <div class="text-center">
+                                        ↑{{ $days[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓{{ $days[1] }}
+                                    </div>
+                                        @if(isset($episodes[$days[1]]))
+                                            @foreach ($episodes[$days[1]] as $episode)
                                                 <li class="list-group-item">
                                                     <h4>
                                                         <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
                                                         [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
                                                         <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                                        <span class="pull-right">
-                                                            <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                                {{ $episode->reviews }}评论
-                                                            </a>
-                                                        </span>
+                                            <span class="pull-right">
+                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                    {{ $episode->reviews }}评论
+                                                </a>
+                                            </span>
                                                     </h4>
-                                                    {{ $episode->sc }}
-                                                    <div class="text-muted">
-                                                        {{ $episode->release_date }}
-                                                        @if($type < 0)
-                                                            @if($episode->type == 0)
-                                                                耽美，
-                                                            @elseif($episode->type == 1)
-                                                                全年龄，
-                                                            @elseif($episode->type == 2)
-                                                                言情，
-                                                            @else
-                                                                百合，
-                                                            @endif
-                                                        @endif
-                                                        @if($episode->era == 0)
-                                                            现代，
-                                                        @elseif($episode->era == 1)
-                                                            古风，
-                                                        @elseif($episode->era == 2)
-                                                            民国，
-                                                        @elseif($episode->era == 3)
-                                                            未来，
-                                                        @else
-                                                            其他时代，
-                                                        @endif
-                                                        @if($episode->genre)
-                                                            {{ $episode->genre }}，
-                                                        @endif
-                                                        @if($episode->state == 0)
-                                                            连载，
-                                                        @elseif($episode->state == 1)
-                                                            完结，
-                                                        @else
-                                                            已坑，
-                                                        @endif
-                                                        {{ $episode->duration }}分钟
-                                                    </div>
+                                                    {{ $episode->sc }}；
+                                                <span class="text-muted">
+                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
+                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
+                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
+                                                    @if($episode->genre){{ $episode->genre }}，@endif
+                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
+                                                    {{ $episode->duration }}分钟
+                                                </span>
                                                 </li>
-                                            @endwhile
-                                        </div>
-                                    @endif
-                            </ul>
+                                            @endforeach
+                                        @endif
+                                </ul>
+                            </div>
+                            @for($i = 2; $i <= 7; $i++)
+                                <div role="tabpanel" class="tab-pane" id="{{ $days[$i] }}">
+                                    <ul class="list-group">
+                                        @if(isset($episodes[$days[$i]]))
+                                            @foreach ($episodes[$days[$i]] as $episode)
+                                                <li class="list-group-item">
+                                                    <h4>
+                                                        <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
+                                                        [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
+                                                        <small>@if($episode->alias){{ $episode->alias }}@endif</small>
+                                            <span class="pull-right">
+                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
+                                                    {{ $episode->reviews }}评论
+                                                </a>
+                                            </span>
+                                                    </h4>
+                                                    {{ $episode->sc }}；
+                                                <span class="text-muted">
+                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
+                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
+                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
+                                                    @if($episode->genre){{ $episode->genre }}，@endif
+                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
+                                                    {{ $episode->duration }}分钟
+                                                </span>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endfor
                         </div>
                     </div>
+                        <div class="col-md-4">
+                            <p class="text-muted">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                                <a href="{{ url('/?type=-1') }}">全部</a>
+                                @if($type == 0)/ 耽美@elseif($type == 1)/ 全年龄@elseif($type == 2)/ 言情@elseif($type == 3)/ 百合@endif
+                                <span class="pull-right">
+                                    切换至
+                                    @if($type != 0)<a href="{{ url('/?type=0') }}">耽美</a>@endif
+                                    @if($type != 1)<a href="{{ url('/?type=1') }}">全年龄</a>@endif
+                                    @if($type != 2)<a href="{{ url('/?type=2') }}">言情</a>@endif
+                                    @if($type != 3)<a href="{{ url('/?type=3') }}">百合</a>@endif
+                                </span>
+                            </p>
+                            <div id="carousel" class="carousel slide">
+                                <ol class="carousel-indicators">
+                                    <?php $i = 0; ?>
+                                    @foreach($top10 as $episode)
+                                        <li data-target="#carousel" data-slide-to="{{ $i }}"@if($i==0)class="active"@endif></li>
+                                        <?php $i++; ?>
+                                    @endforeach
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <?php $i = 0; ?>
+                                    @foreach($top10 as $episode)
+                                        <div @if($i==0)class="item active"@else class="item"@endif>
+                                            <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">
+                                                <img src="{{ $episode->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $episode->drama_title }}{{ $episode->episode_title }}">
+                                            </a>
+                                        </div>
+                                        <?php $i++; ?>
+                                    @endforeach
+                                </div>
+                                <a class="carousel-control" href="#carousel" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                </a>
+                                <a class="myright carousel-control" href="#carousel" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </div>
                 </div>
 
                 <h4 class="text-success">
@@ -314,30 +207,24 @@
                     <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
                         <span class="glyphicon glyphicon-film"></span> 查看全部剧集
                     </a>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
+                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
+                    </a>
                 </p>
                 <p>
                     <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank">
                         <span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集
+                    </a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
+                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
                     </a>
                 </p>
                 <p>
                     <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank">
                         <span class="glyphicon glyphicon-comment"></span> 查看全部评论
                     </a>
-                </p>
-                <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
-                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
-                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
-                    </a>
-                </p>
-                <p>
                     <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
-                        <span class="glyphicon glyphicon-comment"></span> 查看SC、社团印象
+                        <span class="glyphicon glyphicon-picture"></span> 查看SC社团印象
                     </a>
                 </p>
                 <p class="text-info">
@@ -353,7 +240,10 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
+                        <a style="color:red;" href="{{ url('/bbs/topic/38') }}" class="list-group-item" target="_blank">
+                            SC作品关联功能上线及首页排版调整
+                        </a>
+                        <a href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
                             SC、社团功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
