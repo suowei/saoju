@@ -65,6 +65,12 @@ a:hover {
     left: auto;
 }
 
+.dateline {
+    text-align: center;
+    border-left: solid 1px #e5e5e5;
+    border-right: solid 1px #e5e5e5;
+}
+
 #dramaTabContent {
     margin-top: 10px;
 }

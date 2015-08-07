@@ -19,7 +19,7 @@
                                 </ul>
                             </div>
                         @endif
-
+                            <p class="text-danger">添加前请先搜索，以免重复添加^ ^</p>
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/sc') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
