@@ -131,18 +131,22 @@
                             </p>
                             <div id="carousel" class="carousel slide">
                                 <ol class="carousel-indicators">
-                                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                                    @for($i = 1; $i < 10; $i++)
+                                    @if($count = count($top10))
+                                        <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                                    @endif
+                                    @for($i = 1; $i < $count; $i++)
                                         <li data-target="#carousel" data-slide-to="{{ $i }}"></li>
                                     @endfor
                                 </ol>
                                 <div class="carousel-inner" role="listbox">
-                                    <div class="item active">
-                                        <a href="{{ url('/episode/'.$top10[0]->episode_id) }}" target="_blank">
-                                            <img src="{{ $top10[0]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
-                                        </a>
-                                    </div>
-                                    @for($i = 1; $i < 10; $i++)
+                                    @if($count)
+                                        <div class="item active">
+                                            <a href="{{ url('/episode/'.$top10[0]->episode_id) }}" target="_blank">
+                                                <img src="{{ $top10[0]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
+                                            </a>
+                                        </div>
+                                    @endif
+                                    @for($i = 1; $i < $count; $i++)
                                         <div class="item">
                                             <a href="{{ url('/episode/'.$top10[$i]->episode_id) }}" target="_blank">
                                                 <img src="{{ $top10[$i]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[$i]->drama_title }}{{ $top10[$i]->episode_title }}">
