@@ -53,7 +53,7 @@
                                             </li>
                                         @endforeach
                                     @endif
-                                    <div class="text-center">
+                                    <div class="dateline">
                                         ↑{{ $days[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓{{ $days[1] }}
                                     </div>
                                         @if(isset($episodes[$days[1]]))
