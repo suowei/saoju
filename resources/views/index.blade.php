@@ -142,14 +142,18 @@
                                     @if($count)
                                         <div class="item active">
                                             <a href="{{ url('/episode/'.$top10[0]->episode_id) }}" target="_blank">
-                                                <img src="{{ $top10[0]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
+                                                <img src="{{ $top10[0]->poster_url }}" class="center-block"
+                                                     title="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}"
+                                                     alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
                                             </a>
                                         </div>
                                     @endif
                                     @for($i = 1; $i < $count; $i++)
                                         <div class="item">
                                             <a href="{{ url('/episode/'.$top10[$i]->episode_id) }}" target="_blank">
-                                                <img src="{{ $top10[$i]->poster_url }}" class="center-block" style="max-height: 300px;" alt="{{ $top10[$i]->drama_title }}{{ $top10[$i]->episode_title }}">
+                                                <img src="{{ $top10[$i]->poster_url }}" class="center-block"
+                                                     title="{{ $top10[$i]->drama_title }}{{ $top10[$i]->episode_title }}"
+                                                     alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
                                             </a>
                                         </div>
                                     @endfor
