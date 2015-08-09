@@ -71,6 +71,10 @@ a:hover {
     border-right: solid 1px #e5e5e5;
 }
 
+#carousel .center-block {
+    max-height: 350px;
+}
+
 #dramaTabContent {
     margin-top: 10px;
 }
