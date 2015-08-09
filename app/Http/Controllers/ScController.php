@@ -291,10 +291,78 @@ class ScController extends Controller
         {
             $query->select('id', 'title');
         }]);
-        $count = count($roles);
         if($job == -2)
             $roles = $roles->groupBy('job');
-        return view('sc.episodes', ['params' => $params, 'roles' => $roles, 'sc' => $sc,
-            'count' => $count, 'job' => $job]);
+        else if($job == -1)
+            $roles = $roles->groupBy('episode_id');
+        return view('sc.episodes', ['params' => $params, 'roles' => $roles, 'sc' => $sc, 'job' => $job]);
+    }
+
+    public function dramas(Request $request, $id)
+    {
+        $sc = Sc::find($id, ['id', 'name']);
+        //职位筛选
+        if($request->has('job'))
+        {
+            $job = $request->input('job');
+        }
+        else
+        {
+            $job = -2;
+        }
+        //传递给视图的url参数
+        $params = $request->all();
+        //排序
+        if($request->has('sort'))
+        {
+            $params['sort'] = $request->input('sort');
+        }
+        else
+        {
+            $params['sort'] = 'release_date';
+        }
+        if($request->has('order'))
+        {
+            $params['order'] = $request->input('order');
+        }
+        else
+        {
+            $params['order'] = 'asc';
+        }
+        if($job < 0)
+        {
+            $roles = Role::join('episodes', function($join) use($id)
+            {
+                $join->on('episodes.id', '=', 'roles.episode_id')
+                    ->where('roles.sc_id', '=', $id);
+            })->join('dramas', function($join) use($id)
+            {
+                $join->on('dramas.id', '=', 'roles.drama_id')
+                    ->where('roles.sc_id', '=', $id);
+            })->select('roles.drama_id as drama_id', 'dramas.title as drama_title', 'episode_id',
+                'episodes.title as episode_title', 'job', 'note', 'release_date')
+                ->orderBy($params['sort'], $params['order'])->get();
+        }
+        else
+        {
+            $roles = Role::join('episodes', function($join) use($id, $job)
+            {
+                $join->on('episodes.id', '=', 'roles.episode_id')
+                    ->where('roles.sc_id', '=', $id)->where('roles.job', '=', $job);
+            })->join('dramas', function($join) use($id)
+            {
+                $join->on('dramas.id', '=', 'roles.drama_id')
+                    ->where('roles.sc_id', '=', $id);
+            })->select('roles.drama_id as drama_id', 'dramas.title as drama_title', 'episode_id',
+                'episodes.title as episode_title', 'job', 'note', 'release_date')
+                ->orderBy($params['sort'], $params['order'])->get();
+        }
+        if($job == -2)
+        {
+            $roles = $roles->groupBy('job');
+        }
+        else
+            $roles = $roles->groupBy('drama_id');
+        return view('sc.dramas', ['params' => $params, 'roles' => $roles, 'sc' => $sc, 'job' => $job]);
     }
 }

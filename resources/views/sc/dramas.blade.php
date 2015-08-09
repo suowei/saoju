@@ -9,16 +9,16 @@
                 <h4 class="text-success">
                     <a href="{{ url('/sc/'.$sc->id) }}" target="_blank">{{ $sc->name }}</a>的作品列表
                     <small class="pull-right">
-                        <a class="text-muted" href="{{ url('/sc/'.$sc->id.'/dramas') }}">
-                                <span class="glyphicon glyphicon-th"></span> 剧集</a>
-                        <strong><a href="{{ url('/sc/'.$sc->id.'/episodes') }}">
-                            <span class="glyphicon glyphicon-th-list"></span> 分集</a></strong>
+                        <strong><a href="{{ url('/sc/'.$sc->id.'/dramas') }}">
+                                <span class="glyphicon glyphicon-th"></span> 剧集</a></strong>
+                        <a class="text-muted" href="{{ url('/sc/'.$sc->id.'/episodes') }}">
+                            <span class="glyphicon glyphicon-th-list"></span> 分集</a>
                     </small>
                 </h4>
                 <p>
                     职位：&nbsp;&nbsp;
                     <?php
-                    $url = url('/sc/'.$sc->id.'/episodes?');
+                    $url = url('/sc/'.$sc->id.'/dramas?');
                     foreach($params as $key => $value)
                     {
                         if($key != 'job')
@@ -112,7 +112,7 @@
                 <div class="drama">
                     排序：&nbsp;&nbsp;
                     <?php
-                    $url = url('/sc/'.$sc->id.'/episodes?');
+                    $url = url('/sc/'.$sc->id.'/dramas?');
                     foreach($params as $key => $value)
                     {
                         if($key != 'sort' && $key != 'order')
@@ -141,31 +141,31 @@
                     @else
                         <a href="{{ $url.'sort=release_date&order=asc' }}">发布时间<span class="glyphicon glyphicon-arrow-up order"></span></a>
                     @endif&nbsp;&nbsp;
-                    @if($params['sort'] == 'reviews')
+                    @if($params['sort'] == 'dramas.reviews')
                         <strong>
                             @if($params['order'] == 'asc')
-                                <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                                <a href="{{ $url.'sort=dramas.reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
                             @else
-                                <a href="{{ $url.'sort=reviews&order=asc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                                <a href="{{ $url.'sort=dramas.reviews&order=asc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
                             @endif
                         </strong>
                     @else
-                        <a href="{{ $url.'sort=reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
+                        <a href="{{ $url.'sort=dramas.reviews&order=desc' }}">评论数量<span class="glyphicon glyphicon-arrow-down order"></span></a>
                     @endif&nbsp;&nbsp;
-                    @if($params['sort'] == 'favorites')
+                    @if($params['sort'] == 'dramas.favorites')
                         <strong>
                             @if($params['order'] == 'asc')
-                                <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
+                                <a href="{{ $url.'sort=dramas.favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-up order-select"></span></a>
                             @else
-                                <a href="{{ $url.'sort=favorites&order=asc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
+                                <a href="{{ $url.'sort=dramas.favorites&order=asc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order-select"></span></a>
                             @endif
                         </strong>
                     @else
-                        <a href="{{ $url.'sort=favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order"></span></a>
+                        <a href="{{ $url.'sort=dramas.favorites&order=desc' }}">收藏人数<span class="glyphicon glyphicon-arrow-down order"></span></a>
                     @endif
                     <span class="pull-right">
-                        @if($job != -2)共{{ $roles->count() }}期作品&nbsp;&nbsp;@endif
-                        <a href="{{ url('/sc/'.$sc->id.'/episodes') }}"><span class="glyphicon glyphicon-repeat"></span> 重新筛选</a>
+                        @if($job != -2)共{{ $roles->count() }}部作品&nbsp;&nbsp;@endif
+                        <a href="{{ url('/sc/'.$sc->id.'/dramas') }}"><span class="glyphicon glyphicon-repeat"></span> 重新筛选</a>
                     </span>
                 </div>
                 <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
@@ -173,27 +173,35 @@
                     @if($job == -2)
                         @foreach($jobs as $key => $job)
                             @if($roles->has($key))
-                                <h4 class="text-success">{{ $job }}<small>（共{{ $roles[$key]->count() }}期）</small></h4>
-                                @foreach($roles[$key] as $role)
-                                    {{ $role->release_date }}
-                                    《<a href="{{ url('/drama/'.$role->drama_id) }}" target="_blank">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}" target="_blank">{{ $role->episode_title }}</a>
-                                    {{ $role->note }}<br>
+                                <?php $roles[$key] = $roles[$key]->groupBy('drama_id'); ?>
+                                <h4 class="text-success">{{ $job }}<small>（共{{ $roles[$key]->count() }}部）</small></h4>
+                                @foreach($roles[$key] as $drama)
+                                        《<a href="{{ url('/drama/'.$drama[0]->drama_id) }}" target="_blank">{{ $drama[0]->drama_title }}</a>》
+                                        @foreach($drama as $episode)<br>　　{{ $episode->release_date }}
+                                        <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                        {{ $episode->note }}
+                                        @endforeach
+                                        <br>
                                 @endforeach
                             @endif
                         @endforeach
                     @elseif($job == -1)
-                        @foreach($roles as $role)<br>
-                            {{ $role[0]->release_date }}
-                            《<a href="{{ url('/drama/'.$role[0]->drama_id) }}" target="_blank">{{ $role[0]->drama->title }}</a>》<a href="{{ url('/episode/'.$role[0]->episode_id) }}" target="_blank">{{ $role[0]->episode_title }}</a>
-                            @foreach($role->sortBy('job') as $job)
+                        @foreach($roles as $drama)<br>
+                            《<a href="{{ url('/drama/'.$drama[0]->drama_id) }}" target="_blank">{{ $drama[0]->drama_title }}</a>》
+                            @foreach($drama->groupBy('episode_id') as $episode)<br>　　{{ $episode[0]->release_date }}
+                            <a href="{{ url('/episode/'.$episode[0]->episode_id) }}" target="_blank">{{ $episode[0]->episode_title }}</a>
+                            @foreach($episode->sortBy('job') as $job)
                                 {{ $jobs[$job->job] }}{{ $job->note ? '：'.$job->note : '' }}；
+                            @endforeach
                             @endforeach
                         @endforeach
                     @else
-                        @foreach($roles as $role)<br>
-                            {{ $role->release_date }}
-                            《<a href="{{ url('/drama/'.$role->drama_id) }}" target="_blank">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}" target="_blank">{{ $role->episode_title }}</a>
-                            {{ $role->note }}
+                        @foreach($roles as $drama)<br>
+                            《<a href="{{ url('/drama/'.$drama[0]->drama_id) }}" target="_blank">{{ $drama[0]->drama_title }}</a>》
+                            @foreach($drama as $episode)<br>　　{{ $episode->release_date }}
+                            <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                            {{ $episode->note }}
+                            @endforeach
                         @endforeach
                     @endif
                 </div>
