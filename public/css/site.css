@@ -2,6 +2,10 @@ body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
     font-family: "Microsoft Yahei", 微软雅黑, "Helvetica Neue", Arial, sans-serif;
 }
 
+body, .list-group-item {
+    background-color: #f7f7f7;
+}
+
 a:hover {
     text-decoration: none;
     background-color: #337ab6;
@@ -92,25 +96,7 @@ a:hover {
     background-color: #d8ecf6;
 }
 
-.review-content {
-    padding: 5px;
-    white-space: pre-line;
-}
-
-.review-footer {
-    padding: 5px;
-}
-
-.review-show {
-    margin-bottom: 30px;
-}
-
-.review-show-title {
-    padding: 5px;
-    background-color: #ecf3ec;
-}
-
-.review-show-content {
+.review-content, .review-show-content {
     padding: 5px;
     white-space: pre-line;
 }

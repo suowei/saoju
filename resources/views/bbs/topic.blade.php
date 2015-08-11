@@ -6,7 +6,7 @@
 <div class="container">
     <p><a href="{{ url('/bbs') }}"><span class="glyphicon glyphicon-send"></span> 返回留言板</a></p>
     <h4>{{ $topic->title }}</h4>
-    <div class="review-show-title">
+    <div class="review-title">
         @if($topic->user_id)
             <a href="{{ url('/user/'.$topic->user_id) }}" target="_blank">{{ $topic->user->name }}</a>
         @else
