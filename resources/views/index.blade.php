@@ -264,7 +264,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="panel panel-warning">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>

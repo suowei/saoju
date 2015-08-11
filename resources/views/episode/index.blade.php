@@ -353,10 +353,10 @@
             </div>
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-                <p class="text-muted">
-                    <span class="glyphicon glyphicon-asterisk"></span>
-                    本页筛选面板设计参考<a href="http://movie.kankan.com/type/movie/" target="_blank">迅雷看看</a>
-                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序链接设计参考<a href="http://www.taobao.com" target="_blank">淘宝</a>
+                <p>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
+                        <span class="glyphicon glyphicon-plus"></span> 添加剧集信息
+                    </a>
                 </p>
             </div>
         </div>

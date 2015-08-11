@@ -10,19 +10,17 @@
                     <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a>
                     评论《<a href="{{ url('/drama/'.$review->drama_id) }}">{{ $review->drama->title }}</a>》@if ($review->episode_id)<a href="{{ url('/episode/'.$review->episode_id) }}">{{$review->episode->title}}</a>@endif
                 </h4>
-                <div class="review-show">
-                    <h3>{{ $review->title }}</h3>
-                    <div class="review-show-title">
-                        {{ $review->created_at }}
-                        <span class="pull-right">
-                            @if(Auth::id() == $review->user_id)
-                                <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
-                                <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/review/'.$review->id) }}">删除</a>
-                            @endif
-                        </span>
-                    </div>
-                    <div class="review-show-content">{{ $review->content }}</div>
+                <h3>{{ $review->title }}</h3>
+                <div class="review-title">
+                    {{ $review->created_at }}
+                    <span class="pull-right">
+                        @if(Auth::id() == $review->user_id)
+                            <a class="text-muted" href="{{ url('/review/'.$review->id.'/edit') }}">修改</a>
+                            <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/review/'.$review->id) }}">删除</a>
+                        @endif
+                    </span>
                 </div>
+                <div class="review-show-content">{{ $review->content }}</div>
             </div>
             <div class="col-md-3">
                 <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
