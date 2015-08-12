@@ -169,7 +169,9 @@
                 </div>
 
                 <h4 class="text-success">
-                    <span class="glyphicon glyphicon-comment"></span> 最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）
+                    <span class="glyphicon glyphicon-comment"></span>
+                    最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）
+                    <small class="pull-right"><a class="text-muted" href="{{ url('/favorite') }}" target="_blank">看看大家在听什么</a></small>
                 </h4>
                 @foreach ($reviews as $review)
                     <div class="review">
@@ -250,17 +252,14 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a href="{{ url('/bbs/topic/42') }}" class="list-group-item" target="_blank">
+                            网站背景色修改
+                        </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/38') }}" class="list-group-item" target="_blank">
                             SC作品关联功能上线及首页排版调整
                         </a>
                         <a href="{{ url('/bbs/topic/37') }}" class="list-group-item" target="_blank">
                             SC、社团功能上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/30') }}" class="list-group-item" target="_blank">
-                            部分页面添加微博分享按钮
-                        </a>
-                        <a href="{{ url('/bbs/topic/27') }}" class="list-group-item" target="_blank">
-                            简单删除功能上线，可删除自己添加的剧集和分集
                         </a>
                     </div>
                 </div>
