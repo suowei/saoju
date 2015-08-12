@@ -151,7 +151,8 @@ class UserController extends Controller {
             $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
                 ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title',
                     'dramas.sc as cv', 'episodes.duration as duration');
-        }])->select('episode_id', 'type', 'rating')->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
+        }])->select('episode_id', 'type', 'rating', 'updated_at')
+            ->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
         return view('user.epfavs', ['user' => $user, 'type' => $type, 'favorites' => $favorites, 'sort' => $sort]);
     }
 

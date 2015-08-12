@@ -61,7 +61,7 @@
                     @else
                         <a href="{{ $url.'job=7' }}">填词</a>
                     @endif&nbsp;&nbsp;
-                    @if(isset($params['job']) && $params['job'] == 9)
+                    @if(isset($params['job']) && $params['job'] == 8)
                         <span class="label label-primary">歌后</span>
                     @else
                         <a href="{{ $url.'job=8' }}">歌后</a>

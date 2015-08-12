@@ -26,6 +26,7 @@
                                 <input type="number" class="rating" value="{{ $favorite->rating }}" data-size="rating-user-favorite" data-show-clear="false" readonly>
                             @endif
                         </span>&nbsp;
+                        {{ $favorite->updated_at }}
                         @if(Auth::check() && Auth::id() == $user->id)
                             <a class="text-muted" data-toggle="modal" href="#favModal" data-favorite="{{ $favorite }}"
                                data-action="{{ url('/epfav/'.$favorite->episode_id) }}" data-method="PUT" data-idname="episode_id">修改</a>

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Epfav;
 use App\Favorite;
 use App\Http\Requests;
 
@@ -14,6 +15,35 @@ class FavoriteController extends Controller {
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
+    public function index()
+    {
+        $favorites = Favorite::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        },
+            'drama' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('user_id', 'drama_id', 'type', 'updated_at')
+            ->orderBy('updated_at', 'desc')->take(50)->get();
+        $epfavs = Epfav::join('episodes', function($join)
+        {
+            $join->on('episodes.id', '=', 'epfavs.episode_id');
+        })
+            ->join('dramas', function($join) {
+            $join->on('dramas.id', '=', 'episodes.drama_id');
+        })
+            ->select('user_id', 'drama_id', 'dramas.title as drama_title', 'episode_id',
+            'episodes.title as episode_title', 'epfavs.type as type', 'epfavs.updated_at as updated_at')
+            ->orderBy('epfavs.updated_at', 'desc')->take(50)->get();
+        $epfavs->load(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }]);
+        return view('favorite.index', ['favorites' => $favorites, 'epfavs' => $epfavs]);
     }
 
     public function create(Request $request)
