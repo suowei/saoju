@@ -10,8 +10,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Role;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Input, Auth;
 
 class EpisodeController extends Controller {
@@ -393,7 +395,41 @@ class EpisodeController extends Controller {
         $roles = Role::with(['sc' => function($query) {
             $query->select('id', 'name');
         }])->select('id', 'sc_id', 'job', 'note')->where('episode_id', $id)->orderBy('job')->get();
-        return view('episode.sc', ['episode' => $episode, 'drama' => $drama, 'roles' => $roles]);
+        $episodes = Episode::select('id', 'title')->where('drama_id', $episode->drama_id)->where('id', '!=', $id)->get();
+        return view('episode.sc', ['episode' => $episode, 'drama' => $drama, 'roles' => $roles, 'episodes' => $episodes]);
+    }
+
+
+    public function copysc(Request $request, $id)
+    {
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['title']);
+        $src = Episode::find($request->input('src'), ['id', 'title']);
+        $roles = Role::with(['sc' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'sc_id', 'job', 'note')->where('episode_id', $src->id)->orderBy('job')->get();
+        return view('episode.copysc', ['episode' => $episode, 'drama' => $drama, 'src' => $src, 'roles' => $roles]);
+    }
+
+    public function storesc(Request $request, $id)
+    {
+        $this->validate($request, [
+            'drama_id' => 'required',
+            'role' => 'required',
+        ]);
+
+        $drama = $request->input('drama_id');
+        $user = $request->user()->id;
+        $roles = [];
+        $time = new Carbon;
+        foreach($request->input('role') as $key)
+        {
+            $roles[] = ['drama_id' => $drama, 'episode_id' => $id, 'sc_id' => $request->input('sc.'.$key),
+                'job' => $request->input('job.'.$key), 'note' => $request->input('note.'.$key), 'user_id' => $user,
+                'created_at' => $time, 'updated_at' => $time];
+        }
+        DB::table('roles')->insert($roles);
+        return redirect()->route('episode.sc', [$id]);
     }
 
 }

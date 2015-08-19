@@ -158,6 +158,15 @@ $("#jobs :checkbox").change(function() {
     }
 });
 
+$(function () {
+    $("#selectAll").click(function () {
+        $(":checkbox").prop("checked", true);
+    });
+    $("#unSelect").click(function () {
+        $(":checkbox").prop("checked", false);
+    });
+});
+
 $('.rating').rating({
     clearCaption: '未评分',
     starCaptions: {

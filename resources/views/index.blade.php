@@ -252,14 +252,14 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/45') }}" class="list-group-item" target="_blank">
+                        <a style="color:red;" href="{{ url('/bbs/topic/48') }}" class="list-group-item" target="_blank">
+                            复制其他集已关联SC功能
+                        </a>
+                        <a style="color:red;" href="{{ url('/bbs/topic/47') }}" class="list-group-item" target="_blank">
+                            顶部搜索栏改为综合搜索
+                        </a>
+                        <a href="{{ url('/bbs/topic/45') }}" class="list-group-item" target="_blank">
                             关于2015年8月14日晚本站遭遇恶意刷评事件的情况通报
-                        </a>
-                        <a href="{{ url('/bbs/topic/42') }}" class="list-group-item" target="_blank">
-                            网站背景色修改
-                        </a>
-                        <a href="{{ url('/bbs/topic/38') }}" class="list-group-item" target="_blank">
-                            SC作品关联功能上线及首页排版调整
                         </a>
                     </div>
                 </div>
