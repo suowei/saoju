@@ -286,8 +286,8 @@
                 </ul>
             </div>
             <p>
-                <a class="btn btn-info btn-xs" href="{{ url('/drama/'.$drama->id.'/histories') }}" target="_blank">
-                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                <a class="btn btn-info btn-xs" href="{{ url('/drama/'.$drama->id.'/versions') }}" target="_blank">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
                 </a>
                 <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/drama/'.$drama->id) }}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本剧

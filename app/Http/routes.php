@@ -40,6 +40,7 @@ Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaCont
 Route::get('/drama/{id}/histories', ['as' => 'drama.histories', 'uses' => 'DramaController@histories']);
 Route::get('/drama/{id}/favorites', ['as' => 'drama.favorites', 'uses' => 'DramaController@favorites']);
 Route::get('/drama/{id}/sc', ['as' => 'drama.sc', 'uses' => 'DramaController@sc']);
+Route::get('/drama/{id}/versions', ['as' => 'drama.versions', 'uses' => 'DramaController@versions']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);

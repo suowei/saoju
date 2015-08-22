@@ -298,12 +298,12 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-heart"></span> 感谢各位的贡献！</h4>
                     </div>
                     <ul class="list-group">
-                        @foreach($histories as $key => $history)
+                        @foreach($versions as $version)
                             <li class="list-group-item">
-                                <a href="{{ url('/user/'.$history->user_id) }}" target="_blank">{{ $history->user->name }}</a>
-                                于 {{ $history->created_at->format('m-d H:i') }} 添加了
-                                《<a href="{{ url('/drama/'.$history->model_id) }}" target="_blank">{{ $dramas[$key]->title }}</a>》
-                                <span class="text-muted">{{ $dramas[$key]->sc }}</span>
+                                <a href="{{ url('/user/'.$version->user_id) }}" target="_blank">{{ $version->user->name }}</a>
+                                于 {{ $version->created_at->format('m-d H:i') }} 添加了
+                                《<a href="{{ url('/drama/'.$version->drama_id) }}" target="_blank">{{ $version->drama->title }}</a>》
+                                <span class="text-muted">{{ $version->drama->sc }}</span>
                             </li>
                         @endforeach
                     </ul>
