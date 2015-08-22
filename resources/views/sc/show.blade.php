@@ -29,7 +29,7 @@
                 </h4>
                 <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
                 @foreach($roles as $role)
-                    《<a href="{{ url('/drama/'.$role->drama_id) }}" target="_blank">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}">{{ $role->episode->title }}</a>
+                    《<a href="{{ url('/drama/'.$role->drama_id) }}" target="_blank">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}" target="_blank">{{ $role->episode->title }}</a>
                     {{ $jobs[$role->job] }} {{ $role->note }}<br>
                 @endforeach
                 @if (Auth::check())

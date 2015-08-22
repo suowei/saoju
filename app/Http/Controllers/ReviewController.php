@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Reply;
 use App\Review;
 use App\Drama;
 use App\Episode;
