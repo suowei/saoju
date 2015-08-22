@@ -203,7 +203,7 @@ class ScController extends Controller
             //对比两个数组判断需要添加和删除的职位
             $adds = [];
             $removes = [];
-            for($i = 0; $i <= 10; $i++)
+            for($i = 0; $i <= 11; $i++)
             {
                 if(isset($job_input[$i]) && !isset($job_old[$i]))
                 {

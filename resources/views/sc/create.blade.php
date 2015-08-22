@@ -84,6 +84,9 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="job[]" value="10"> 歌手
                                     </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="job[]" value="11"> 其他
+                                    </label>
                                 </div>
                             </div>
 

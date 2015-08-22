@@ -46,6 +46,14 @@
                         <span class="glyphicon glyphicon-plus"></span> 添加关联
                     </a>
                 </p>
+                <p>
+                    复制其他集SC：
+                    @foreach($episodes as $other)
+                        <a class="btn btn-default btn-xs" href="{{ url('/episode/'.$episode->id.'/copysc?src='.$other->id) }}">
+                            {{ $other->title }}
+                        </a>
+                    @endforeach
+                </p>
             </div>
         </div>
     </div>

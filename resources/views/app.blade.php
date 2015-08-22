@@ -42,14 +42,7 @@
 
                 <form class="navbar-form navbar-left" role="search" method="GET" action="{{ url('/search') }}">
                     <div class="input-group">
-                        <span class="input-group-btn">
-                            <select name="type" id="navbarSelect">
-                                <option value="0">剧集</option>
-                                <option value="1">SC</option>
-                                <option value="2">社团</option>
-                            </select>
-                        </span>
-                        <input type="text" class="form-control" name="keyword" placeholder="剧名或别名、SC、社团">
+                        <input id="navbarSearch" type="text" class="form-control" name="keyword" placeholder="剧名或别名、SC、社团">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button>
                         </span>

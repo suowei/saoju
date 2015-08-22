@@ -85,6 +85,9 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="job[]" value="10" @if(isset($job[10])) checked @endif> 歌手
                                     </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="job[]" value="11" @if(isset($job[11])) checked @endif> 其他
+                                    </label>
                                 </div>
                             </div>
 

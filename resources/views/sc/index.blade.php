@@ -76,6 +76,12 @@
                     @else
                         <a href="{{ $url.'job=10' }}">歌手</a>
                     @endif
+                    &nbsp;&nbsp;
+                    @if(isset($params['job']) && $params['job'] == 11)
+                        <span class="label label-primary">其他</span>
+                    @else
+                        <a href="{{ $url.'job=11' }}">其他</a>
+                    @endif
                 </p>
                 <div class="drama">
                     排序：&nbsp;&nbsp;
