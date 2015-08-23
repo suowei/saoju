@@ -6,6 +6,7 @@ use App\Club;
 use App\Role;
 use App\Sc;
 use App\Screv;
+use App\Scver;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -96,9 +97,11 @@ class ScController extends Controller
         }
         $sc->jobs = $request->input('jobs');
         $sc->information = $request->input('information');
-        $sc->user_id = $request->user()->id;
         if($sc->save())
         {
+            Scver::create(['sc_id' => $sc->id, 'user_id' => $request->user()->id, 'first' => 1,
+                'name' => $sc->name, 'alias' => $sc->alias, 'club_id' => $sc->club_id,
+                'jobs' => $sc->jobs, 'information' => $sc->information]);
             if($request->has('job'))
             {
                 $jobs = [];
@@ -181,9 +184,24 @@ class ScController extends Controller
         }
         $sc->jobs = $request->input('jobs');
         $sc->information = $request->input('information');
-        $sc->user_id = $request->user()->id;
         if($sc->save())
         {
+            $user_id = $request->user()->id;
+            $version = Scver::where('sc_id', $id)->where('user_id', $user_id)->first();
+            if(!$version)
+            {
+                $version = new Scver;
+                $version->sc_id = $id;
+                $version->user_id = $user_id;
+                $version->first = 0;
+            }
+            $version->name = $sc->name;
+            $version->alias = $sc->alias;
+            $version->club_id = $sc->club_id;
+            $version->jobs = $sc->jobs;
+            $version->information = $sc->information;
+            $version->save();
+
             //获取sc当前job数组
             $jobs = DB::table('sc_job')->select('job_id')->where('sc_id', $id)->get();
             $job_old = [];
@@ -364,5 +382,20 @@ class ScController extends Controller
         else
             $roles = $roles->groupBy('drama_id');
         return view('sc.dramas', ['params' => $params, 'roles' => $roles, 'sc' => $sc, 'job' => $job]);
+    }
+
+    public function versions($id)
+    {
+        $sc = Sc::find($id, ['id', 'name']);
+        $versions = Scver::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'club' => function($query)
+        {
+            $query->select('id', 'name');
+        }])
+            ->select('user_id', 'first', 'name', 'alias', 'club_id', 'jobs', 'information', 'created_at', 'updated_at')
+            ->where('sc_id', $id)->orderBy('updated_at', 'desc')->get();
+        return view('sc.versions', ['sc' => $sc, 'versions' => $versions]);
     }
 }

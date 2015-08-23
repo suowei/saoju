@@ -71,9 +71,13 @@ class RoleController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $role = Role::find($id, ['id', 'drama_id', 'episode_id', 'sc_id', 'job', 'note']);
+        $role = Role::find($id, ['id', 'drama_id', 'episode_id', 'sc_id', 'job', 'note', 'user_id']);
+        if($role->user_id != $request->user()->id)
+        {
+            return '抱歉, 目前仅支持添加此条目的用户编辑关联信息> <';
+        }
         $drama = Drama::find($role->drama_id, ['title']);
         $episode = Episode::find($role->episode_id, ['title']);
         $sc = Sc::find($role->sc_id, ['name']);
@@ -109,9 +113,13 @@ class RoleController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $role = Role::find($id);
+        if($role->user_id != $request->user()->id)
+        {
+            return '抱歉, 目前仅支持添加此条目的用户删除关联> <';
+        }
         $role->delete();
         return redirect()->route('episode.sc', [$role->episode_id]);
     }
