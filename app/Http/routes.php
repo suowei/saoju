@@ -72,6 +72,7 @@ Route::group(['prefix' => 'bbs'], function()
 });
 
 Route::get('/club/search', 'ClubController@search');
+Route::get('/club/{id}/versions', ['as' => 'club.versions', 'uses' => 'ClubController@versions']);
 Route::resource('club', 'ClubController');
 
 Route::get('/sc/search', 'ScController@search');
