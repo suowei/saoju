@@ -112,7 +112,7 @@ class ClubController extends Controller
             $version = Clubver::where('club_id', $id)->where('user_id', $user_id)->first();
             if(!$version)
             {
-                $version = new Clubver();
+                $version = new Clubver;
                 $version->club_id = $id;
                 $version->user_id = $user_id;
                 $version->first = 0;

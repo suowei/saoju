@@ -272,7 +272,7 @@ class EpisodeController extends Controller {
             $version = Episodever::where('episode_id', $id)->where('user_id', $user_id)->first();
             if(!$version)
             {
-                $version = new Episodever();
+                $version = new Episodever;
                 $version->episode_id = $id;
                 $version->user_id = $user_id;
                 $version->first = 0;

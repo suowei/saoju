@@ -78,6 +78,7 @@ Route::resource('club', 'ClubController');
 Route::get('/sc/search', 'ScController@search');
 Route::get('/sc/{id}/episodes', ['as' => 'sc.episodes', 'uses' => 'ScController@episodes']);
 Route::get('/sc/{id}/dramas', ['as' => 'sc.dramas', 'uses' => 'ScController@dramas']);
+Route::get('/sc/{id}/versions', ['as' => 'sc.versions', 'uses' => 'ScController@versions']);
 Route::resource('sc', 'ScController');
 
 Route::resource('screv', 'ScrevController');

@@ -1,12 +1,12 @@
 @extends('app')
 
-@section('title', $club->name.'版本列表 - ')
+@section('title', $sc->name.'版本列表 - ')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h3><a href="{{ url('/club/'.$club->id) }}">{{ $club->name }}</a>的版本列表</h3>
+                <h3><a href="{{ url('/sc/'.$sc->id) }}">{{ $sc->name }}</a>的版本列表</h3>
                 @foreach ($versions as $version)
                     <div class="review">
                         <div class="review-title">
@@ -16,7 +16,12 @@
                             更新于{{ $version->updated_at }}
                         </div>
                         <div class="version">
-                            <span class="text-muted">名称：</span>{{ $version->name }}<br>
+                            <span class="text-muted">ID：</span>{{ $version->name }}<br>
+                            <span class="text-muted">马甲及昵称：</span>{{ $version->alias }}<br>
+                            <span class="text-muted">社团或工作室：</span>@if($version->club_id)<a
+                                    href="{{ url('/club/'.$version->club_id) }}"
+                                    target="_blank">{{ $version->club->name }}</a>@endif<br>
+                            <span class="text-muted">职位：</span>{{ $version->jobs }}<br>
                             <span class="text-muted">信息：</span>{{ $version->information }}
                         </div>
                     </div>
