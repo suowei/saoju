@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Club;
+use App\Clubver;
 use App\Sc;
 use App\Screv;
 use Illuminate\Http\Request;
@@ -58,9 +59,10 @@ class ClubController extends Controller
         $club = new Club;
         $club->name = $request->input('name');
         $club->information = $request->input('information');
-        $club->user_id = $request->user()->id;
         if($club->save())
         {
+            Clubver::create(['club_id' => $club->id, 'user_id' => $request->user()->id, 'first' => 1,
+                'name' => $club->name, 'information' => $club->information]);
             return redirect()->route('club.show', [$club]);
         }
         else
@@ -104,9 +106,21 @@ class ClubController extends Controller
         $club = Club::find($id);
         $club->name = $request->input('name');
         $club->information = $request->input('information');
-        $club->user_id = $request->user()->id;
         if($club->save())
         {
+            $user_id = $request->user()->id;
+            $version = Clubver::where('club_id', $id)->where('user_id', $user_id)->first();
+            if(!$version)
+            {
+                $version = new Clubver;
+                $version->club_id = $id;
+                $version->user_id = $user_id;
+                $version->first = 0;
+            }
+            $version->name = $club->name;
+            $version->information = $club->information;
+            $version->save();
+
             return redirect()->route('club.show', [$club]);
         }
         else
@@ -124,5 +138,17 @@ class ClubController extends Controller
     {
         $clubs = Club::select('name')->where('name', 'LIKE', '%'.$request->input('q').'%')->get();
         return $clubs;
+    }
+
+    public function versions($id)
+    {
+        $club = Club::find($id, ['id', 'name']);
+        $versions = Clubver::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }])
+            ->select('user_id', 'first', 'name', 'information', 'created_at', 'updated_at')
+            ->where('club_id', $id)->orderBy('updated_at', 'desc')->get();
+        return view('club.versions', ['club' => $club, 'versions' => $versions]);
     }
 }

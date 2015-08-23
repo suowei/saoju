@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Dramaver;
 use App\Episode;
 use App\History;
 use App\Review;
@@ -136,16 +137,22 @@ class IndexController extends Controller {
         }
 
         //查询最新15条新剧的添加历史
-        $dramas = Drama::select('title', 'sc')->orderBy('id', 'desc')->take(15)->get();
-        $histories = History::select('user_id', 'model_id', 'created_at')->where('model', 0)->where('type', 0)
-            ->orderBy('model_id', 'desc')->take(15)->get();
-        $histories->load(['user' => function($query)
+        $versions = Dramaver::select('user_id', 'drama_id', 'created_at')->where('first', 1)
+            ->orderBy('drama_id', 'desc')->take(15)->get();
+        $versions->load(['user' => function($query)
         {
             $query->select('id', 'name');
         }]);
+        $versions->load(['drama' => function($query)
+        {
+            $query->select('id', 'title', 'sc');
+        }]);
+        $versions = $versions->filter(function ($version) {
+            return isset($version->drama->id);
+        });
 
         return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10, 'reviews' => $reviews,
-            'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'dramas' => $dramas, 'histories' => $histories]);
+            'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'versions' => $versions]);
 	}
 
 }

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Dramaver;
 use App\Epfav;
 use App\History;
 use App\Favorite;
@@ -128,76 +129,13 @@ class DramaController extends Controller {
             'poster_url' => 'url',
         ]);
 
-        $history = new History;
-        $history->user_id = $request->user()->id;
-        $history->model = 0;
-        $history->type = 0;
-
         if($drama = Drama::create(Input::all()))
         {
-            $history->model_id = $drama->id;
-            $history->content = '剧名：'.$drama->title;
-            if($drama->alias != '')
-                $history->content .= '；副标题/别名：'.$drama->alias;
-            $history->content .= '；性向：';
-            switch($drama->type)
-            {
-                case 0:
-                    $history->content .= '耽美';
-                    break;
-                case 1:
-                    $history->content .= '全年龄';
-                    break;
-                case 2:
-                    $history->content .= '言情';
-                    break;
-                case 3:
-                    $history->content .= '百合';
-                    break;
-            }
-            $history->content .= '；时代：';
-            switch($drama->era)
-            {
-                case 0:
-                    $history->content .= '现代';
-                    break;
-                case 1:
-                    $history->content .= '古风';
-                    break;
-                case 2:
-                    $history->content .= '民国';
-                    break;
-                case 3:
-                    $history->content .= '未来';
-                    break;
-                case 4:
-                    $history->content .= '其他';
-                    break;
-            }
-            if($drama->genre != '')
-                $history->content .= '；其他描述：'.$drama->genre;
-            $history->content .= '；原创性：' . ($drama->original == 1 ? '原创' : '改编');
-            $history->content .= '；期数：'.$drama->count;
-            $history->content .= '；进度：';
-            switch($drama->state)
-            {
-                case 0:
-                    $history->content .= '连载';
-                    break;
-                case 1:
-                    $history->content .= '完结';
-                    break;
-                case 2:
-                    $history->content .= '已坑';
-                    break;
-            }
-            $history->content .= '；主役CV：'.$drama->sc;
-            if($drama->poster_url != '')
-                $history->content .= '；海报地址：'.$drama->poster_url;
-            if($drama->introduction != '')
-                $history->content .= '；剧情简介：'.$drama->introduction;
-            $history->save();
-
+            Dramaver::create(['drama_id' => $drama->id, 'user_id' => $request->user()->id, 'first' => 1,
+                'title' => $drama->title, 'alias' => $drama->alias, 'type' => $drama->type, 'era' => $drama->era,
+                'genre' => $drama->genre, 'original' => $drama->original, 'count' => $drama->count,
+                'state' => $drama->state, 'sc' => $drama->sc, 'poster_url' => $drama->poster_url,
+                'introduction' => $drama->introduction]);
             return redirect()->route('drama.show', [$drama]);
         }
         else
@@ -292,88 +230,6 @@ class DramaController extends Controller {
         ]);
 
         $drama = Drama::find($id);
-
-        $history = new History;
-        $history->user_id = $request->user()->id;
-        $history->model = 0;
-        $history->type = 1;
-        $history->model_id = $id;
-        $history->content = '';
-        if($drama->title != $request->input('title'))
-            $history->content .= '剧名：'.$request->input('title').'；';
-        if($drama->alias != $request->input('alias'))
-            $history->content .= '副标题/别名：'.$request->input('alias').'；';
-        if($drama->type != $request->input('type'))
-        {
-            $history->content .= '性向：';
-            switch($request->input('type'))
-            {
-                case 0:
-                    $history->content .= '耽美；';
-                    break;
-                case 1:
-                    $history->content .= '全年龄；';
-                    break;
-                case 2:
-                    $history->content .= '言情；';
-                    break;
-                case 3:
-                    $history->content .= '百合；';
-                    break;
-            }
-        }
-        if($drama->era != $request->input('era'))
-        {
-            $history->content .= '时代：';
-            switch($request->input('era'))
-            {
-                case 0:
-                    $history->content .= '现代；';
-                    break;
-                case 1:
-                    $history->content .= '古风；';
-                    break;
-                case 2:
-                    $history->content .= '民国；';
-                    break;
-                case 3:
-                    $history->content .= '未来；';
-                    break;
-                case 4:
-                    $history->content .= '其他；';
-                    break;
-            }
-        }
-        if($drama->genre != $request->input('genre'))
-            $history->content .= '其他描述：'.$request->input('genre').'；';
-        if($drama->original != $request->input('original'))
-            $history->content .= '原创性：' . ($request->input('original') == 1 ? '原创；' : '改编；');
-        if($drama->count != $request->input('count'))
-            $history->content .= '期数：'.$request->input('count').'；';
-        if($drama->state != $request->input('state'))
-        {
-            $history->content .= '进度：';
-            switch($request->input('state'))
-            {
-                case 0:
-                    $history->content .= '连载；';
-                    break;
-                case 1:
-                    $history->content .= '完结；';
-                    break;
-                case 2:
-                    $history->content .= '已坑；';
-                    break;
-            }
-        }
-        if($drama->sc != $request->input('sc'))
-            $history->content .= '主役CV：'.$request->input('sc').'；';
-        if($drama->poster_url != $request->input('poster_url'))
-            $history->content .= '海报地址：'.$request->input('poster_url').'；';
-        if($drama->introduction != $request->input('introduction'))
-            $history->content .= '剧情简介：'.$request->input('introduction').'；';
-        $history->content = mb_substr($history->content, 0 , -1);
-
         $drama->title = $request->input('title');
         $drama->alias = $request->input('alias');
         $drama->type = $request->input('type');
@@ -388,8 +244,28 @@ class DramaController extends Controller {
 
         if($drama->save())
         {
-            if(!empty($history->content))
-                $history->save();
+            $user_id = $request->user()->id;
+            $version = Dramaver::where('drama_id', $id)->where('user_id', $user_id)->first();
+            if(!$version)
+            {
+                $version = new Dramaver;
+                $version->drama_id = $id;
+                $version->user_id = $user_id;
+                $version->first = 0;
+            }
+            $version->title = $drama->title;
+            $version->alias = $drama->alias;
+            $version->type = $drama->type;
+            $version->era = $drama->era;
+            $version->genre = $drama->genre;
+            $version->original = $drama->original;
+            $version->count = $drama->count;
+            $version->state = $drama->state;
+            $version->sc = $drama->sc;
+            $version->poster_url = $drama->poster_url;
+            $version->introduction = $drama->introduction;
+            $version->save();
+
             return redirect()->route('drama.show', [$id]);
         }
         else
@@ -400,8 +276,8 @@ class DramaController extends Controller {
 
 	public function destroy(Request $request, $id)
 	{
-        $history = History::select('id', 'user_id')->where('model', 0)->where('model_id', $id)->where('type', 0)->first();
-        if($history->user_id != $request->user()->id)
+        $version = Dramaver::select('user_id')->where('drama_id', $id)->where('first', 1)->first();
+        if($version->user_id != $request->user()->id)
         {
             return '抱歉, 目前仅支持添加此条目的用户删除剧集> <';
         }
@@ -423,13 +299,6 @@ class DramaController extends Controller {
         $drama = Drama::find($id, ['id']);
         if($drama->delete())
         {
-            $history->delete();
-            //删除剩余编辑历史
-            $histories = History::select('id')->where('model', 0)->where('model_id', $id)->get();
-            foreach($histories as $history)
-            {
-                $history->delete();
-            }
             return redirect('/');
         }
         else
@@ -486,6 +355,19 @@ class DramaController extends Controller {
         }])->select('id', 'episode_id', 'sc_id', 'job', 'note')->where('drama_id', $id)->orderBy('job')->get();
         $roles = $roles->groupBy('episode_id');
         return view('drama.sc', ['drama' => $drama, 'episodes' => $episodes, 'roles' => $roles]);
+    }
+
+    public function versions($id)
+    {
+        $drama = Drama::find($id, ['id', 'title']);
+        $versions = Dramaver::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }])
+            ->select('user_id', 'first', 'title', 'alias', 'type', 'era', 'genre', 'original',
+                'count', 'state', 'sc', 'poster_url', 'introduction', 'created_at', 'updated_at')
+            ->where('drama_id', $id)->orderBy('updated_at', 'desc')->get();
+        return view('drama.versions', ['drama' => $drama, 'versions' => $versions]);
     }
 
 }

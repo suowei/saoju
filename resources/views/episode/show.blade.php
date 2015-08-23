@@ -146,8 +146,8 @@
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode/'.$episode->id.'/histories') }}" target="_blank">
-                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看编辑历史
+                    <a class="btn btn-info btn-xs" href="{{ url('/episode/'.$episode->id.'/versions') }}" target="_blank">
+                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
                     </a>
                 </p>
                 <p>

@@ -8,6 +8,9 @@
             <div class="col-md-7">
                 <h3 class="text-success">
                     《<a href="{{ url('/drama/'.$episode->drama_id) }}">{{ $drama->title }}</a>》<a href="{{ url('/episode/'.$episode->id) }}">{{ $episode->title }}</a>关联SC
+                    <a class="btn btn-warning btn-xs" href="{{ url('/role/create?episode='.$episode->id) }}">
+                        <span class="glyphicon glyphicon-plus"></span> 添加关联
+                    </a>
                 </h3>
                 <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
                 <div class="table-responsive">
@@ -41,11 +44,6 @@
                         </tbody>
                     </table>
                 </div>
-                <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/role/create?episode='.$episode->id) }}">
-                        <span class="glyphicon glyphicon-plus"></span> 添加关联
-                    </a>
-                </p>
                 <p>
                     复制其他集SC：
                     @foreach($episodes as $other)

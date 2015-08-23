@@ -78,6 +78,11 @@
                         <span class="glyphicon glyphicon-edit"></span> 编辑SC信息
                     </a>
                 </p>
+                <p>
+                    <a class="btn btn-info btn-xs" href="{{ url('/sc/'.$sc->id.'/versions') }}" target="_blank">
+                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
+                    </a>
+                </p>
             </div>
         </div>
     </div>

@@ -40,6 +40,7 @@ Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaCont
 Route::get('/drama/{id}/histories', ['as' => 'drama.histories', 'uses' => 'DramaController@histories']);
 Route::get('/drama/{id}/favorites', ['as' => 'drama.favorites', 'uses' => 'DramaController@favorites']);
 Route::get('/drama/{id}/sc', ['as' => 'drama.sc', 'uses' => 'DramaController@sc']);
+Route::get('/drama/{id}/versions', ['as' => 'drama.versions', 'uses' => 'DramaController@versions']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
@@ -48,6 +49,7 @@ Route::get('/episode/{id}/favorites', ['as' => 'episode.favorites', 'uses' => 'E
 Route::get('/episode/{id}/sc', ['as' => 'episode.sc', 'uses' => 'EpisodeController@sc']);
 Route::get('/episode/{id}/copysc', 'EpisodeController@copysc');
 Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
+Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');
@@ -70,11 +72,13 @@ Route::group(['prefix' => 'bbs'], function()
 });
 
 Route::get('/club/search', 'ClubController@search');
+Route::get('/club/{id}/versions', ['as' => 'club.versions', 'uses' => 'ClubController@versions']);
 Route::resource('club', 'ClubController');
 
 Route::get('/sc/search', 'ScController@search');
 Route::get('/sc/{id}/episodes', ['as' => 'sc.episodes', 'uses' => 'ScController@episodes']);
 Route::get('/sc/{id}/dramas', ['as' => 'sc.dramas', 'uses' => 'ScController@dramas']);
+Route::get('/sc/{id}/versions', ['as' => 'sc.versions', 'uses' => 'ScController@versions']);
 Route::resource('sc', 'ScController');
 
 Route::resource('screv', 'ScrevController');
