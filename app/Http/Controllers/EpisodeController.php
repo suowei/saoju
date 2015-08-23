@@ -2,6 +2,7 @@
 
 use App\Epfav;
 use App\Episode;
+use App\Episodever;
 use App\Review;
 use App\History;
 use App\Drama;
@@ -171,28 +172,12 @@ class EpisodeController extends Controller {
             'drama_id' => 'required',
         ]);
 
-        $history = new History;
-        $history->user_id = $request->user()->id;
-        $history->model = 1;
-        $history->type = 0;
-
         if($episode = Episode::create(Input::all()))
         {
-            $history->model_id = $episode->id;
-            $history->content = '分集标题：'.$episode->title;
-            if($episode->alias != '')
-                $history->content .= '；副标题：'.$episode->alias;
-            $history->content .= '；发布日期：'.$episode->release_date;
-            if($episode->url != '')
-                $history->content .= '；发布地址：'.$episode->url;
-            $history->content .= '；SC表：'.$episode->sc;
-            $history->content .= '；时长：'.$episode->duration;
-            if($episode->poster_url != '')
-                $history->content .= '；海报地址：'.$episode->poster_url;
-            if($episode->introduction != '')
-                $history->content .= '；本集简介：'.$episode->introduction;
-            $history->save();
-
+            Episodever::create(['episode_id' => $episode->id, 'user_id' => $request->user()->id, 'first' => 1,
+                'title' => $episode->title, 'alias' => $episode->alias, 'release_date' => $episode->release_date,
+                'url' => $episode->url, 'sc' => $episode->sc, 'duration' => $episode->duration,
+                'poster_url' => $episode->poster_url, 'introduction' => $episode->introduction]);
             return redirect()->route('episode.show', [$episode]);
         }
         else
@@ -272,31 +257,6 @@ class EpisodeController extends Controller {
         ]);
 
         $episode = Episode::find($id);
-
-        $history = new History;
-        $history->user_id = $request->user()->id;
-        $history->model = 1;
-        $history->type = 1;
-        $history->model_id = $id;
-        $history->content = '';
-        if($episode->title != $request->input('title'))
-            $history->content .= '分集标题：'.$request->input('title').'；';
-        if($episode->alias != $request->input('alias'))
-            $history->content .= '副标题：'.$request->input('alias').'；';
-        if($episode->release_date != $request->input('release_date'))
-            $history->content .= '发布日期：'.$request->input('release_date').'；';
-        if($episode->url != $request->input('url'))
-            $history->content .= '发布地址：'.$request->input('url').'；';
-        if($episode->sc != $request->input('sc'))
-            $history->content .= 'SC表：'.$request->input('sc').'；';
-        if($episode->duration != $request->input('duration'))
-            $history->content .= '时长：'.$request->input('duration').'；';
-        if($episode->poster_url != $request->input('poster_url'))
-            $history->content .= '海报地址：'.$request->input('poster_url').'；';
-        if($episode->introduction != $request->input('introduction'))
-            $history->content .= '本集简介：'.$request->input('introduction').'；';
-        $history->content = mb_substr($history->content, 0 , -1);
-
         $episode->title = $request->input('title');
         $episode->alias = $request->input('alias');
         $episode->release_date = $request->input('release_date');
@@ -308,8 +268,25 @@ class EpisodeController extends Controller {
 
         if($episode->save())
         {
-            if(!empty($history->content))
-                $history->save();
+            $user_id = $request->user()->id;
+            $version = Episodever::where('episode_id', $id)->where('user_id', $user_id)->first();
+            if(!$version)
+            {
+                $version = new Episodever();
+                $version->episode_id = $id;
+                $version->user_id = $user_id;
+                $version->first = 0;
+            }
+            $version->title = $episode->title;
+            $version->alias = $episode->alias;
+            $version->release_date = $episode->release_date;
+            $version->url = $episode->url;
+            $version->sc = $episode->sc;
+            $version->duration = $episode->duration;
+            $version->poster_url = $episode->poster_url;
+            $version->introduction = $episode->introduction;
+            $version->save();
+
             return redirect()->route('episode.show', [$id]);
         }
         else
@@ -320,8 +297,8 @@ class EpisodeController extends Controller {
 
 	public function destroy(Request $request, $id)
 	{
-		$history = History::select('id', 'user_id')->where('model', 1)->where('model_id', $id)->where('type', 0)->first();
-        if($history->user_id != $request->user()->id)
+        $version = Episodever::select('user_id')->where('episode_id', $id)->where('first', 1)->first();
+        if($version->user_id != $request->user()->id)
         {
             return '抱歉, 目前仅支持添加此条目的用户删除分集> <';
         }
@@ -343,13 +320,6 @@ class EpisodeController extends Controller {
         $episode = Episode::find($id, ['id', 'drama_id']);
         if($episode->delete())
         {
-            $history->delete();
-            //删除剩余编辑历史
-            $histories = History::select('id')->where('model', 1)->where('model_id', $id)->get();
-            foreach($histories as $history)
-            {
-                $history->delete();
-            }
             return redirect()->route('drama.show', [$episode->drama_id]);
         }
         else
@@ -430,6 +400,20 @@ class EpisodeController extends Controller {
         }
         DB::table('roles')->insert($roles);
         return redirect()->route('episode.sc', [$id]);
+    }
+
+    public function versions($id)
+    {
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['id', 'title']);
+        $versions = Episodever::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }])
+            ->select('user_id', 'first', 'title', 'alias', 'release_date', 'url',
+                'sc', 'duration', 'poster_url', 'introduction', 'created_at', 'updated_at')
+            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->get();
+        return view('episode.versions', ['episode' => $episode, 'drama' => $drama, 'versions' => $versions]);
     }
 
 }

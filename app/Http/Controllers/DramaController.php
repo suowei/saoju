@@ -364,7 +364,7 @@ class DramaController extends Controller {
         {
             $query->select('id', 'name');
         }])
-            ->select('user_id', 'title', 'alias', 'type', 'era', 'genre', 'original',
+            ->select('user_id', 'first', 'title', 'alias', 'type', 'era', 'genre', 'original',
                 'count', 'state', 'sc', 'poster_url', 'introduction', 'created_at', 'updated_at')
             ->where('drama_id', $id)->orderBy('updated_at', 'desc')->get();
         return view('drama.versions', ['drama' => $drama, 'versions' => $versions]);

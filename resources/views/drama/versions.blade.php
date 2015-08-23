@@ -11,6 +11,7 @@
                     <div class="review">
                         <div class="review-title">
                             <a href="{{ url('/user/'.$version->user_id) }}" target="_blank">{{ $version->user->name }}</a>
+                            @if($version->first)（创建者）@endif
                             此版本创建于{{ $version->created_at }}
                             更新于{{ $version->updated_at }}
                         </div>

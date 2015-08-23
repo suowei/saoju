@@ -49,6 +49,7 @@ Route::get('/episode/{id}/favorites', ['as' => 'episode.favorites', 'uses' => 'E
 Route::get('/episode/{id}/sc', ['as' => 'episode.sc', 'uses' => 'EpisodeController@sc']);
 Route::get('/episode/{id}/copysc', 'EpisodeController@copysc');
 Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
+Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');

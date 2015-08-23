@@ -19,6 +19,7 @@ return array(
     'CreateDramaversTable' => $baseDir . '/database/migrations/2015_08_22_153530_create_dramavers_table.php',
     'CreateEpfavsTable' => $baseDir . '/database/migrations/2015_07_09_131738_create_epfavs_table.php',
     'CreateEpisodesTable' => $baseDir . '/database/migrations/2015_05_28_092626_create_episodes_table.php',
+    'CreateEpisodeversTable' => $baseDir . '/database/migrations/2015_08_23_101902_create_episodevers_table.php',
     'CreateFavoritesTable' => $baseDir . '/database/migrations/2015_06_03_082301_create_favorites_table.php',
     'CreateHistoriesTable' => $baseDir . '/database/migrations/2015_06_12_161946_create_histories_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
