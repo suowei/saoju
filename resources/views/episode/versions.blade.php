@@ -29,7 +29,7 @@
                 @endforeach
             </div>
             <div class="col-md-3">
-                <p>自2015年8月2X日起，编辑历史功能升级为版本列表，在此日期之前的分集编辑历史均合并到分集添加者的版本中。</p>
+                <p>自2015年8月23日起，编辑历史功能升级为版本列表，在此日期之前的分集编辑历史均合并到分集添加者的版本中。</p>
                 <p>
                     <a class="btn btn-info btn-xs" href="{{ url('/episode/'.$episode->id.'/histories') }}" target="_blank">
                         <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看旧版编辑历史
