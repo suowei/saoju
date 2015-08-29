@@ -273,4 +273,18 @@ class UserController extends Controller {
         return response($str, 200, $headers);
     }
 
+    public function invite(Request $request)
+    {
+        $invitation = DB::table('invitations')->select('id', 'code', 'new_user_id')
+            ->where('old_user_id', $request->user()->id)->first();
+        return view('user.invite', ['invitation' => $invitation]);
+    }
+
+    public function updateCode(Request $request)
+    {
+        $invitation = DB::table('invitations')->select('id', 'old_user_id')->where('id', $request->user()->id)->first();
+        DB::table('invitations')->where('id', $invitation->id)->update(['code' => $request->input('code')]);
+        return redirect()->route('user.invite');
+    }
+
 }

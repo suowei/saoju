@@ -13,6 +13,7 @@
 
 Route::get('/', 'IndexController@index');
 
+Route::post('auth/inviteRegister', 'Auth\AuthController@inviteRegister');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
@@ -27,6 +28,8 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/user/export/reviews', ['as' => 'user.export.reviews', 'uses' => 'UserController@exportReviews']);
     Route::get('/user/export/favorites', ['as' => 'user.export.favorites', 'uses' => 'UserController@exportFavorites']);
     Route::get('/user/export/screvs', ['as' => 'user.export.screvs', 'uses' => 'UserController@exportScrevs']);
+    Route::get('/user/invite', ['as' => 'user.invite', 'uses' => 'UserController@invite']);
+    Route::put('/user/updateCode', ['as' => 'user.updateCode', 'uses' => 'UserController@updateCode']);
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);

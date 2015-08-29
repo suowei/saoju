@@ -224,6 +224,11 @@
                         <span class="glyphicon glyphicon-info-sign"></span>
                         导出文件格式为CSV，可直接用Excel或记事本等软件打开。
                     </p>
+                    <p>
+                        <a class="btn btn-danger btn-xs" href="{{ url('/user/invite') }}" target="_blank">
+                            <span class="glyphicon glyphicon-phone"></span> 邀请朋友
+                        </a>
+                    </p>
                 @endif
             </div>
         </div>

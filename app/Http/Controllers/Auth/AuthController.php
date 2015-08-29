@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -62,5 +65,27 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function inviteRegister(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|max:255|unique:users',
+            'name' => 'required|max:30|unique:users',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $invitation = DB::table('invitations')->select('id', 'new_user_id', 'code')
+            ->where('id', $request->input('invitation'))->first();
+        if($invitation->code != $request->input('code'))
+            return redirect()->back()->withInput()->withErrors('邀请码编号或暗号错误');
+        if($invitation->new_user_id)
+            return redirect()->back()->withInput()->withErrors('该邀请码已被使用');
+
+        Auth::login($this->create($request->all()));
+
+        DB::table('invitations')->where('id', $invitation->id)->update(['new_user_id' => Auth::user()->id]);
+
+        return redirect('/');
     }
 }
