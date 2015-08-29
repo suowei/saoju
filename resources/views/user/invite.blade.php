@@ -14,12 +14,11 @@
             @if($invitation->new_user_id)
                 此邀请码已被使用<br>
             @else
-                请设置暗号：
                 <form class="form-inline" method="POST" action="{{ url('/user/updateCode') }}">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="code">
+                        <input type="text" class="form-control" name="code" placeholder="请设置或重设暗号">
                     </div>
                     <button type="submit" class="btn btn-default">设置暗号</button>
                 </form>

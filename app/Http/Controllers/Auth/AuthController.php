@@ -73,12 +73,13 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'name' => 'required|max:30|unique:users',
             'password' => 'required|confirmed|min:6',
+            'code' => 'required',
         ]);
 
         $invitation = DB::table('invitations')->select('id', 'new_user_id', 'code')
             ->where('id', $request->input('invitation'))->first();
         if($invitation->code != $request->input('code'))
-            return redirect()->back()->withInput()->withErrors('邀请码编号或暗号错误');
+            return redirect()->back()->withInput()->withErrors('暗号不对> <');
         if($invitation->new_user_id)
             return redirect()->back()->withInput()->withErrors('该邀请码已被使用');
 
