@@ -58,6 +58,9 @@
                             <a class="btn btn-success btn-xs" href="{{ url('/review/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
                                 <span class="glyphicon glyphicon-pencil"></span> 写本期评论
                             </a>
+                                <a class="btn btn-primary btn-xs" href="{{ url('/item/create?episode='.$episode->id) }}">
+                                    <span class="glyphicon glyphicon-plus"></span> 添加到剧单
+                                </a>
                         </p>
 
                         <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
@@ -155,6 +158,22 @@
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本期分集
                     </a>
                 </p>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-step-forward"></span>
+                            最新收录剧单<small>（<a href="{{ url('/episode/'.$episode->id.'/lists') }}"
+                                             target="_blank">查看全部</a>）</small></h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach ($lists as $list)
+                            <li class="list-group-item">
+                                <a href="{{ url('/list/'.$list->id) }}" target="_blank">{{ $list->title }}</a>
+                                （<a href="{{ url('/user/'.$list->user_id) }}" target="_blank">{{ $list->user->name }}</a>）
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/episode/'.$episode->id.'/favorites') }}" target="_blank">查看全部{{ $episode->favorites }}条收藏</a>）</small></h4>

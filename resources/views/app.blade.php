@@ -100,6 +100,7 @@
                     <img src="http://bbs.jjwxc.net/favicon.ico" height="14px">
                     <a href="http://bbs.jjwxc.net/board.php?board=52&page=1" target="_blank">优声由色</a>
                     <a href="http://bbs.jjwxc.net/board.php?board=44&page=1" target="_blank">留声花园</a>
+                    @yield('link')
                 </div>
             </div>
         </div>

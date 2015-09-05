@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Dramalist;
 use App\Epfav;
 use App\Review;
 use App\Screv;
@@ -59,8 +60,9 @@ class UserController extends Controller {
             ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
             ->where('screvs.user_id', $id)
             ->orderBy('id', 'desc')->take(6)->get();
-        return view('user.show', ['user' => $user, 'epfavs' => $epfavs,
-            'favorites' => $favorites, 'reviews' => $reviews, 'screvs' => $screvs]);
+        $lists = Dramalist::select('id', 'title')->where('user_id', $id)->take(10)->get();
+        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites,
+            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists]);
     }
 
     public function edit()
@@ -286,6 +288,13 @@ class UserController extends Controller {
             ->where('old_user_id', $request->user()->id)->first();
         DB::table('invitations')->where('id', $invitation->id)->update(['code' => $request->input('code')]);
         return redirect()->route('user.invite');
+    }
+
+    public function lists($id)
+    {
+        $lists = Dramalist::select('id', 'title', 'created_at', 'updated_at')->where('user_id', $id)->paginate(50);
+        $user = User::find($id, ['id', 'name']);
+        return view('user.lists', ['user' => $user, 'lists' => $lists]);
     }
 
 }

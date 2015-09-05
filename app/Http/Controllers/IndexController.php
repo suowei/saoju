@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Dramalist;
 use App\Dramaver;
 use App\Episode;
 use App\History;
+use App\Listfav;
 use App\Review;
 use App\Favorite;
 
@@ -78,6 +80,18 @@ class IndexController extends Controller {
             $query->select('id', 'title');
         }]);
 
+        //查询60天收藏数前10的剧单
+        $lists = Listfav::with(['dramalist' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select(DB::raw('count(*) as favorite_count, list_id'))
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-60 day")))
+            ->groupBy('list_id')->orderBy('favorite_count', 'desc')->take(10)->get();
+
+        //最新剧单
+        $newlists = Dramalist::select('id', 'title')->orderBy('id', 'desc')->take(10)->get();
+
         //查询30天评论数前10的剧集id
         if($type < 0)
         {
@@ -136,9 +150,9 @@ class IndexController extends Controller {
                 ->get();
         }
 
-        //查询最新15条新剧的添加历史
+        //查询最新10条新剧的添加历史
         $versions = Dramaver::select('user_id', 'drama_id', 'created_at')->where('first', 1)
-            ->orderBy('drama_id', 'desc')->take(15)->get();
+            ->orderBy('drama_id', 'desc')->take(10)->get();
         $versions->load(['user' => function($query)
         {
             $query->select('id', 'name');
@@ -151,7 +165,8 @@ class IndexController extends Controller {
             return isset($version->drama->id);
         });
 
-        return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10, 'reviews' => $reviews,
+        return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10,
+            'reviews' => $reviews, 'lists' => $lists, 'newlists' => $newlists,
             'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'versions' => $versions]);
 	}
 

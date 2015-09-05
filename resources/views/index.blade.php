@@ -239,13 +239,16 @@
                         <span class="glyphicon glyphicon-picture"></span> 查看SC社团印象
                     </a>
                 </p>
-                <p class="text-info">
-                    <span class="glyphicon glyphicon-hand-down"></span> 意见建议捉虫反馈看这里
+                <p>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
+                        <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
+                    </a>
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
                         <span class="glyphicon glyphicon-send"></span> 留言板
                     </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 意见建议捉虫反馈看这里
                 </p>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -260,7 +263,37 @@
                         </a>
                     </div>
                 </div>
-                <div class="panel panel-danger">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{{ url('/list') }}" target="_blank">
+                                <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
+                            </a>
+                        </h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($newlists as $list)
+                            <li class="list-group-item">
+                                <a href="{{ url('/list/'.$list->id) }}" target="_blank">{{ $list->title }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-play"></span> 热门剧单</h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($lists as $list)
+                            @if(isset($list->dramalist))
+                                <li class="list-group-item">
+                                    <a href="{{ url('/list/'.$list->list_id) }}" target="_blank">{{ $list->dramalist->title }}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>
@@ -308,4 +341,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('link')
+    <a href="http://www.chinadra.com/" target="_blank">无限中抓</a>
 @endsection

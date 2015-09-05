@@ -136,6 +136,14 @@ $('#deleteConfirmModal').on('show.bs.modal', function (event) {
     $(this).find("form").prop('action', action);
 });
 
+$('#itemModal').on('show.bs.modal', function (event) {
+    var modal = $(this);
+    var item = $(event.relatedTarget).data('item');
+    modal.find("input[name='no']").prop('value', item.no);
+    modal.find("[name='review']").val(item.review);
+    modal.find("form").prop('action', $(event.relatedTarget).data('action'));
+});
+
 $('#carousel').carousel({
     interval: false
 });
