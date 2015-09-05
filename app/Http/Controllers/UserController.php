@@ -2,6 +2,7 @@
 
 use App\Dramalist;
 use App\Epfav;
+use App\Listfav;
 use App\Review;
 use App\Screv;
 use App\User;
@@ -297,4 +298,14 @@ class UserController extends Controller {
         return view('user.lists', ['user' => $user, 'lists' => $lists]);
     }
 
+    public function listfavs(Request $request)
+    {
+        $listfavs = Listfav::with(['dramalist' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('list_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')->paginate(50);
+        return view('user.listfavs', ['listfavs' => $listfavs]);
+    }
 }

@@ -255,11 +255,11 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/51') }}" class="list-group-item" target="_blank">
-                            邀请注册功能开放
+                        <a style="color:red;" href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
+                            剧单功能上线
                         </a>
-                        <a href="{{ url('/bbs/topic/50') }}" class="list-group-item" target="_blank">
-                            版本列表功能上线，替换原有编辑历史功能
+                        <a href="{{ url('/bbs/topic/51') }}" class="list-group-item" target="_blank">
+                            邀请注册功能开放
                         </a>
                     </div>
                 </div>

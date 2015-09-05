@@ -221,12 +221,17 @@
                         </a>
                     </p>
                     <p>
-                        <a class="btn btn-success btn-xs" href="{{ url('/user/edit') }}">
+                        <a class="btn btn-success btn-xs" href="{{ url('/user/listfavs') }}" target="_blank">
+                            <span class="glyphicon glyphicon-gift"></span> 查看已收藏剧单
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-warning btn-xs" href="{{ url('/user/edit') }}">
                             <span class="glyphicon glyphicon-cog"></span> 修改信息
                         </a>
                     </p>
                     <p>
-                        <a class="btn btn-warning btn-xs" href="{{ url('/user/export/favorites') }}">
+                        <a class="btn btn-info btn-xs" href="{{ url('/user/export/favorites') }}">
                             <span class="glyphicon glyphicon-export"></span> 导出所有收藏
                         </a>
                     </p>
@@ -236,16 +241,16 @@
                         </a>
                     </p>
                     <p>
-                        <a class="btn btn-info btn-xs" href="{{ url('/user/export/screvs') }}">
+                        <a class="btn btn-danger btn-xs" href="{{ url('/user/export/screvs') }}">
                             <span class="glyphicon glyphicon-export"></span> 导出所有SC、社团印象
                         </a>
                     </p>
-                    <p class="text-danger">
+                    <p class="text-success">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         导出文件格式为CSV，可直接用Excel或记事本等软件打开。
                     </p>
                     <p>
-                        <a class="btn btn-danger btn-xs" href="{{ url('/user/invite') }}" target="_blank">
+                        <a class="btn btn-warning btn-xs" href="{{ url('/user/invite') }}" target="_blank">
                             <span class="glyphicon glyphicon-phone"></span> 邀请朋友
                         </a>
                     </p>
