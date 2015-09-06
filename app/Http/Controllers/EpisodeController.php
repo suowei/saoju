@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use App\Dramalist;
 use App\Epfav;
 use App\Episode;
 use App\Episodever;
+use App\Item;
 use App\Review;
 use App\History;
 use App\Drama;
@@ -201,10 +203,14 @@ class EpisodeController extends Controller {
             $query->select('id', 'name');
         }])->select('id', 'user_id', 'title', 'content', 'created_at')
             ->where('episode_id', $id)->orderBy('id', 'desc')->take(20)->get();
+        $listids = Item::select('list_id')->where('episode_id', $id)->orderBy('id', 'desc')->take(10)->lists('list_id');
+        $lists = Dramalist::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'title', 'user_id')->whereIn('id', $listids)->get();
         $favorites = Epfav::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')
-            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(5)->get();
+            ->where('episode_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
         $roles = Role::with(['sc' => function($query) {
             $query->select('id', 'name');
         }])->select('sc_id', 'job', 'note')->where('episode_id', $id)->orderBy('job')->get();
@@ -220,7 +226,7 @@ class EpisodeController extends Controller {
             $favorite = 0;
             $userReviews = 0;
         }
-        return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews,
+        return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews, 'lists' => $lists,
             'favorites' => $favorites, 'roles' => $roles, 'favorite' => $favorite, 'userReviews' => $userReviews]);
 	}
 
@@ -414,6 +420,19 @@ class EpisodeController extends Controller {
                 'sc', 'duration', 'poster_url', 'introduction', 'created_at', 'updated_at')
             ->where('episode_id', $id)->orderBy('updated_at', 'desc')->get();
         return view('episode.versions', ['episode' => $episode, 'drama' => $drama, 'versions' => $versions]);
+    }
+
+    public function lists($id)
+    {
+        $episode = Episode::find($id, ['id', 'drama_id', 'title']);
+        $drama = Drama::find($episode->drama_id, ['id', 'title']);
+        $items = Item::select('list_id', 'created_at')->where('episode_id', $id)
+            ->orderBy('id', 'desc')->paginate(50);
+        $listids = $items->pluck('list_id');
+        $lists = Dramalist::with(['user' => function($query) {
+            $query->select('id', 'name');
+        }])->select('id', 'title', 'user_id')->whereIn('id', $listids)->get();
+        return view('episode.lists', ['episode' => $episode, 'drama' => $drama, 'items' => $items, 'lists' => $lists]);
     }
 
 }

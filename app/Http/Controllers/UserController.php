@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Dramalist;
 use App\Epfav;
+use App\Listfav;
 use App\Review;
 use App\Screv;
 use App\User;
@@ -59,8 +61,9 @@ class UserController extends Controller {
             ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
             ->where('screvs.user_id', $id)
             ->orderBy('id', 'desc')->take(6)->get();
-        return view('user.show', ['user' => $user, 'epfavs' => $epfavs,
-            'favorites' => $favorites, 'reviews' => $reviews, 'screvs' => $screvs]);
+        $lists = Dramalist::select('id', 'title')->where('user_id', $id)->take(10)->get();
+        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites,
+            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists]);
     }
 
     public function edit()
@@ -273,4 +276,36 @@ class UserController extends Controller {
         return response($str, 200, $headers);
     }
 
+    public function invite(Request $request)
+    {
+        $invitation = DB::table('invitations')->select('id', 'code', 'new_user_id')
+            ->where('old_user_id', $request->user()->id)->first();
+        return view('user.invite', ['invitation' => $invitation]);
+    }
+
+    public function updateCode(Request $request)
+    {
+        $invitation = DB::table('invitations')->select('id', 'old_user_id')
+            ->where('old_user_id', $request->user()->id)->first();
+        DB::table('invitations')->where('id', $invitation->id)->update(['code' => $request->input('code')]);
+        return redirect()->route('user.invite');
+    }
+
+    public function lists($id)
+    {
+        $lists = Dramalist::select('id', 'title', 'created_at', 'updated_at')->where('user_id', $id)->paginate(50);
+        $user = User::find($id, ['id', 'name']);
+        return view('user.lists', ['user' => $user, 'lists' => $lists]);
+    }
+
+    public function listfavs(Request $request)
+    {
+        $listfavs = Listfav::with(['dramalist' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('list_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')->paginate(50);
+        return view('user.listfavs', ['listfavs' => $listfavs]);
+    }
 }

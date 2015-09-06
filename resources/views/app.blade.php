@@ -69,6 +69,8 @@
 							<ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/user/'.Auth::id().'/epfavs/0') }}"><span class="glyphicon glyphicon-step-forward"></span> 待听分集</a></li>
                                 <li class="divider"></li>
+                                <li><a href="{{ url('/user/listfavs') }}"><span class="glyphicon glyphicon-gift"></span> 收藏剧单</a></li>
+                                <li class="divider"></li>
                                 <li><a href="{{ url('/user/edit') }}"><span class="glyphicon glyphicon-cog"></span> 修改信息</a></li>
                                 <li class="divider"></li>
 								<li><a href="{{ url('/auth/logout') }}"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
@@ -100,6 +102,7 @@
                     <img src="http://bbs.jjwxc.net/favicon.ico" height="14px">
                     <a href="http://bbs.jjwxc.net/board.php?board=52&page=1" target="_blank">优声由色</a>
                     <a href="http://bbs.jjwxc.net/board.php?board=44&page=1" target="_blank">留声花园</a>
+                    @yield('link')
                 </div>
             </div>
         </div>

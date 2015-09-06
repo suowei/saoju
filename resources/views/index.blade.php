@@ -239,31 +239,61 @@
                         <span class="glyphicon glyphicon-picture"></span> 查看SC社团印象
                     </a>
                 </p>
-                <p class="text-info">
-                    <span class="glyphicon glyphicon-hand-down"></span> 意见建议捉虫反馈看这里
+                <p>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
+                        <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
+                    </a>
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
                         <span class="glyphicon glyphicon-send"></span> 留言板
                     </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 意见建议捉虫反馈看这里
                 </p>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/50') }}" class="list-group-item" target="_blank">
-                            版本列表功能上线，替换原有编辑历史功能
+                        <a style="color:red;" href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
+                            剧单功能上线
                         </a>
-                        <a href="{{ url('/bbs/topic/48') }}" class="list-group-item" target="_blank">
-                            复制其他集已关联SC功能
-                        </a>
-                        <a href="{{ url('/bbs/topic/47') }}" class="list-group-item" target="_blank">
-                            顶部搜索栏改为综合搜索
+                        <a href="{{ url('/bbs/topic/51') }}" class="list-group-item" target="_blank">
+                            邀请注册功能开放
                         </a>
                     </div>
                 </div>
-                <div class="panel panel-danger">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{{ url('/list') }}" target="_blank">
+                                <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
+                            </a>
+                        </h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($newlists as $list)
+                            <li class="list-group-item">
+                                <a href="{{ url('/list/'.$list->id) }}" target="_blank">{{ $list->title }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-play"></span> 热门剧单</h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach($lists as $list)
+                            @if(isset($list->dramalist))
+                                <li class="list-group-item">
+                                    <a href="{{ url('/list/'.$list->list_id) }}" target="_blank">{{ $list->dramalist->title }}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>
@@ -311,4 +341,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('link')
+    <a href="http://www.chinadra.com/" target="_blank">无限中抓</a>
 @endsection

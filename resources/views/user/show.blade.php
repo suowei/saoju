@@ -34,7 +34,7 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a href="{{ url('/user/'.$user->id.'/epfavs/2') }}" target="_blank">
-                                        <span class="glyphicon glyphicon-headphones"></span> 听过：{{ $user->epfav2 }}期
+                                        <span class="glyphicon glyphicon-check"></span> 听过：{{ $user->epfav2 }}期
                                     </a>
                                 </h4>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a href="{{ url('/user/'.$user->id.'/epfavs/4') }}" target="_blank">
-                                        <span class="glyphicon glyphicon-headphones"></span> 抛弃：{{ $user->epfav4 }}期
+                                        <span class="glyphicon glyphicon-folder-close"></span> 抛弃：{{ $user->epfav4 }}期
                                     </a>
                                 </h4>
                             </div>
@@ -196,33 +196,63 @@
                 @endforeach
             </div>
             <div class="col-md-3">
-                <br><wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
+                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-step-forward"></span> 创建的剧单
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/lists') }}" target="_blank">查看全部</a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($lists as $list)
+                            <a href="{{ url('/list/'.$list->id) }}" class="list-group-item" target="_blank">
+                                {{ $list->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
                 @if(Auth::check() && Auth::id() == $user->id)
-                    <h4 class="text-warning">修改信息请点击名字<span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></h4>
-                    <h5 class="text-warning">下边<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>也行</h5>
                     <p>
-                        <a class="btn btn-success btn-xs" href="{{ url('/user/edit') }}">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 修改信息
+                        <a class="btn btn-danger btn-xs" href="{{ url('/list/create') }}" target="_blank">
+                            <span class="glyphicon glyphicon-plus"></span> 创建剧单
                         </a>
                     </p>
                     <p>
-                        <a class="btn btn-warning btn-xs" href="{{ url('/user/export/favorites') }}">
-                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有收藏
+                        <a class="btn btn-success btn-xs" href="{{ url('/user/listfavs') }}" target="_blank">
+                            <span class="glyphicon glyphicon-gift"></span> 查看已收藏剧单
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-warning btn-xs" href="{{ url('/user/edit') }}">
+                            <span class="glyphicon glyphicon-cog"></span> 修改信息
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-info btn-xs" href="{{ url('/user/export/favorites') }}">
+                            <span class="glyphicon glyphicon-export"></span> 导出所有收藏
                         </a>
                     </p>
                     <p>
                         <a class="btn btn-primary btn-xs" href="{{ url('/user/export/reviews') }}">
-                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有评论
+                            <span class="glyphicon glyphicon-export"></span> 导出所有评论
                         </a>
                     </p>
                     <p>
-                        <a class="btn btn-info btn-xs" href="{{ url('/user/export/screvs') }}">
-                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出所有SC、社团印象
+                        <a class="btn btn-danger btn-xs" href="{{ url('/user/export/screvs') }}">
+                            <span class="glyphicon glyphicon-export"></span> 导出所有SC、社团印象
                         </a>
                     </p>
-                    <p class="text-danger">
+                    <p class="text-success">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         导出文件格式为CSV，可直接用Excel或记事本等软件打开。
+                    </p>
+                    <p>
+                        <a class="btn btn-warning btn-xs" href="{{ url('/user/invite') }}" target="_blank">
+                            <span class="glyphicon glyphicon-phone"></span> 邀请朋友
+                        </a>
                     </p>
                 @endif
             </div>

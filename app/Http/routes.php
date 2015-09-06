@@ -13,6 +13,7 @@
 
 Route::get('/', 'IndexController@index');
 
+Route::post('auth/inviteRegister', 'Auth\AuthController@inviteRegister');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
@@ -27,6 +28,9 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/user/export/reviews', ['as' => 'user.export.reviews', 'uses' => 'UserController@exportReviews']);
     Route::get('/user/export/favorites', ['as' => 'user.export.favorites', 'uses' => 'UserController@exportFavorites']);
     Route::get('/user/export/screvs', ['as' => 'user.export.screvs', 'uses' => 'UserController@exportScrevs']);
+    Route::get('/user/invite', ['as' => 'user.invite', 'uses' => 'UserController@invite']);
+    Route::put('/user/updateCode', ['as' => 'user.updateCode', 'uses' => 'UserController@updateCode']);
+    Route::get('/user/listfavs', ['as' => 'user.listfavs', 'uses' => 'UserController@listfavs']);
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
@@ -34,6 +38,7 @@ Route::get('/user/{id}/epfavs/{type}', ['as' => 'user.epfavs', 'uses' => 'UserCo
 Route::get('/user/{id}/favorites/{type}', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
 Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserController@reviews']);
 Route::get('/user/{id}/screvs', ['as' => 'user.screvs', 'uses' => 'UserController@screvs']);
+Route::get('/user/{id}/lists', ['as' => 'user.lists', 'uses' => 'UserController@lists']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
@@ -41,6 +46,7 @@ Route::get('/drama/{id}/histories', ['as' => 'drama.histories', 'uses' => 'Drama
 Route::get('/drama/{id}/favorites', ['as' => 'drama.favorites', 'uses' => 'DramaController@favorites']);
 Route::get('/drama/{id}/sc', ['as' => 'drama.sc', 'uses' => 'DramaController@sc']);
 Route::get('/drama/{id}/versions', ['as' => 'drama.versions', 'uses' => 'DramaController@versions']);
+Route::get('/drama/{id}/lists', ['as' => 'drama.lists', 'uses' => 'DramaController@lists']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
@@ -50,6 +56,7 @@ Route::get('/episode/{id}/sc', ['as' => 'episode.sc', 'uses' => 'EpisodeControll
 Route::get('/episode/{id}/copysc', 'EpisodeController@copysc');
 Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
 Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
+Route::get('/episode/{id}/lists', ['as' => 'episode.lists', 'uses' => 'EpisodeController@lists']);
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');
@@ -84,3 +91,10 @@ Route::resource('sc', 'ScController');
 Route::resource('screv', 'ScrevController');
 
 Route::resource('role', 'RoleController');
+
+Route::resource('list', 'ListController');
+
+Route::resource('item', 'ItemController');
+
+Route::get('/listfav/delete', ['as' => 'listfav.delete', 'uses' => 'ListfavController@destroy']);
+Route::resource('listfav', 'ListfavController');
