@@ -31,7 +31,7 @@ class ListfavController extends Controller {
         {
             Dramalist::where('id', $favorite->list_id)->increment('favorites');
         }
-        return redirect()->back();
+        return redirect()->route('list.show', [$favorite->list_id]);
     }
 
     public function destroy(Request $request)
