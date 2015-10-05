@@ -255,7 +255,10 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
+                        <a style="color:red;" href="{{ url('/bbs/topic/57') }}" class="list-group-item" target="_blank">
+                            征集网站名称
+                        </a>
+                        <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/51') }}" class="list-group-item" target="_blank">
