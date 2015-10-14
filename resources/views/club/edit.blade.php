@@ -34,6 +34,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">社团信息</label>
                                 <div class="col-md-9">
+                                    <h5>直接回车将另起一段，新段落与上一段落有间距，如只想另起一行，即与上一行无间距，请输入Shift+回车。</h5>
                                     <textarea class="form-control" id="richtext" name="information" rows="15">{{ $club->information }}</textarea>
                                 </div>
                             </div>
@@ -67,7 +68,6 @@
             toolbar1: "bold italic underline removeformat | fontselect | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify",
             toolbar2: "formatselect | indent outdent blockquote | table | bullist numlist | link image hr | preview fullscreen code",
             menubar: false,
-            forced_root_block: false,
             font_formats: "宋体=宋体;微软雅黑=微软雅黑;楷体=楷体;黑体=黑体;隶书=隶书;"+
                 "Arial=Arial;Arial Black=Arial Black;Comic Sans MS=Comic Sans MS;Courier New=Courier New;"+
                 "Helvetica=Helvetica;Impact=Impact;Tahoma=Tahoma;Times New Roman=Times New Roman;Verdana=Verdana",

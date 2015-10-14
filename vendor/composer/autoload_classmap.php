@@ -10,6 +10,7 @@ return array(
     'AddEraToDramasTable' => $baseDir . '/database/migrations/2015_06_22_121015_add_era_to_dramas_table.php',
     'AddFavoritesToDramasTable' => $baseDir . '/database/migrations/2015_07_01_195617_add_favorites_to_dramas_table.php',
     'AddFavoritesToEpisodesTable' => $baseDir . '/database/migrations/2015_07_09_145140_add_favorites_to_episodes_table.php',
+    'AddLastLoginToUsersTable' => $baseDir . '/database/migrations/2015_10_13_160303_add_last_login_to_users_table.php',
     'AddScrevsToUsersTable' => $baseDir . '/database/migrations/2015_08_03_182014_add_screvs_to_users_table.php',
     'AddTypeToDramasTable' => $baseDir . '/database/migrations/2015_06_22_120924_add_type_to_dramas_table.php',
     'AddUniqueIndexToScsTable' => $baseDir . '/database/migrations/2015_08_04_095428_add_unique_index_to_scs_table.php',
