@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/user/invite', ['as' => 'user.invite', 'uses' => 'UserController@invite']);
     Route::put('/user/updateCode', ['as' => 'user.updateCode', 'uses' => 'UserController@updateCode']);
     Route::get('/user/listfavs', ['as' => 'user.listfavs', 'uses' => 'UserController@listfavs']);
+    Route::get('/user/dramafeed', ['as' => 'user.dramafeed', 'uses' => 'UserController@dramafeed']);
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);

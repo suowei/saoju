@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddDramaFeedToUsersTable' => $baseDir . '/database/migrations/2015_10_14_163627_add_dramafeed_to_users_table.php',
     'AddEpfavsToUsersTable' => $baseDir . '/database/migrations/2015_07_09_145334_add_epfavs_to_users_table.php',
     'AddEraToDramasTable' => $baseDir . '/database/migrations/2015_06_22_121015_add_era_to_dramas_table.php',
     'AddFavoritesToDramasTable' => $baseDir . '/database/migrations/2015_07_01_195617_add_favorites_to_dramas_table.php',
