@@ -66,7 +66,7 @@
             <div class="col-md-3">
                 <p class="text-danger">
                     <span class="glyphicon glyphicon-info-sign"></span>
-                    本页展示收藏剧集后，收藏类型为“想听”及“已听”的剧集新添加分集。
+                    本页展示收藏类型为“想听”及“已听”的剧集中，在收藏时间之后添加的分集。
                 </p>
             </div>
         </div>
