@@ -2,6 +2,7 @@
 
 use App\Dramalist;
 use App\Epfav;
+use App\Episode;
 use App\Listfav;
 use App\Review;
 use App\Screv;
@@ -307,5 +308,26 @@ class UserController extends Controller {
             ->select('list_id', 'created_at')->where('user_id', $request->user()->id)
             ->orderBy('created_at', 'desc')->paginate(50);
         return view('user.listfavs', ['listfavs' => $listfavs]);
+    }
+
+    public function dramafeed(Request $request)
+    {
+        $user_id = $request->user()->id;
+        DB::table('users')->where('id', $user_id)->update(['dramafeed' => 0]);
+        $episodes = Episode::with(['drama' => function($query)
+        {
+            $query->select('id', 'title', 'type', 'era', 'genre', 'original', 'state', 'sc');
+        }])
+            ->select('id', 'drama_id', 'title', 'alias', 'release_date', 'duration', 'poster_url', 'introduction')
+            ->whereIn('drama_id', function($query) use($user_id)
+            {
+                $query->select('drama_id')
+                    ->from('favorites')
+                    ->where('user_id', $user_id)
+                    ->whereIn('type', [0, 1])
+                    ->whereRaw('episodes.created_at > favorites.created_at');
+            })
+            ->orderBy('created_at', 'desc')->paginate(20);
+        return view('user.dramafeed', ['episodes' => $episodes]);
     }
 }

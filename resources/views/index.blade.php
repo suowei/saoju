@@ -192,6 +192,11 @@
                 @endforeach
             </div>
             <div class="col-md-3">
+                @if(Auth::check() && $dramafeed = Auth::user()->dramafeed)
+                    <div class="alert alert-success">
+                        有{{ $dramafeed }}部在追剧集更新啦！<a href="{{ url('/user/dramafeed') }}">去看看</a>
+                    </div>
+                @endif
                 <h4>
                     <a href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
                         <span class="glyphicon glyphicon-link"></span><strong>2015年YS发剧统计半年版</strong>

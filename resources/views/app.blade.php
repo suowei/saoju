@@ -69,6 +69,8 @@
 							<ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/user/'.Auth::id().'/epfavs/0') }}"><span class="glyphicon glyphicon-step-forward"></span> 待听分集</a></li>
                                 <li class="divider"></li>
+                                <li><a href="{{ url('/user/dramafeed') }}"><span class="glyphicon glyphicon-film"></span> 在追剧集更新</a></li>
+                                <li class="divider"></li>
                                 <li><a href="{{ url('/user/listfavs') }}"><span class="glyphicon glyphicon-gift"></span> 收藏剧单</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ url('/user/edit') }}"><span class="glyphicon glyphicon-cog"></span> 修改信息</a></li>
