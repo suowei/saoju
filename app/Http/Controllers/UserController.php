@@ -324,8 +324,7 @@ class UserController extends Controller {
                 $query->select('drama_id')
                     ->from('favorites')
                     ->where('user_id', $user_id)
-                    ->where('type', 1)
-                    ->whereRaw('episodes.release_date + INTERVAL 1 DAY > favorites.created_at')
+                    ->whereIn('type', [0, 1])
                     ->whereRaw('episodes.created_at > favorites.created_at');
             })
             ->orderBy('created_at', 'desc')->paginate(20);

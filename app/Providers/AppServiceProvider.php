@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
                 $query->select('user_id')
                     ->from('favorites')
                     ->where('drama_id', $episode->drama_id)
-                    ->where('type', 1);
+                    ->whereIn('type', [0, 1]);
             })
                 ->increment('dramafeed', 1);
         });
