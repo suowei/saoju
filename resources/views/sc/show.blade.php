@@ -83,6 +83,9 @@
                         <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
                     </a>
                 </p>
+                <p class="text-danger">
+                    <span class="glyphicon glyphicon-info-sign"></span> 添加关联作品请前往相应剧集或分集页面，剧集页关联链接在右边栏，分集页在SC信息上方。
+                </p>
             </div>
         </div>
     </div>

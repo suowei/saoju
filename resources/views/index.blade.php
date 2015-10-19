@@ -260,6 +260,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a style="color:red;" href="{{ url('/bbs/topic/59') }}" class="list-group-item" target="_blank">
+                            剧集更新提醒功能上线
+                        </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/57') }}" class="list-group-item" target="_blank">
                             征集网站名称
                         </a>
