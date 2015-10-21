@@ -364,6 +364,7 @@
 @endsection
 
 @section('script')
+    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript">
