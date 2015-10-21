@@ -284,3 +284,7 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+@endsection

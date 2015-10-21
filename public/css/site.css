@@ -117,8 +117,13 @@ a:hover {
     font-size: 1.1em;
 }
 
-.morecontent span {
-    display: none;
+.morelink {
+    padding: 0 5px;
+}
+
+.nobkg:hover {
+    color: orange;
+    background-color: transparent;
 }
 
 .white-link {

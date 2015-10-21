@@ -1,48 +1,3 @@
-(function($) {
-    $.fn.shorten = function (settings) {
-        var config = {
-            showChars: 300,
-            ellipsesText: "...",
-            moreText: "显示全部",
-            lessText: "收起"
-        };
-        if (settings) {
-            $.extend(config, settings);
-        }
-        $(document).off("click", '.morelink');
-        $(document).on({click: function () {
-            var $this = $(this);
-            if ($this.hasClass('less')) {
-                $this.removeClass('less');
-                $this.html(config.moreText);
-            } else {
-                $this.addClass('less');
-                $this.html(config.lessText);
-            }
-            $this.parent().prev().toggle();
-            $this.prev().toggle();
-            return false;
-        }
-        }, '.morelink');
-        return this.each(function () {
-            var $this = $(this);
-            if($this.hasClass("shortened")) return;
-            $this.addClass("shortened");
-            var content = $this.html();
-            if (content.length > config.showChars) {
-                var c = content.substr(0, config.showChars);
-                var h = content.substr(config.showChars, content.length - config.showChars);
-                var html = c + '<span class="moreellipses">' + config.ellipsesText + ' </span><span class="morecontent"><span>' + h + '</span> <a href="#" class="morelink">' + config.moreText + '</a></span>';
-                $this.html(html);
-                $(".morecontent span").hide();
-            }
-        });
-    };
-})(jQuery);
-
-$(".review-content").shorten();
-$(".introduction").shorten({showChars: 150});
-
 $('#dateTab a:first').tab('show');
 $('#dateTab a').hover(function () {
     $(this).tab('show');
@@ -173,6 +128,17 @@ $(function () {
     $("#unSelect").click(function () {
         $(":checkbox").prop("checked", false);
     });
+});
+
+$('.introduction').readmore({
+    collapsedHeight: 100,
+    moreLink: '<a href="#" class="nobkg">显示全部</a>',
+    lessLink: '<a href="#" class="nobkg">收起</a>'
+});
+$('.review-content').readmore({
+    collapsedHeight: 125,
+    moreLink: '<a href="#" class="morelink nobkg">显示全部</a>',
+    lessLink: '<a href="#" class="morelink nobkg">收起</a>'
 });
 
 $('.rating').rating({
