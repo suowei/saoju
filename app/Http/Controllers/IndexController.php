@@ -170,4 +170,34 @@ class IndexController extends Controller {
             'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'versions' => $versions]);
 	}
 
+    public function reviews(Request $request)
+    {
+        if($request->has('type'))
+            $type = $request->input('type');
+        else
+            $type = 0;
+        if($type < 0)
+        {
+            $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
+                ->select('reviews.*', 'dramas.title as drama_title')
+                ->orderBy('id', 'desc')->simplePaginate(20);
+        }
+        else
+        {
+            $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
+                ->where('dramas.type', '=', $type)
+                ->select('reviews.*', 'dramas.title as drama_title')
+                ->orderBy('id', 'desc')->simplePaginate(20);
+        }
+        $reviews->load(['user' => function($query)
+        {
+            $query->select('id','name');
+        }]);
+        $reviews->load(['episode' => function($query)
+        {
+            $query->select('id', 'title');
+        }]);
+        return view('reviews', ['reviews' => $reviews]);
+    }
+
 }
