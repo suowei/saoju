@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index');
+Route::get('/reviews', 'IndexController@reviews');
 
 Route::post('auth/inviteRegister', 'Auth\AuthController@inviteRegister');
 Route::controllers([

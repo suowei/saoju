@@ -173,23 +173,8 @@
                     最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）
                     <small class="pull-right"><a class="text-muted" href="{{ url('/favorite') }}" target="_blank">看看大家在听什么</a></small>
                 </h4>
-                @foreach ($reviews as $review)
-                    <div class="review">
-                        <div class="review-title">
-                            <a href="{{ url('/user/'.$review->user_id) }}" target="_blank">{{ $review->user->name }}</a> 评论
-                            《<a href="{{ url('/drama/'.$review->drama_id) }}" target="_blank">{{ $review->drama_title }}</a>》
-                            @if ($review->episode_id)
-                                [<a href="{{ url('/episode/'.$review->episode_id) }}" target="_blank">{{ $review->episode->title }}</a>]
-                            @endif
-                            {{ $review->created_at }}
-                            {{ $review->title }}
-                            <span class="pull-right">
-                                <a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a>
-                            </span>
-                        </div>
-                        <div class="review-content">{{ $review->content }}</div>
-                    </div>
-                @endforeach
+                <div id="indexReviews"></div>
+                <button id="loadmore" datatype="{{ $type }}" type="button" class="btn btn-default btn-block">加载更多</button>
             </div>
             <div class="col-md-3">
                 @if(Auth::check() && $dramafeed = Auth::user()->dramafeed)

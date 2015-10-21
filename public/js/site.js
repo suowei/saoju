@@ -1,3 +1,35 @@
+$(function() {
+    var page = 1;
+    $("#loadmore").click(function(){
+        $(this).innerHTML = '加载中……';
+        $.ajax({
+            type: 'GET',
+            url: "/reviews?type="+$(this).attr("datatype")+"&page="+page,
+            dataType: 'html',
+            success: function(data) {
+                if($.trim(data)==''){
+                    $("#loadmore").remove();
+                }
+                else {
+                    $('#indexReviews').append('<div id="page'+page+'">'+data+'</div>');
+                    $('#page'+page+' .review-content').readmore({
+                        collapsedHeight: 125,
+                        moreLink: '<a href="#" class="morelink nobkg">显示全部</a>',
+                        lessLink: '<a href="#" class="morelink nobkg">收起</a>'
+                    });
+                    page++;
+                }
+            },
+            error: function(xhr, type) {
+                $("#loadmore").innerHTML = '加载更多';
+                alert(xhr);
+                alert(type);
+            }
+        });
+    });
+    $("#loadmore").click();
+});
+
 $('#dateTab a:first').tab('show');
 $('#dateTab a').hover(function () {
     $(this).tab('show');
