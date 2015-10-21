@@ -1,12 +1,13 @@
 $(function() {
     var page = 1;
     $("#loadmore").click(function(){
-        $(this).innerHTML = '加载中……';
+        $(this).html('加载中……');
         $.ajax({
             type: 'GET',
             url: "/reviews?type="+$(this).attr("datatype")+"&page="+page,
             dataType: 'html',
             success: function(data) {
+                $("#loadmore").html('加载更多');
                 if($.trim(data)==''){
                     $("#loadmore").remove();
                 }
@@ -21,7 +22,7 @@ $(function() {
                 }
             },
             error: function(xhr, type) {
-                $("#loadmore").innerHTML = '加载更多';
+                $("#loadmore").html('加载更多');
                 alert(xhr);
                 alert(type);
             }
