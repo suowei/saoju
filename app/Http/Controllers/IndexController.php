@@ -56,30 +56,6 @@ class IndexController extends Controller {
         //将一周新剧按发剧日期分组
         $episodes = $episodes->groupBy('release_date');
 
-        //按照分类选取最新20条评论
-        if($type < 0)
-        {
-            $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
-                ->select('reviews.*', 'dramas.title as drama_title')
-                ->orderBy('id', 'desc')->take(20)->get();
-        }
-        else
-        {
-            $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
-                ->where('dramas.type', '=', $type)
-                ->select('reviews.*', 'dramas.title as drama_title')
-                ->orderBy('id', 'desc')->take(20)->get();
-        }
-        //加载评论的用户名和分集标题
-        $reviews->load(['user' => function($query)
-        {
-            $query->select('id','name');
-        }]);
-        $reviews->load(['episode' => function($query)
-        {
-            $query->select('id', 'title');
-        }]);
-
         //查询60天收藏数前10的剧单
         $lists = Listfav::with(['dramalist' => function($query)
         {
@@ -166,7 +142,7 @@ class IndexController extends Controller {
         });
 
         return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10,
-            'reviews' => $reviews, 'lists' => $lists, 'newlists' => $newlists,
+            'lists' => $lists, 'newlists' => $newlists,
             'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'versions' => $versions]);
 	}
 
