@@ -163,15 +163,17 @@ $(function () {
     });
 });
 
-$('.introduction').readmore({
-    collapsedHeight: 100,
-    moreLink: '<a href="#" class="nobkg">显示全部</a>',
-    lessLink: '<a href="#" class="nobkg">收起</a>'
-});
-$('.review-content').readmore({
-    collapsedHeight: 125,
-    moreLink: '<a href="#" class="morelink nobkg">显示全部</a>',
-    lessLink: '<a href="#" class="morelink nobkg">收起</a>'
+$(function () {
+    $('.introduction').readmore({
+        collapsedHeight: 100,
+        moreLink: '<a href="#" class="nobkg">显示全部</a>',
+        lessLink: '<a href="#" class="nobkg">收起</a>'
+    });
+    $('.review-content').readmore({
+        collapsedHeight: 125,
+        moreLink: '<a href="#" class="morelink nobkg">显示全部</a>',
+        lessLink: '<a href="#" class="morelink nobkg">收起</a>'
+    });
 });
 
 $('.rating').rating({
