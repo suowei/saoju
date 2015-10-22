@@ -19,8 +19,13 @@ class TopicController extends Controller {
 	 */
 	public function index()
 	{
-        $topics = Topic::orderBy('updated_at', 'desc')->paginate(30);
-		return view('bbs.index')->withTopics($topics);
+        $topics = Topic::select('id', 'title', 'user_id', 'ip', 'comments', 'updated_at')
+            ->orderBy('updated_at', 'desc')->paginate(30);
+        $topics->load(['user' => function($query)
+        {
+            $query->select('id','name');
+        }]);
+		return view('bbs.index', ['topics' => $topics]);
 	}
 
 	/**
@@ -61,9 +66,18 @@ class TopicController extends Controller {
 	 */
 	public function show($id)
 	{
-        $topic = Topic::find($id);
-        $comments = Comment::withTrashed()->where('topic_id', $id)->orderBy('created_at')->paginate(100);
-        return view('bbs.topic')->withTopic($topic)->withComments($comments);
+        $topic = Topic::find($id, ['title', 'user_id', 'ip', 'content', 'created_at']);
+        $topic->load(['user' => function($query)
+        {
+            $query->select('id','name');
+        }]);
+        $comments = Comment::withTrashed()->select('user_id', 'ip', 'content', 'deleted_at', 'created_at')
+            ->where('topic_id', $id)->orderBy('id')->paginate(100);
+        $comments->load(['user' => function($query)
+        {
+            $query->select('id','name');
+        }]);
+        return view('bbs.topic', ['topic' => $topic, 'comments' => $comments]);
 	}
 
 	/**
