@@ -66,7 +66,7 @@ class TopicController extends Controller {
 	 */
 	public function show($id)
 	{
-        $topic = Topic::find($id, ['title', 'user_id', 'ip', 'content', 'created_at']);
+        $topic = Topic::find($id, ['id', 'title', 'user_id', 'ip', 'content', 'created_at']);
         $topic->load(['user' => function($query)
         {
             $query->select('id','name');
