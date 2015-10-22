@@ -27,7 +27,11 @@
                 @endif
                 <span class="pull-right">{{ $comment->created_at }}</span>
             </div>
-            <div class="review-content">{{ $comment->content }}</div>
+            @if($comment->deleted_at)
+                <p class="text-muted">广告等已删除</p>
+            @else
+                <div class="review-content">{{ $comment->content }}</div>
+            @endif
         </div>
     @endforeach
     <?php echo $comments->render(); ?>
