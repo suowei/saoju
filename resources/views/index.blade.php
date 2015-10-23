@@ -46,8 +46,8 @@
                                                 </h4>
                                                 {{ $episode->sc }}
                                                 <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
-                                                    </span>
+                                                    @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                </span>
                                             </a>
                                         @endforeach
                                     @endif
@@ -67,7 +67,7 @@
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
@@ -90,7 +90,7 @@
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
