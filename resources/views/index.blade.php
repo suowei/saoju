@@ -13,8 +13,13 @@
                     <?php $days = [date("Y-m-d", strtotime("now")), date("Y-m-d", strtotime("-1 day")),
                             date("Y-m-d", strtotime("-2 day")), date("Y-m-d", strtotime("-3 day")),
                             date("Y-m-d", strtotime("-4 day")), date("Y-m-d", strtotime("-5 day")),
-                            date("Y-m-d", strtotime("-6 day")), date("Y-m-d", strtotime("-7 day")),]; ?>
-                    <div class="col-md-8">
+                            date("Y-m-d", strtotime("-6 day")), date("Y-m-d", strtotime("-7 day")),];
+                        $types = ['耽美', '全龄', '言情', '百合'];
+                        $eras = ['现代', '古风', '民国', '未来', '其他时代'];
+                        $states = ['连载', '完结', '已坑'];
+                    ?>
+
+                        <div class="col-md-8">
                         <ul class="nav nav-tabs" id="dateTab">
                             <li role="presentation">
                                 <a href="#{{ $days[0] }}" role="tab" data-toggle="tab">两日新剧</a>
@@ -27,30 +32,23 @@
                         </ul>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane" id="{{ $days[0] }}">
-                                <ul class="list-group">
+                                <div class="list-group">
                                     @if(isset($episodes[$days[0]]))
                                         @foreach ($episodes[$days[0]] as $episode)
-                                            <li class="list-group-item">
-                                                <h4>
-                                                    <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                                    [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                                    <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                                    <span class="pull-right">
-                                                        <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                            {{ $episode->reviews }}评论
-                                                        </a>
-                                                    </span>
+                                            <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank"
+                                               class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
+                                                <h4 class="list-group-item-heading">
+                                                    @if($episode->state==1)<strong>@endif
+                                                        {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                        @if($episode->alias){{ $episode->alias }}@endif
+                                                        @if($episode->state==1)</strong>@endif
+                                                    <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                 </h4>
-                                                {{ $episode->sc }}；
-                                                <span class="text-muted">
-                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
-                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
-                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
-                                                    @if($episode->genre){{ $episode->genre }}，@endif
-                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
-                                                    {{ $episode->duration }}分钟
-                                                </span>
-                                            </li>
+                                                {{ $episode->sc }}
+                                                <span class="pull-right">
+                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                    </span>
+                                            </a>
                                         @endforeach
                                     @endif
                                     <div class="dateline">
@@ -58,57 +56,43 @@
                                     </div>
                                         @if(isset($episodes[$days[1]]))
                                             @foreach ($episodes[$days[1]] as $episode)
-                                                <li class="list-group-item">
-                                                    <h4>
-                                                        <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                                        [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                                        <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                            <span class="pull-right">
-                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                    {{ $episode->reviews }}评论
-                                                </a>
-                                            </span>
+                                                <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank"
+                                                   class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
+                                                    <h4 class="list-group-item-heading">
+                                                        @if($episode->state==1)<strong>@endif
+                                                        {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                        @if($episode->alias){{ $episode->alias }}@endif
+                                                            @if($episode->state==1)</strong>@endif
+                                                        <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                     </h4>
-                                                    {{ $episode->sc }}；
-                                                <span class="text-muted">
-                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
-                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
-                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
-                                                    @if($episode->genre){{ $episode->genre }}，@endif
-                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
-                                                    {{ $episode->duration }}分钟
-                                                </span>
-                                                </li>
+                                                    {{ $episode->sc }}
+                                                    <span class="pull-right">
+                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                    </span>
+                                                </a>
                                             @endforeach
                                         @endif
-                                </ul>
+                                </div>
                             </div>
                             @for($i = 2; $i <= 7; $i++)
                                 <div role="tabpanel" class="tab-pane" id="{{ $days[$i] }}">
                                     <ul class="list-group">
                                         @if(isset($episodes[$days[$i]]))
                                             @foreach ($episodes[$days[$i]] as $episode)
-                                                <li class="list-group-item">
-                                                    <h4>
-                                                        <a href="{{ url('/drama/'.$episode->drama_id) }}" target="_blank">{{ $episode->drama_title }}</a>
-                                                        [<a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>]
-                                                        <small>@if($episode->alias){{ $episode->alias }}@endif</small>
-                                            <span class="pull-right">
-                                                <a href="{{ url('/episode/'.$episode->episode_id.'/reviews') }}" target="_blank">
-                                                    {{ $episode->reviews }}评论
-                                                </a>
-                                            </span>
+                                                <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank"
+                                                   class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
+                                                    <h4 class="list-group-item-heading">
+                                                        @if($episode->state==1)<strong>@endif
+                                                            {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                            @if($episode->alias){{ $episode->alias }}@endif
+                                                            @if($episode->state==1)</strong>@endif
+                                                        <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                     </h4>
-                                                    {{ $episode->sc }}；
-                                                <span class="text-muted">
-                                                    @if($episode->type == 0)耽美@elseif($episode->type == 1)全年龄@elseif($episode->type == 2)言情@else百合@endif，
-                                                    @if($episode->era == 0)现代@elseif($episode->era == 1)古风@elseif($episode->era == 2)民国
-                                                    @elseif($episode->era == 3)未来@else其他时代@endif，
-                                                    @if($episode->genre){{ $episode->genre }}，@endif
-                                                    @if($episode->state == 0)连载@elseif($episode->state == 1)完结@else已坑@endif，
-                                                    {{ $episode->duration }}分钟
-                                                </span>
-                                                </li>
+                                                    {{ $episode->sc }}
+                                                    <span class="pull-right">
+                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                    </span>
+                                                </a>
                                             @endforeach
                                         @endif
                                     </ul>

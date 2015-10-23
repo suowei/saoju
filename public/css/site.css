@@ -6,6 +6,10 @@ body, .list-group-item {
     background-color: #f7f7f7;
 }
 
+.list-group-item-info {
+    background-color: #d8ecf6;
+}
+
 a:hover {
     text-decoration: none;
     background-color: #337ab6;
