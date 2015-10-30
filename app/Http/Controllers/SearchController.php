@@ -18,4 +18,12 @@ class SearchController extends Controller {
         return view('search.search', ['keyword' => $keyword, 'dramas' => $dramas, 'scs' => $scs, 'clubs' => $clubs]);
     }
 
+    public function tag(Request $request)
+    {
+        if($request->has('tag'))
+            return redirect()->route('drama.tag', [$request->input('tag')]);
+        else
+            return view('search.tag');
+    }
+
 }

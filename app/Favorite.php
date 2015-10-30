@@ -16,4 +16,9 @@ class Favorite extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany('App\Review', 'drama_id', 'drama_id');
+    }
+
 }

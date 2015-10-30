@@ -94,14 +94,17 @@ $("#favoriteEdit :radio").change(function() {
 $('#favModal').on('show.bs.modal', function (event) {
     var method = $(event.relatedTarget).data('method');
     var modal = $(this);
+    modal.find("form").prop('action', $(event.relatedTarget).data('action'));
     var idname = $(event.relatedTarget).data('idname');
     if(idname == "episode_id") {
         modal.find("input[name='type']").eq(1).parent().hide();
         modal.find("input[name='type']").eq(3).parent().hide();
+        $('#tagsinput').hide();
     }
     else {
         modal.find("input[name='type']").eq(1).parent().show();
         modal.find("input[name='type']").eq(3).parent().show();
+        $('#tagsinput').show();
     }
     if (method == 'POST') {
         modal.find("input[name='_method']").prop('name', 'none');
@@ -109,14 +112,17 @@ $('#favModal').on('show.bs.modal', function (event) {
         modal.find("input[name='id']").prop('name', idname);
         modal.find("input[name='type']").eq(2).prop('checked', true);
         modal.find("input[name='rating']").rating('update', 0);
+        if(idname == "drama_id")
+            modal.find("input[name='tags']").tagsinput('removeAll');
     }
     else if (method == 'PUT') {
         modal.find("input[name='none']").prop('name', '_method');
         var favorite = $(event.relatedTarget).data('favorite');
         modal.find("input[name='type']").eq(favorite.type).prop('checked', true);
         modal.find("input[name='rating']").rating('update', favorite.rating);
+        if(idname == "drama_id")
+            modal.find("input[name='tags']").tagsinput('add', favorite.tags);
     }
-    modal.find("form").prop('action', $(event.relatedTarget).data('action'));
 });
 
 $('#deleteConfirmModal').on('show.bs.modal', function (event) {
@@ -190,4 +196,8 @@ $('.rating').rating({
         4.5: '四星半',
         5: '五星'
     }
+});
+
+$('.tagsinput').tagsinput({
+    confirmKeys: [13, 32, 44]
 });

@@ -217,6 +217,9 @@
                     <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
                         <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
                     </a>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                        <span class="glyphicon glyphicon-tag"></span> 标签搜索
+                    </a>
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">

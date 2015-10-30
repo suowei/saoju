@@ -37,10 +37,12 @@ Route::group(['middleware' => 'auth'], function()
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
 Route::get('/user/{id}/epfavs/{type}', ['as' => 'user.epfavs', 'uses' => 'UserController@epfavs']);
+Route::get('/user/{id}/favorites', ['as' => 'user.favall', 'uses' => 'UserController@favall']);
 Route::get('/user/{id}/favorites/{type}', ['as' => 'user.favorites', 'uses' => 'UserController@favorites']);
 Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserController@reviews']);
 Route::get('/user/{id}/screvs', ['as' => 'user.screvs', 'uses' => 'UserController@screvs']);
 Route::get('/user/{id}/lists', ['as' => 'user.lists', 'uses' => 'UserController@lists']);
+Route::get('/user/{id}/tags', ['as' => 'user.tags', 'uses' => 'UserController@tags']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
@@ -49,6 +51,8 @@ Route::get('/drama/{id}/favorites', ['as' => 'drama.favorites', 'uses' => 'Drama
 Route::get('/drama/{id}/sc', ['as' => 'drama.sc', 'uses' => 'DramaController@sc']);
 Route::get('/drama/{id}/versions', ['as' => 'drama.versions', 'uses' => 'DramaController@versions']);
 Route::get('/drama/{id}/lists', ['as' => 'drama.lists', 'uses' => 'DramaController@lists']);
+Route::get('/drama/{id}/tags', ['as' => 'drama.tags', 'uses' => 'DramaController@tags']);
+Route::get('/drama/tag/{tag}', ['as' => 'drama.tag', 'uses' => 'DramaController@tag']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
@@ -63,6 +67,7 @@ Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');
 
+Route::get('/search/tag', ['as' => 'search.tag', 'uses' => 'SearchController@tag']);
 Route::get('/search', 'SearchController@index');
 
 Route::post('/favorite2', 'FavoriteController@store2');
