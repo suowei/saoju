@@ -18,6 +18,15 @@
                         </span>
                     </div>
                 </form>
+                <h4 class="text-success">热门标签</h4>
+                <ul class="list-inline tagcloud">
+                    @foreach($tagmaps as $tagmap)
+                        <li>
+                            <a href="{{ url('/drama/tag/'.$tagmap->tag->name) }}" target="_blank">
+                                {{ $tagmap->tag->name }}</a>({{ $tagmap->count }})
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>

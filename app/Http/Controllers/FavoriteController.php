@@ -322,6 +322,7 @@ class FavoriteController extends Controller {
             {
                 DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$favorite->type);
                 DB::table('dramas')->where('id', $favorite->drama_id)->decrement('favorites');
+                DB::table('tagmaps')->where('drama_id', $favorite->drama_id)->where('user_id', $favorite->user_id)->delete();
             }
         }
         return redirect()->back();

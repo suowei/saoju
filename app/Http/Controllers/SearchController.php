@@ -3,7 +3,9 @@
 use App\Club;
 use App\Drama;
 use App\Sc;
+use App\Tagmap;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller {
 
@@ -23,7 +25,14 @@ class SearchController extends Controller {
         if($request->has('tag'))
             return redirect()->route('drama.tag', [$request->input('tag')]);
         else
-            return view('search.tag');
+        {
+            $tagmaps = Tagmap::with('tag')
+                ->select(DB::raw('count(*) as count, tag_id'))
+                ->groupBy('tag_id')
+                ->orderBy('count', 'desc')
+                ->take(100)->get();
+            return view('search.tag', ['tagmaps' => $tagmaps]);
+        }
     }
 
 }

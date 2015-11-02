@@ -90,11 +90,16 @@
                                 @endif
                             </p>
                         </div>
-                        <div class="col-md-7 tagcloud">
-                            <span class="glyphicon glyphicon-tags"></span> 热门标签：
-                            @foreach($tagmaps as $tagmap)
-                                <a href="{{ url('/drama/tag/'.$tagmap->tag->name) }}" target="_blank">{{ $tagmap->tag->name }}</a>({{ $tagmap->count }})&nbsp;
-                            @endforeach
+                        <div class="col-md-7">
+                            <ul class="list-inline tagcloud">
+                                <span class="glyphicon glyphicon-tags"></span> 热门标签：
+                                @foreach($tagmaps as $tagmap)
+                                    <li>
+                                        <a href="{{ url('/drama/tag/'.$tagmap->tag->name) }}" target="_blank">
+                                            {{ $tagmap->tag->name }}</a>({{ $tagmap->count }})
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                     <p><span class="text-muted">主役CV：</span>{{ $drama->sc }}</p>
