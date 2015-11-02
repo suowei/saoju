@@ -9,6 +9,7 @@
 
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -47,54 +48,79 @@
                 <div class="col-md-8">
                     <h3>《{{ $drama->title }}》</h3>
                     <p><span class="text-muted">副标题及别名：</span>{{ $drama->alias ? $drama->alias : '无' }}</p>
-                    <p>
-                        <span class="text-muted">性向：</span>
-                        @if($drama->type == 0)
-                            耽美
-                        @elseif($drama->type == 1)
-                            全年龄
-                        @elseif($drama->type == 2)
-                            言情
-                        @else
-                            百合
-                        @endif
-                    </p>
-                    <p>
-                        <span class="text-muted">时代：</span>
-                        @if($drama->era == 0)
-                            现代
-                        @elseif($drama->era == 1)
-                            古风
-                        @elseif($drama->era == 2)
-                            民国
-                        @elseif($drama->era == 3)
-                            未来
-                        @else
-                            其他
-                        @endif
-                    </p>
-                    <p><span class="text-muted">其他描述：</span>{{ $drama->genre ? $drama->genre : '无' }}</p>
-                    <p><span class="text-muted">原创性：</span>{{ $drama->original == 1 ? '原创' : '改编' }}</p>
-                    <p><span class="text-muted">期数：</span>{{ $drama->count }}</p>
-                    <p>
-                        <span class="text-muted">进度：</span>
-                        @if($drama->state == 0)
-                            连载
-                        @elseif($drama->state == 1)
-                            完结
-                        @else
-                            已坑
-                        @endif
-                    </p>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p>
+                                <span class="text-muted">性向：</span>
+                                @if($drama->type == 0)
+                                    耽美
+                                @elseif($drama->type == 1)
+                                    全年龄
+                                @elseif($drama->type == 2)
+                                    言情
+                                @else
+                                    百合
+                                @endif
+                            </p>
+                            <p>
+                                <span class="text-muted">时代：</span>
+                                @if($drama->era == 0)
+                                    现代
+                                @elseif($drama->era == 1)
+                                    古风
+                                @elseif($drama->era == 2)
+                                    民国
+                                @elseif($drama->era == 3)
+                                    未来
+                                @else
+                                    其他
+                                @endif
+                            </p>
+                            <p><span class="text-muted">其他：</span>{{ $drama->genre ? $drama->genre : '无' }}</p>
+                            <p><span class="text-muted">原创性：</span>{{ $drama->original == 1 ? '原创' : '改编' }}</p>
+                            <p><span class="text-muted">期数：</span>{{ $drama->count }}</p>
+                            <p>
+                                <span class="text-muted">进度：</span>
+                                @if($drama->state == 0)
+                                    连载
+                                @elseif($drama->state == 1)
+                                    完结
+                                @else
+                                    已坑
+                                @endif
+                            </p>
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="list-inline tagcloud">
+                                <span class="glyphicon glyphicon-tags"></span> 热门标签：
+                                @foreach($tagmaps as $tagmap)
+                                    <li>
+                                        <a href="{{ url('/drama/tag/'.$tagmap->tag->name) }}" target="_blank">
+                                            {{ $tagmap->tag->name }}</a>({{ $tagmap->count }})
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                     <p><span class="text-muted">主役CV：</span>{{ $drama->sc }}</p>
                     <p>
                         <span class="introduction content-pre-line">@if($drama->introduction){{ $drama->introduction }}@endif</span>
                     </p>
-                    <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 </div>
             </div>
 
-            <br><p>
+            <br>
+            @if($favorite && $favorite->tags)
+                <p>
+                    <span class="glyphicon glyphicon-tags"></span>
+                    我的标签：
+                    @foreach(explode(',', $favorite->tags) as $tag)
+                        <a class="btn btn-default btn-xs" href="{{ url('/user/'.$favorite->user_id.'/favorites?tag='.$tag) }}"
+                           target="_blank">{{ $tag }}</a>
+                    @endforeach
+                </p>
+            @endif
+            <p>
                 @if(Auth::check())
                     @if($favorite)
                         <span class="pull-left">
@@ -249,6 +275,7 @@
             </div>
         </div>
         <div class="col-md-3">
+            <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
             <p>
                 <a class="btn btn-success btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
                     <span class="glyphicon glyphicon-plus"></span> 更新剧集（添加分集）
@@ -373,6 +400,12 @@
                             <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs">
                         </div>
                     </div>
+                    <div class="form-group" id="tagsinput">
+                        <label class="col-md-2 control-label">标签：</label>
+                        <div class="col-md-8">
+                            <input type="text" class="tagsinput form-control" data-role="tagsinput" name="tags">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             <button type="submit" class="btn btn-info btn-sm">保存</button>
@@ -410,4 +443,6 @@
 @section('script')
     <script src="{{ asset('/js/star-rating.min.js') }}"></script>
     <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.js"></script>
+
 @endsection

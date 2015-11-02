@@ -6,6 +6,8 @@ use App\Episode;
 use App\Listfav;
 use App\Review;
 use App\Screv;
+use App\Tag;
+use App\Tagmap;
 use App\User;
 use App\Favorite;
 
@@ -63,8 +65,14 @@ class UserController extends Controller {
             ->where('screvs.user_id', $id)
             ->orderBy('id', 'desc')->take(6)->get();
         $lists = Dramalist::select('id', 'title')->where('user_id', $id)->take(10)->get();
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('user_id', $id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->take(50)->get();
         return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites,
-            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists]);
+            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists, 'tagmaps' => $tagmaps]);
     }
 
     public function edit()
@@ -127,16 +135,58 @@ class UserController extends Controller {
 
     public function favorites(Request $request, $id, $type)
     {
+        $user = User::find($id, ['id', 'name']);
         if($request->input('sort') == 'rating')
         {
-            $favorites = Favorite::with('drama')->where('user_id', $id)->where('type', $type)->orderBy('rating', 'desc')->paginate(20);
-            return view('user.favorites')->withUser(User::find($id))->with('type', $type)->withFavorites($favorites)->with('sort', 'rating');
+            $sort = 'rating';
         }
         else
         {
-            $favorites = Favorite::with('drama')->where('user_id', $id)->where('type', $type)->orderBy('updated_at', 'desc')->paginate(20);
-            return view('user.favorites')->withUser(User::find($id))->with('type', $type)->withFavorites($favorites)->with('sort', 'time');
+
+            $sort = 'updated_at';
         }
+        $favorites = Favorite::with('drama')->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
+        $favorites->load(['reviews' => function ($query) use($id) {
+            $query->where('user_id', $id);
+        }]);
+        return view('user.favorites', ['user' => $user, 'favorites' => $favorites, 'sort' => $sort, 'type' => $type]);
+    }
+
+    public function favall(Request $request, $id)
+    {
+        $user = User::find($id, ['id', 'name']);
+        if($request->input('sort') == 'rating')
+        {
+            $sort = 'rating';
+        }
+        else
+        {
+            $sort = 'updated_at';
+        }
+        if($request->input('tag'))
+        {
+            $tag = Tag::where('name', $request->input('tag'))->first();
+            $favorites = Favorite::join('tagmaps', function($join) use($tag, $user)
+            {
+                $join->on('favorites.user_id', '=', 'tagmaps.user_id')
+                    ->on('favorites.drama_id', '=', 'tagmaps.drama_id')
+                    ->where('favorites.user_id', '=', $user->id)
+                    ->where('tagmaps.tag_id', '=', $tag->id);
+            })
+                ->select('favorites.*')
+                ->orderBy($sort, 'desc')->paginate(20);
+            $favorites->load('drama');
+            $tag = $tag->name;
+        }
+        else
+        {
+            $tag = null;
+            $favorites = Favorite::with('drama')->where('user_id', $id)->orderBy($sort, 'desc')->paginate(20);
+        }
+        $favorites->load(['reviews' => function ($query) use($id) {
+            $query->where('user_id', $id);
+        }]);
+        return view('user.favall', ['user' => $user, 'favorites' => $favorites, 'sort' => $sort, 'tag' => $tag]);
     }
 
     public function epfavs(Request $request, $id, $type)
@@ -297,6 +347,18 @@ class UserController extends Controller {
         $lists = Dramalist::select('id', 'title', 'created_at', 'updated_at')->where('user_id', $id)->paginate(50);
         $user = User::find($id, ['id', 'name']);
         return view('user.lists', ['user' => $user, 'lists' => $lists]);
+    }
+
+    public function tags($id)
+    {
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('user_id', $id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->get();
+        $user = User::find($id, ['id', 'name']);
+        return view('user.tags', ['user' => $user, 'tagmaps' => $tagmaps]);
     }
 
     public function listfavs(Request $request)

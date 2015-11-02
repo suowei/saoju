@@ -46,8 +46,8 @@
                                                 </h4>
                                                 {{ $episode->sc }}
                                                 <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
-                                                    </span>
+                                                    @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                </span>
                                             </a>
                                         @endforeach
                                     @endif
@@ -67,7 +67,7 @@
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
@@ -90,7 +90,7 @@
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
@@ -217,6 +217,9 @@
                     <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
                         <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
                     </a>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                        <span class="glyphicon glyphicon-tag"></span> 标签搜索
+                    </a>
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
@@ -229,8 +232,8 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/59') }}" class="list-group-item" target="_blank">
-                            剧集更新提醒功能上线
+                        <a style="color:red;" href="{{ url('/bbs/topic/63') }}" class="list-group-item" target="_blank">
+                            标签功能上线
                         </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/57') }}" class="list-group-item" target="_blank">
                             征集网站名称

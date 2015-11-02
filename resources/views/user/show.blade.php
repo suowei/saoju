@@ -66,7 +66,8 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-success"><span class="glyphicon glyphicon-film"></span> 剧集收藏</h4>
+                <h4 class="text-success"><span class="glyphicon glyphicon-film"></span>
+                    剧集收藏（<a href="{{ url('/user/'.$user->id.'/favorites') }}" target="_blank">查看全部</a>）</h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/user/'.$user->id.'/favorites/0') }}" target="_blank">
                         <span class="glyphicon glyphicon-headphones"></span> 想听：{{ $user->favorite0 }}部
@@ -210,6 +211,23 @@
                         @foreach($lists as $list)
                             <a href="{{ url('/list/'.$list->id) }}" class="list-group-item" target="_blank">
                                 {{ $list->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-tags"></span> 常用标签
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/tags') }}" target="_blank">查看全部</a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($tagmaps as $tagmap)
+                            <a href="{{ url('/user/'.$user->id.'/favorites?tag='.$tagmap->tag->name) }}" class="list-group-item" target="_blank">
+                                {{ $tagmap->tag->name }}<span class="pull-right">{{ $tagmap->count }}</span>
                             </a>
                         @endforeach
                     </div>
