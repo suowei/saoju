@@ -173,7 +173,7 @@ class IndexController extends Controller {
         {
             $query->select('id', 'title');
         }]);
-        return view('reviews', ['reviews' => $reviews]);
+        return view('review.reviews', ['reviews' => $reviews]);
     }
 
 }

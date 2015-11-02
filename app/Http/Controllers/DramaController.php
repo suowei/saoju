@@ -14,9 +14,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Role;
+use App\Tag;
+use App\Tagmap;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Input;
 
 class DramaController extends Controller {
@@ -175,12 +178,19 @@ class DramaController extends Controller {
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('drama_id', $id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->take(20)->get();
         //若用户已登录则取得其对整部剧及每个分集的收藏状态，及其全部评论
         $epfavs = [];
         if(Auth::check())
         {
             $user_id = $request->user()->id;
-            $favorite = Favorite::select('id', 'type', 'rating')->where('user_id', $user_id)->where('drama_id', $id)->first();
+            $favorite = Favorite::select('id', 'user_id', 'type', 'rating', 'tags')
+                ->where('user_id', $user_id)->where('drama_id', $id)->first();
             $ids = $episodes->pluck('id');
             $rows = Epfav::select('episode_id', 'type', 'rating')
                 ->where('user_id', $user_id)->whereIn('episode_id', $ids->all())->get();
@@ -199,7 +209,7 @@ class DramaController extends Controller {
             $userReviews = 0;
         }
         return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
-            'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites,
+            'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites, 'tagmaps' => $tagmaps,
             'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
 	}
 
@@ -388,6 +398,72 @@ class DramaController extends Controller {
             $query->select('id', 'name');
         }])->select('id', 'title', 'user_id')->whereIn('id', $listids)->get();
         return view('drama.lists', ['drama' => $drama, 'items' => $items, 'lists' => $lists]);
+    }
+
+    public function tags($id)
+    {
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('drama_id', $id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->take(20)->get();
+        $tags = [];
+        foreach($tagmaps as $tagmap)
+        {
+            $tags[] = ['text' => $tagmap->tag->name, 'weight' => $tagmap->count, 'link' => '/drama/tag/'.$tagmap->tag->name];
+        }
+        return $tags;
+    }
+
+    public function tag(Request $request, $tag)
+    {
+        if($request->has('sort'))
+        {
+            $sort = $request->input('sort');
+        }
+        else
+        {
+            $sort = 'tagcount';
+        }
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $tag = Tag::where('name', $tag)->first();
+        if(!$tag)
+            return view('search.tag', ['message' => '未找到结果']);
+        if($sort == 'tagcount')
+        {
+            $dramas = Tagmap::with(['drama' => function($query) {
+                $query->select('id', 'title', 'alias', 'sc', 'type', 'era', 'genre',
+                    'original', 'count', 'state', 'poster_url', 'introduction');
+            }])
+                ->select(DB::raw('count(*) as count, drama_id'))
+                ->where('tag_id', $tag->id)
+                ->groupBy('drama_id')
+                ->orderBy('count', 'desc')
+                ->paginate(20);
+        }
+        else
+        {
+            $dramas = Drama::whereExists(function($query) use($tag)
+            {
+                $query->select(DB::raw(1))
+                    ->from('tagmaps')
+                    ->whereRaw('tagmaps.tag_id = '.$tag->id.' and tagmaps.drama_id = dramas.id');
+            })
+                ->select('id', 'title', 'alias', 'sc', 'type', 'era', 'genre',
+                    'original', 'count', 'state', 'poster_url', 'introduction')
+                ->orderBy($sort, 'desc')->paginate(20);
+        }
+        if(!$dramas || !$dramas->total())
+            return view('search.tag', ['message' => '未找到结果']);
+        return view('drama.tag', ['tag' => $tag->name, 'dramas' => $dramas, 'sort' => $sort, 'order' => $order]);
     }
 
 }

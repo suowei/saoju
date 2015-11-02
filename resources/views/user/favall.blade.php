@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', $user->name.'的收藏 - ')
+@section('title', $user->name.'的收藏'.($tag?('/'.$tag):'').' - ')
 
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-9">
                 <h4 class="text-success">
-                    <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>@if($type == 0)想听@elseif($type == 1)在追@elseif($type == 2)听过@elseif($type == 3)搁置@else抛弃@endif的剧（{{ $favorites->total() }}部）
+                    <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>收藏的剧@if($tag)/{{ $tag }}@endif（{{ $favorites->total() }}部）
                 </h4>
                 @foreach($favorites as $favorite)
                     <div class="row drama">
@@ -30,9 +30,9 @@
                                 <p class="text-success">
                                     <span class="glyphicon glyphicon-tags"></span>
                                     标签：
-                                    @foreach(explode(',', $favorite->tags) as $tag)
-                                        <a class="btn btn-default btn-xs" href="{{ url('/user/'.$favorite->user_id.'/favorites?tag='.$tag) }}"
-                                           target="_blank">{{ $tag }}</a>
+                                    @foreach(explode(',', $favorite->tags) as $tagname)
+                                        <a class="btn btn-default btn-xs" href="{{ url('/user/'.$favorite->user_id.'/favorites?tag='.$tagname) }}"
+                                           target="_blank">{{ $tagname }}</a>
                                     @endforeach
                                 </p>
                             @endif
@@ -71,15 +71,24 @@
                         </div>
                     </div>
                 @endforeach
-                <?php echo $favorites->appends(['sort' => $sort])->render(); ?>
+                <?php
+                if($tag)
+                    echo $favorites->appends(['sort' => $sort, 'tag' => $tag])->render();
+                else
+                    echo $favorites->appends(['sort' => $sort])->render();
+                ?>
             </div>
             <div class="col-md-3">
                 <h4 class="text-warning">排序看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span></h4>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/favorites/'.$type.'?sort=rating') }}"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 按评分排序</a>
+                    <a class="btn btn-success btn-xs" href="{{ url('/user/'.$user->id.'/favorites?sort=rating'.($tag?('&tag='.$tag):'')) }}">
+                        <span class="glyphicon glyphicon-heart"></span> 按评分排序
+                    </a>
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/user/'.$user->id.'/favorites/'.$type.'?sort=updated_at') }}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 按时间排序</a>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/user/'.$user->id.'/favorites?sort=time'.($tag?('&tag='.$tag):'')) }}">
+                        <span class="glyphicon glyphicon-calendar"></span> 按时间排序
+                    </a>
                 </p>
             </div>
         </div>

@@ -4,6 +4,7 @@
 
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -55,6 +56,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-2 control-label">标签：</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="tagsinput form-control" data-role="tagsinput" name="tags" value="{{ old('tags') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-2 control-label">标题：</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" name="title" placeholder="可不填" value="{{ old('title') }}">
@@ -81,4 +88,5 @@
 
 @section('script')
     <script src="{{ asset('/js/star-rating.min.js') }}"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.js"></script>
 @endsection
