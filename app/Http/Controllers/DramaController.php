@@ -213,6 +213,7 @@ class DramaController extends Controller {
         {
             $favorite = 0;
             $userReviews = 0;
+            $usertags = [];
         }
         return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
             'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites, 'tagmaps' => $tagmaps,
