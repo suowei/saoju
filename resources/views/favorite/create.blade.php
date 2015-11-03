@@ -62,6 +62,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-2 control-label">常用标签：</label>
+                                <div class="col-md-8">
+                                    @foreach($tagmaps as $tagmap)
+                                        <button type="button" class="tagbtn btn btn-default btn-xs">{{ $tagmap->tag->name }}</button>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-2 control-label">标题：</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" name="title" placeholder="可不填" value="{{ old('title') }}">

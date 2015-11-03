@@ -202,6 +202,12 @@ class DramaController extends Controller {
                 $query->select('id', 'title');
             }])->select('id', 'episode_id', 'title', 'content', 'created_at')
                 ->where('user_id', $user_id)->where('drama_id', $id)->get();
+            $usertags = Tagmap::with('tag')
+                ->select(DB::raw('count(*) as count, tag_id'))
+                ->where('user_id', $user_id)
+                ->groupBy('tag_id')
+                ->orderBy('count', 'desc')
+                ->take(15)->get();
         }
         else
         {
@@ -210,7 +216,7 @@ class DramaController extends Controller {
         }
         return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
             'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites, 'tagmaps' => $tagmaps,
-            'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews]);
+            'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews, 'usertags' => $usertags]);
 	}
 
 	/**
