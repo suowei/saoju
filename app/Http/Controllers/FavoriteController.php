@@ -7,6 +7,7 @@ use App\Http\Requests;
 
 use App\Review;
 use App\Tag;
+use App\Tagmap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,7 +54,13 @@ class FavoriteController extends Controller {
             'drama' => 'required',
         ]);
         $drama = Drama::find($request->input('drama'), ['id', 'title']);
-        return view('favorite.create', ['drama' => $drama]);
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('user_id', $request->user()->id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->take(15)->get();
+        return view('favorite.create', ['drama' => $drama, 'tagmaps' => $tagmaps]);
     }
 
     public function store(Request $request)
@@ -167,7 +174,13 @@ class FavoriteController extends Controller {
         $user_id = $request->user()->id;
         $favorite = Favorite::select('type', 'rating', 'tags')->where('user_id', $user_id)->where('drama_id', $drama_id)->first();
         $review = Review::select('title', 'content')->where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
-        return view('favorite.edit', ['drama' => $drama, 'favorite' => $favorite, 'review' => $review]);
+        $tagmaps = Tagmap::with('tag')
+            ->select(DB::raw('count(*) as count, tag_id'))
+            ->where('user_id', $request->user()->id)
+            ->groupBy('tag_id')
+            ->orderBy('count', 'desc')
+            ->take(15)->get();
+        return view('favorite.edit', ['drama' => $drama, 'favorite' => $favorite, 'review' => $review, 'tagmaps' => $tagmaps]);
     }
 
     public function update(Request $request, $id)

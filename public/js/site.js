@@ -100,11 +100,13 @@ $('#favModal').on('show.bs.modal', function (event) {
         modal.find("input[name='type']").eq(1).parent().hide();
         modal.find("input[name='type']").eq(3).parent().hide();
         $('#tagsinput').hide();
+        $('#commtags').hide();
     }
     else {
         modal.find("input[name='type']").eq(1).parent().show();
         modal.find("input[name='type']").eq(3).parent().show();
         $('#tagsinput').show();
+        $('#commtags').show();
     }
     if (method == 'POST') {
         modal.find("input[name='_method']").prop('name', 'none');
@@ -200,4 +202,8 @@ $('.rating').rating({
 
 $('.tagsinput').tagsinput({
     confirmKeys: [13, 32, 44]
+});
+
+$('.tagbtn').on('click', function () {
+    $("input[name='tags']").tagsinput('add', $(this).text());
 });

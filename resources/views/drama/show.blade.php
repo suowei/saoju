@@ -406,6 +406,14 @@
                             <input type="text" class="tagsinput form-control" data-role="tagsinput" name="tags">
                         </div>
                     </div>
+                    <div class="form-group" id="commtags">
+                        <label class="col-md-2 control-label">常用：</label>
+                        <div class="col-md-8">
+                            @foreach($usertags as $usertag)
+                                <button type="button" class="tagbtn btn btn-default btn-xs">{{ $usertag->tag->name }}</button>
+                            @endforeach
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             <button type="submit" class="btn btn-info btn-sm">保存</button>
