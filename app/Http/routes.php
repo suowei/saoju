@@ -105,3 +105,8 @@ Route::resource('item', 'ItemController');
 
 Route::get('/listfav/delete', ['as' => 'listfav.delete', 'uses' => 'ListfavController@destroy']);
 Route::resource('listfav', 'ListfavController');
+
+Route::group(['prefix' => 'json'], function()
+{
+   Route::get('/newepisodes', 'EpisodeController@newEpisodesJson');
+});
