@@ -19,6 +19,7 @@
             @else
                 <form class="form-inline" method="POST" action="{{ url('/user/updateCode') }}">
                     <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="id" value="{{ $invitation->id }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group">
                         <input type="text" class="form-control" name="code" placeholder="请设置或重设暗号">
