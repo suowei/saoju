@@ -20,7 +20,7 @@ class UserController extends Controller {
 
     public function show($id)
     {
-        $user = User::find($id, ['id', 'name', 'introduction', 'reviews',
+        $user = User::find($id, ['id', 'name', 'introduction', 'episodevers', 'reviews',
             'favorite0', 'favorite1', 'favorite2', 'favorite3', 'favorite4',
             'epfav0', 'epfav2', 'epfav4', 'screvs', 'created_at']);
         $epfavs = [];
@@ -329,9 +329,9 @@ class UserController extends Controller {
 
     public function invite(Request $request)
     {
-        $invitation = DB::table('invitations')->select('id', 'code', 'new_user_id')
-            ->where('old_user_id', $request->user()->id)->first();
-        return view('user.invite', ['invitation' => $invitation]);
+        $invitations = DB::table('invitations')->select('id', 'code', 'new_user_id')
+            ->where('old_user_id', $request->user()->id)->get();
+        return view('user.invite', ['invitations' => $invitations]);
     }
 
     public function updateCode(Request $request)

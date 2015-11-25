@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-	<title>@yield('title')中抓扫剧</title>
+	<title>@yield('title')抓糖</title>
     @yield('meta')
 
 	<link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="{{ url('/') }}"><strong>中抓扫剧</strong></a>
+				<a class="navbar-brand" href="{{ url('/') }}"><strong>抓糖</strong></a>
 			</div>
 
 			<div class="navbar-collapse collapse" id="navbar">

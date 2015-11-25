@@ -21,7 +21,9 @@ a:hover {
 }
 
 .navbar-default .navbar-brand {
-    color: #573e7d;
+    color: #fd7771;
+    font-size: 24px;
+    font-family: 幼圆, "Microsoft Yahei", 微软雅黑;
 }
 
 .navbar-default .nav > li > a {
@@ -30,6 +32,11 @@ a:hover {
 
 .navbar-default .nav .dropdown-menu > li > a {
     color: #573e7d;
+}
+
+.navbar-form .btn {
+    background-color: #fd8b83;
+    border-color: #fd8b83;
 }
 
 #navbarSearch {
@@ -174,4 +181,9 @@ a:hover {
 
 .tagcloud {
     line-height: 175%;
+}
+
+.medal {
+    color: #ce4646;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 }

@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="container">
-        @if($invitation)
+        <p>
+            请注意：邀请码仅限一人使用，注册成功后即作废。请将编号和暗号都发送给朋友~
+        </p><br>
+        @forelse($invitations as $invitation)
             <p>
                 您已获得邀请码一枚，编号为<strong>{{ $invitation->id }}</strong>
             </p>
@@ -22,12 +25,9 @@
                     </div>
                     <button type="submit" class="btn btn-default">设置暗号</button>
                 </form>
-            @endif<br>
-            <p>
-                请注意：邀请码仅限一人使用，注册成功后即作废。请将编号和暗号都发送给朋友~
-            </p>
-        @else
+            @endif<br><br>
+        @empty
             抱歉，您当前没有邀请码，请关注下次邀请码发放时间^ ^
-        @endif
+        @endforelse
     </div>
 @endsection
