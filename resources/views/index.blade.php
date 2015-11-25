@@ -1,12 +1,17 @@
 @extends('app')
 
 @section('meta')
-    <meta name="description" content="中抓扫剧是一个中文广播剧扫剧平台，在这里你可以查看最新的广播剧及评论，写评并分类记录广播剧。">
+    <meta name="description" content="抓糖是一个中文广播剧扫剧平台，在这里你可以查看最新的广播剧及评论，写评并分类记录广播剧。">
     <meta name="keywords" content="广播剧,中文广播剧,中抓,剧评,扫剧">
 @endsection
 
 @section('content')
     <div class="container">
+        <div class="jumbotron" style="background-color: #d8534f;color: #ffffff">
+            <h2>网站有名字啦！</h2>
+            <p>从今天起，本站正式更名为“抓糖”，感谢大家一直以来的支持。继续欢迎大家常来玩，又有惊喜掉落哦~</p>
+            <p><a class="btn btn-danger btn-lg" style="border-color: #ffffff" href="{{ url('/bbs/topic/65') }}" role="button">领取邀请码</a></p>
+        </div>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">

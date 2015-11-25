@@ -180,6 +180,7 @@ class EpisodeController extends Controller {
                 'title' => $episode->title, 'alias' => $episode->alias, 'release_date' => $episode->release_date,
                 'url' => $episode->url, 'sc' => $episode->sc, 'duration' => $episode->duration,
                 'poster_url' => $episode->poster_url, 'introduction' => $episode->introduction]);
+            DB::table('users')->where('id', $request->user()->id)->increment('episodevers');
             return redirect()->route('episode.show', [$episode]);
         }
         else
@@ -326,6 +327,7 @@ class EpisodeController extends Controller {
         $episode = Episode::find($id, ['id', 'drama_id']);
         if($episode->delete())
         {
+            DB::table('users')->where('id', $version->user_id)->decrement('episodevers');
             return redirect()->route('drama.show', [$episode->drama_id]);
         }
         else

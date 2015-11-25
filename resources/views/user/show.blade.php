@@ -198,6 +198,46 @@
             </div>
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
+                <p class="text-info">以下勋章仅代表网站态度，与谦逊的用户本人无关……</p>
+                @if($user->reviews > 200)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧界一代宗师</h3>
+                @elseif($user->reviews > 150)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧大师</h3>
+                @elseif($user->reviews > 100)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧专家</h3>
+                @elseif($user->reviews > 50)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧精英</h3>
+                @elseif($user->reviews > 0)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧新星</h3>
+                @endif
+                @if(($favcount = $user->favorite1 + $user->favorite2) > 300)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 听遍中抓无敌</h3>
+                @elseif($favcount > 200)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 中抓超级听众</h3>
+                @elseif($favcount > 100)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深听众</h3>
+                @elseif($favcount > 50)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 听剧小能手</h3>
+                @elseif($favcount > 0)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 中抓听众</h3>
+                @endif
+                @if($user->episodevers > 100)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧宇宙飞船</h3>
+                @elseif($user->episodevers > 75)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小火箭</h3>
+                @elseif($user->episodevers > 50)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小飞机</h3>
+                @elseif($user->episodevers > 25)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小火车</h3>
+                @elseif($user->episodevers > 10)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小汽车</h3>
+                @elseif($user->episodevers > 0)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 搬剧小马车</h3>
+                @endif
+                @if($user->reviews == 0 && $favcount == 0 && $user->episodevers == 0)
+                    <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 中抓资深围观党</h3>
+                @endif
+                <br>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title">

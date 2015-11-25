@@ -16,6 +16,7 @@ return array(
     'AddTagsToFavoritesTable' => $baseDir . '/database/migrations/2015_10_26_110441_add_tags_to_favorites_table.php',
     'AddTypeToDramasTable' => $baseDir . '/database/migrations/2015_06_22_120924_add_type_to_dramas_table.php',
     'AddUniqueIndexToScsTable' => $baseDir . '/database/migrations/2015_08_04_095428_add_unique_index_to_scs_table.php',
+    'AddEpisodeversToUsersTable' => $baseDir . '/database/migrations/2015_11_25_111719_add_episodevers_to_users_table.php',
     'CreateClubsTable' => $baseDir . '/database/migrations/2015_07_27_211714_create_clubs_table.php',
     'CreateClubversTable' => $baseDir . '/database/migrations/2015_08_23_122356_create_clubvers_table.php',
     'CreateCommentsTable' => $baseDir . '/database/migrations/2015_06_15_114702_create_comments_table.php',
