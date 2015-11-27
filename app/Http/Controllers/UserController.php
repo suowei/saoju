@@ -6,6 +6,8 @@ use App\Episode;
 use App\Listfav;
 use App\Review;
 use App\Screv;
+use App\Songfav;
+use App\Songrev;
 use App\Tag;
 use App\Tagmap;
 use App\User;
@@ -22,7 +24,7 @@ class UserController extends Controller {
     {
         $user = User::find($id, ['id', 'name', 'introduction', 'episodevers', 'reviews',
             'favorite0', 'favorite1', 'favorite2', 'favorite3', 'favorite4',
-            'epfav0', 'epfav2', 'epfav4', 'screvs', 'created_at']);
+            'epfav0', 'epfav2', 'epfav4', 'screvs', 'songrevs', 'songfavs', 'created_at']);
         $epfavs = [];
         for($type = 0; $type <= 4; $type+=2)
         {
@@ -64,6 +66,12 @@ class UserController extends Controller {
             ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
             ->where('screvs.user_id', $id)
             ->orderBy('id', 'desc')->take(6)->get();
+        $songrevs = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('id', 'song_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
         $lists = Dramalist::select('id', 'title')->where('user_id', $id)->take(10)->get();
         $tagmaps = Tagmap::with('tag')
             ->select(DB::raw('count(*) as count, tag_id'))
@@ -71,8 +79,14 @@ class UserController extends Controller {
             ->groupBy('tag_id')
             ->orderBy('count', 'desc')
             ->take(50)->get();
-        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites,
-            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists, 'tagmaps' => $tagmaps]);
+        $songfavs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('song_id')
+            ->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites, 'songfavs' => $songfavs,
+            'reviews' => $reviews, 'screvs' => $screvs, 'songrevs' => $songrevs, 'lists' => $lists, 'tagmaps' => $tagmaps]);
     }
 
     public function edit()
@@ -391,5 +405,35 @@ class UserController extends Controller {
             })
             ->orderBy('created_at', 'desc')->paginate(20);
         return view('user.dramafeed', ['episodes' => $episodes]);
+    }
+
+    public function songrevs($id)
+    {
+        $reviews = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('id', 'song_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->paginate(20);
+        return view('user.songrevs', ['user' => User::find($id, ['id', 'name']), 'reviews' => $reviews]);
+    }
+
+    public function songfavs(Request $request, $id)
+    {
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $songfavs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'alias', 'artist', 'staff');
+        }])
+            ->select('song_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', $order)->paginate(50);
+        return view('user.songfavs', ['user' => USer::find($id, ['id', 'name']), 'songfavs' => $songfavs, 'order' => $order]);
     }
 }

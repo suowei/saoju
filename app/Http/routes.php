@@ -1,18 +1,8 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 Route::get('/', 'IndexController@index');
 Route::get('/reviews', 'IndexController@reviews');
+Route::get('/zhoubian', 'IndexController@zhoubian');
 
 Route::post('auth/inviteRegister', 'Auth\AuthController@inviteRegister');
 Route::controllers([
@@ -43,6 +33,8 @@ Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserControl
 Route::get('/user/{id}/screvs', ['as' => 'user.screvs', 'uses' => 'UserController@screvs']);
 Route::get('/user/{id}/lists', ['as' => 'user.lists', 'uses' => 'UserController@lists']);
 Route::get('/user/{id}/tags', ['as' => 'user.tags', 'uses' => 'UserController@tags']);
+Route::get('/user/{id}/songrevs', ['as' => 'user.songrevs', 'uses' => 'UserController@songrevs']);
+Route::get('/user/{id}/songfavs', ['as' => 'user.songfavs', 'uses' => 'UserController@songfavs']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
@@ -110,3 +102,14 @@ Route::group(['prefix' => 'json'], function()
 {
    Route::get('/newepisodes', 'EpisodeController@newEpisodesJson');
 });
+
+Route::get('/song/{id}/reviews', ['as' => 'song.reviews', 'uses' => 'SongController@reviews']);
+Route::get('/song/{id}/favorites', ['as' => 'song.favorites', 'uses' => 'SongController@favorites']);
+Route::get('/song/{id}/versions', ['as' => 'song.versions', 'uses' => 'SongController@versions']);
+Route::resource('song', 'SongController');
+
+Route::get('/songfav/store', 'SongfavController@store');
+Route::post('/songfav2', 'SongfavController@store2');
+Route::resource('songfav', 'SongfavController');
+
+Route::resource('songrev', 'SongrevController');

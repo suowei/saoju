@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Role;
+use App\Song;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -215,6 +216,7 @@ class EpisodeController extends Controller {
         $roles = Role::with(['sc' => function($query) {
             $query->select('id', 'name');
         }])->select('sc_id', 'job', 'note')->where('episode_id', $id)->orderBy('job')->get();
+        $songs = Song::select('id', 'title', 'artist')->where('episode_id', $id)->get();
         if(Auth::check())
         {
             $user_id = $request->user()->id;
@@ -227,8 +229,9 @@ class EpisodeController extends Controller {
             $favorite = 0;
             $userReviews = 0;
         }
-        return view('episode.show', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews, 'lists' => $lists,
-            'favorites' => $favorites, 'roles' => $roles, 'favorite' => $favorite, 'userReviews' => $userReviews]);
+        return view('episode.show', ['episode' => $episode, 'drama' => $drama,
+            'reviews' => $reviews, 'songs' => $songs, 'lists' => $lists, 'favorites' => $favorites,
+            'roles' => $roles, 'favorite' => $favorite, 'userReviews' => $userReviews]);
 	}
 
 	/**

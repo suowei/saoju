@@ -276,28 +276,11 @@
         </div>
         <div class="col-md-3">
             <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-            <p>
-                <a class="btn btn-success btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
-                    <span class="glyphicon glyphicon-plus"></span> 更新剧集（添加分集）
-                </a>
-                <a class="btn btn-warning btn-xs" href="{{ url('/drama/'.$drama->id.'/edit') }}">
-                    <span class="glyphicon glyphicon-edit"></span> 编辑剧集信息
-                </a>
-            </p>
-            <p class="text-danger">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                分集信息维护请进入分集页面操作
-            </p>
-            <p>
-                <a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#sc">
-                    查看关联SC <span class="caret"></span>
-                </a>
-            </p>
-            <div class="panel panel-primary collapse" id="sc">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
-                            <span class="glyphicon glyphicon-list-alt"></span> 主要SC
+                            <span class="glyphicon glyphicon-list-alt"></span> STAFF
                         </a>
                         <small class="pull-right">
                             <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
@@ -306,25 +289,56 @@
                         </small>
                     </h4>
                 </div>
-                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
+                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期']; ?>
                 <ul class="list-group">
-                    @foreach ($roles as $role)
-                        <li class="list-group-item">
-                            {{ $role->note ? $role->note : $jobs[$role->job] }}：<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a><br>
-                        </li>
-                    @endforeach
+                    @for($i = 0; $i <=4; $i++)
+                        @if(isset($roles[$i]))
+                            <li class="list-group-item">
+                                {{ $jobs[$i] }}：@foreach($roles[$i] as $key => $role)@if($key)，@endif<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a>@endforeach
+                            </li>
+                        @endif
+                    @endfor
                 </ul>
             </div>
             <p>
-                <a class="btn btn-info btn-xs" href="{{ url('/drama/'.$drama->id.'/versions') }}" target="_blank">
-                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
+                <a class="btn btn-primary btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
+                    <span class="glyphicon glyphicon-plus"></span> 更新剧集（添加分集）
+                </a>
+                <a class="btn btn-success btn-xs" href="{{ url('/song/create?drama='.$drama->id) }}">
+                    <span class="glyphicon glyphicon-plus"></span> 添加歌曲
+                </a>
+            </p>
+            <p class="text-danger">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                分集信息维护、添加分集所属歌曲等请进入相应分集页面操作
+            </p>
+            <p>
+                <a class="btn btn-warning btn-xs" href="{{ url('/drama/'.$drama->id.'/edit') }}">
+                    <span class="glyphicon glyphicon-edit"></span> 编辑剧集信息
                 </a>
                 <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/drama/'.$drama->id) }}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本剧
                 </a>
             </p>
+            <p>
+                <a class="btn btn-info btn-xs" href="{{ url('/drama/'.$drama->id.'/versions') }}" target="_blank">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
+                </a>
+            </p>
             <p class="text-info"><span class="glyphicon glyphicon-hand-down"></span> 剧集海报，用于剧集列表的展示</p>
             <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-play"></span> 关联歌曲</h4>
+                </div>
+                <ul class="list-group">
+                    @foreach ($songs as $song)
+                        <li class="list-group-item">
+                            <a href="{{ url('/song/'.$song->id) }}" target="_blank">{{ $song->title }}</a>（{{ $song->artist }}）
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">

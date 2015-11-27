@@ -195,6 +195,27 @@
                         <div class="review-content">{{ $review->content }}</div>
                     </div>
                 @endforeach
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> 歌曲评论
+                    <a href="{{ url('/user/'.$user->id.'/songrevs') }}" target="_blank">{{ $user->songrevs }}篇</a>
+                </h4>
+                @foreach ($songrevs as $review)
+                    <div class="review">
+                        <div class="review-title">
+                            <a href="{{ url('/song/'.$review->song_id) }}" target="_blank">{{ $review->song->title }}</a>
+                            {{ $review->created_at }}
+                            {{ $review->title }}
+                            <span class="pull-right">
+                                <a href="{{ url('/songrev/'.$review->id) }}" target="_blank">查看</a>
+                                @if(Auth::check() && Auth::id() == $user->id)
+                                    <a class="text-muted" href="{{ url('/songrev/'.$review->id.'/edit') }}">修改</a>
+                                    <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/songrev/'.$review->id) }}">删除</a>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="review-content">{{ $review->content }}</div>
+                    </div>
+                @endforeach
             </div>
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
@@ -268,6 +289,22 @@
                         @foreach($tagmaps as $tagmap)
                             <a href="{{ url('/user/'.$user->id.'/favorites?tag='.$tagmap->tag->name) }}" class="list-group-item" target="_blank">
                                 {{ $tagmap->tag->name }}<span class="pull-right">{{ $tagmap->count }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{{ url('/user/'.$user->id.'/songfavs') }}" target="_blank">
+                                <span class="glyphicon glyphicon-play"></span> 收藏歌曲：{{ $user->songfavs }}首
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($songfavs as $songfav)
+                            <a href="{{ url('/song/'.$songfav->song_id) }}" class="list-group-item" target="_blank">
+                                {{ $songfav->song->title }}
                             </a>
                         @endforeach
                     </div>

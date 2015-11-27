@@ -195,36 +195,20 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
-                        <span class="glyphicon glyphicon-film"></span> 查看全部剧集
-                    </a>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
-                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank">
-                        <span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集
-                    </a>
-                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
-                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank">
-                        <span class="glyphicon glyphicon-comment"></span> 查看全部评论
-                    </a>
-                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
-                        <span class="glyphicon glyphicon-picture"></span> 查看SC社团印象
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
-                        <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
-                    </a>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/search/tag') }}" target="_blank">
                         <span class="glyphicon glyphicon-tag"></span> 标签搜索
                     </a>
+                </p>
+                <p>
+                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
+                        <span class="glyphicon glyphicon-picture"></span> SC社团印象
+                    </a>
+                </p>
+                <p>
+                    <a class="btn btn-success btn-xs" href="{{ url('/zhoubian') }}" target="_blank">
+                        <span class="glyphicon glyphicon-glass"></span> 周边板块
+                    </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 歌曲访谈闲聊歌会等相关
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
@@ -257,6 +241,7 @@
                             <a href="{{ url('/list') }}" target="_blank">
                                 <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
                             </a>
+                            <small class="pull-right"><a href="{{ url('/list') }}" target="_blank">查看全部</a></small>
                         </h4>
                     </div>
                     <ul class="list-group">

@@ -176,4 +176,9 @@ class IndexController extends Controller {
         return view('review.reviews', ['reviews' => $reviews]);
     }
 
+    public function zhoubian()
+    {
+
+    }
+
 }
