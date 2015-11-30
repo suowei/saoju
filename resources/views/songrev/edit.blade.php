@@ -1,4 +1,4 @@
-@extends('app')
+@extends('appzb')
 
 @section('title', '编辑我对'.$review->song->title.'的评论 - ')
 

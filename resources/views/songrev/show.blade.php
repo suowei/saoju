@@ -1,4 +1,4 @@
-@extends('app')
+@extends('appzb')
 
 @section('title', $review->user->name.'评论'.$review->song->title.' - ')
 

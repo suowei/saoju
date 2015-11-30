@@ -165,7 +165,7 @@
                 </p>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><span class="glyphicon glyphicon-play"></span> 关联歌曲</h4>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲</h4>
                     </div>
                     <ul class="list-group">
                         @foreach ($songs as $song)

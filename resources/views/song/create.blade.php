@@ -1,4 +1,4 @@
-@extends('app')
+@extends('appzb')
 
 @section('title', '添加歌曲'.($drama?(' - '.$drama->title):'').($episode?(' - '.$episode->title):'').' - ')
 

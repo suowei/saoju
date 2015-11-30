@@ -19,6 +19,20 @@ class SongfavController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $favorites = Songfav::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('user_id', 'song_id', 'created_at')
+            ->orderBy('created_at', 'desc')->take(50)->get();
+        return view('songfav.index', ['favorites' => $favorites]);
+    }
+
     public function create(Request $request)
     {
         $this->validate($request, [

@@ -7,11 +7,6 @@
 
 @section('content')
     <div class="container">
-        <div class="jumbotron" style="background-color: #d8534f;color: #ffffff">
-            <h2>网站有名字啦！</h2>
-            <p>从今天起，本站正式更名为“抓糖”，感谢大家一直以来的支持。继续欢迎大家常来玩，又有惊喜掉落哦~</p>
-            <p><a class="btn btn-danger btn-lg" style="border-color: #ffffff" href="{{ url('/bbs/topic/65') }}" role="button">领取邀请码</a></p>
-        </div>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -195,14 +190,15 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/search/tag') }}" target="_blank">
-                        <span class="glyphicon glyphicon-tag"></span> 标签搜索
+                    <a class="btn btn-warning btn-xs" href="{{ url('/screv') }}" target="_blank">
+                        <span class="glyphicon glyphicon-picture"></span> SC社团印象
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
-                        <span class="glyphicon glyphicon-picture"></span> SC社团印象
+                    <a class="btn btn-info btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                        <span class="glyphicon glyphicon-tag"></span> 标签搜索
                     </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 标签搜索及热门标签展示
                 </p>
                 <p>
                     <a class="btn btn-success btn-xs" href="{{ url('/zhoubian') }}" target="_blank">

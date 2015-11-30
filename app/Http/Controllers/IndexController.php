@@ -9,6 +9,9 @@ use App\Listfav;
 use App\Review;
 use App\Favorite;
 
+use App\Song;
+use App\Songfav;
+use App\Songrev;
 use Illuminate\Http\Request;
 use DB;
 
@@ -178,7 +181,37 @@ class IndexController extends Controller {
 
     public function zhoubian()
     {
-
+        $newsongs = Song::select('id', 'title', 'alias', 'artist', 'reviews')->orderBy('id', 'desc')->take(15)->get();
+        $songrevs = Songrev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->orderBy('id', 'desc')->take(10)->get();
+        $hotrevsongs = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'artist');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, song_id'))
+            ->groupBy('song_id')
+            ->orderBy('review_count', 'desc')
+            ->take(15)
+            ->get();
+        $hotfavsongs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'artist');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, song_id'))
+            ->groupBy('song_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(15)
+            ->get();
+        return view('zhoubian', ['newsongs' => $newsongs, 'songrevs' => $songrevs, 'hotrevsongs' => $hotrevsongs,
+            'hotfavsongs' => $hotfavsongs]);
     }
 
 }

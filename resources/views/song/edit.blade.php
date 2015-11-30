@@ -1,4 +1,4 @@
-@extends('app')
+@extends('appzb')
 
 @section('title', '编辑《'.$song->title.'》的歌曲信息 - ')
 

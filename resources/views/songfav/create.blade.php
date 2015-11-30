@@ -1,4 +1,4 @@
-@extends('app')
+@extends('appzb')
 
 @section('title', '收藏《'.$song->title.'》并评论 - ')
 
