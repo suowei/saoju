@@ -24,7 +24,7 @@ class UserController extends Controller {
     {
         $user = User::find($id, ['id', 'name', 'introduction', 'episodevers', 'reviews',
             'favorite0', 'favorite1', 'favorite2', 'favorite3', 'favorite4',
-            'epfav0', 'epfav2', 'epfav4', 'screvs', 'songrevs', 'songfavs', 'created_at']);
+            'epfav0', 'epfav2', 'epfav4', 'screvs', 'created_at']);
         $epfavs = [];
         for($type = 0; $type <= 4; $type+=2)
         {

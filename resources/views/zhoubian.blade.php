@@ -47,7 +47,7 @@
                 <h4 class="text-success">
                     <span class="glyphicon glyphicon-comment"></span>
                     最新歌曲评论（<a href="{{ url('/songrev') }}"） target="_blank">查看全部</a>）
-                    <small class="pull-right"><a class="text-muted" href="{{ url('/songfav') }}" target="_blank">看看大家在听什么</a></small>
+                    <small class="pull-right"><a class="text-muted" href="{{ url('/songfav') }}" target="_blank">看看大家在听什么歌</a></small>
                 </h4>
                 @foreach ($songrevs as $review)
                     <div class="review">

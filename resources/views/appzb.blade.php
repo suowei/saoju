@@ -43,17 +43,18 @@
             <form class="navbar-form navbar-left" role="search" method="GET" action="{{ url('/search') }}">
                 <div class="input-group">
                     <input id="navbarSearch" type="text" class="form-control" name="keyword" placeholder="剧名或别名、SC、社团">
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button>
-                        </span>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
                 </div>
             </form>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ url('/zhoubian') }}">周边首页</a></li>
                 <li><a href="{{ url('/song') }}"><span class="glyphicon glyphicon-music"></span> 歌曲列表</a></li>
-                <li><a href="{{ url('/ft') }}"><span class="glyphicon glyphicon-glass"></span> FT列表</a></li>
-                <li><a href="{{ url('/concert') }}"><span class="glyphicon glyphicon-volume-up"></span> 闲聊歌会</a></li>
+                <li><a href="{{ url('/ft') }}"><span class="glyphicon glyphicon-cutlery"></span> FT列表</a></li>
+                <li><a href="{{ url('/ftep') }}"><span class="glyphicon glyphicon-glass"></span> FT分集列表</a></li>
+                <li><a href="{{ url('/concert') }}"><span class="glyphicon glyphicon-time"></span> 闲聊歌会</a></li>
 
                 @if (Auth::guest())
                     <li><a href="{{ url('/auth/login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>

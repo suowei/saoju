@@ -53,7 +53,6 @@ class SongrevController extends Controller
         $review->content = $request->input('content');
        if($review->save())
         {
-            DB::table('users')->where('id', $review->user_id)->increment('songrevs');
             DB::table('songs')->where('id', $review->song_id)->increment('reviews');
             return redirect()->route('songrev.show', [$review]);
         }
@@ -124,7 +123,6 @@ class SongrevController extends Controller
         {
             if($review->delete())
             {
-                DB::table('users')->where('id', $review->user_id)->decrement('songrevs');
                 DB::table('songs')->where('id', $review->song_id)->decrement('reviews');
             }
         }

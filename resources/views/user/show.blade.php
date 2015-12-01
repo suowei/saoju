@@ -196,8 +196,7 @@
                     </div>
                 @endforeach
                 <h4 class="text-success">
-                    <span class="glyphicon glyphicon-comment"></span> 歌曲评论
-                    <a href="{{ url('/user/'.$user->id.'/songrevs') }}" target="_blank">{{ $user->songrevs }}篇</a>
+                    <span class="glyphicon glyphicon-comment"></span> 歌曲评论（<a href="{{ url('/user/'.$user->id.'/songrevs') }}" target="_blank">查看全部</a>）
                 </h4>
                 @foreach ($songrevs as $review)
                     <div class="review">
@@ -296,9 +295,10 @@
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="{{ url('/user/'.$user->id.'/songfavs') }}" target="_blank">
-                                <span class="glyphicon glyphicon-play"></span> 收藏歌曲：{{ $user->songfavs }}首
-                            </a>
+                            <span class="glyphicon glyphicon-play"></span> 收藏歌曲
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/songfavs') }}" target="_blank">查看全部</a>
+                            </small>
                         </h4>
                     </div>
                     <div class="list-group">

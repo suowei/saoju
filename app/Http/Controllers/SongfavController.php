@@ -16,7 +16,7 @@ class SongfavController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['index']]);
     }
 
     public function index()
@@ -55,7 +55,6 @@ class SongfavController extends Controller
         if($favorite->save())
         {
             DB::table('songs')->where('id', $favorite->song_id)->increment('favorites');
-            DB::table('users')->where('id', $favorite->user_id)->increment('songfavs');
         }
         return redirect()->back();
     }
@@ -81,7 +80,6 @@ class SongfavController extends Controller
             $review->content = $request->input('content');
             if($review->save())
             {
-                DB::table('users')->where('id', $review->user_id)->increment('songrevs');
                 DB::table('songs')->where('id', $review->song_id)->increment('reviews');
             }
             else
@@ -91,7 +89,6 @@ class SongfavController extends Controller
         }
         if($favorite->save())
         {
-            DB::table('users')->where('id', $favorite->user_id)->increment('songfavs');
             DB::table('songs')->where('id', $favorite->song_id)->increment('favorites');
             return redirect()->route('song.show', [$favorite->song_id]);
         }
@@ -103,11 +100,9 @@ class SongfavController extends Controller
 
     public function destroy(Request $request, $song_id)
     {
-        $user_id = $request->user()->id;
-        $result = DB::table('songfavs')->where('user_id', $user_id)->where('song_id', $song_id)->delete();
+        $result = DB::table('songfavs')->where('user_id', $request->user()->id)->where('song_id', $song_id)->delete();
         if($result)
         {
-            DB::table('users')->where('id', $user_id)->decrement('songfavs');
             DB::table('songs')->where('id', $song_id)->decrement('favorites');
         }
         return redirect()->back();
