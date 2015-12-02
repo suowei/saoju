@@ -6,10 +6,12 @@ use App\Ft;
 use App\Ftep;
 use App\Ftepfav;
 use App\Ftrev;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class FtepfavController extends Controller
 {
@@ -89,7 +91,7 @@ class FtepfavController extends Controller
 
     public function destroy(Request $request, $ftep_id)
     {
-        $result = DB::table('ftepfavs')->where('user_id', $request->user()->id)->where('episode_id', $ftep_id)->delete();
+        $result = DB::table('ftepfavs')->where('user_id', $request->user()->id)->where('ftep_id', $ftep_id)->delete();
         if($result)
         {
             DB::table('fteps')->where('id', $ftep_id)->decrement('favorites');

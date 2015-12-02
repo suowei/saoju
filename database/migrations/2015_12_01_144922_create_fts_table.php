@@ -19,7 +19,7 @@ class CreateFtsTable extends Migration
             $table->string('poster_url')->nullable();
             $table->text('introduction')->nullable();
             $table->integer('reviews')->default(0);
-            $table->integer('favorties')->default(0);
+            $table->integer('favorites')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

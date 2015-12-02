@@ -20,8 +20,8 @@
                     ?>
 
                         <div class="col-md-8">
-                        <ul class="nav nav-tabs" id="dateTab">
-                            <li role="presentation">
+                        <ul class="nav nav-tabs hoverTab">
+                            <li role="presentation" class="active">
                                 <a href="#{{ $days[0] }}" role="tab" data-toggle="tab">两日新剧</a>
                             </li>
                             @for($i = 2; $i <= 7; $i++)
@@ -31,7 +31,7 @@
                             @endfor
                         </ul>
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane" id="{{ $days[0] }}">
+                            <div role="tabpanel" class="tab-pane active" id="{{ $days[0] }}">
                                 <div class="list-group">
                                     @if(isset($episodes[$days[0]]))
                                         @foreach ($episodes[$days[0]] as $episode)

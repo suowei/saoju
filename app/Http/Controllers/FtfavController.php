@@ -6,10 +6,12 @@ use App\Ft;
 use App\Ftepfav;
 use App\Ftfav;
 use App\Ftrev;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class FtfavController extends Controller
 {
@@ -38,7 +40,7 @@ class FtfavController extends Controller
             })
             ->select('user_id', 'ft_id', 'fts.title as ft_title', 'ftep_id',
                 'fteps.title as ftep_title', 'ftepfavs.created_at as created_at')
-            ->orderBy('epfavs.updated_at', 'desc')->take(50)->get();
+            ->orderBy('ftepfavs.created_at', 'desc')->take(50)->get();
         $epfavs->load(['user' => function($query)
         {
             $query->select('id', 'name');

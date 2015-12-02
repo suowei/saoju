@@ -4,6 +4,9 @@ use App\Drama;
 use App\Dramalist;
 use App\Dramaver;
 use App\Episode;
+use App\Ftep;
+use App\Ftfav;
+use App\Ftrev;
 use App\History;
 use App\Listfav;
 use App\Review;
@@ -210,8 +213,59 @@ class IndexController extends Controller {
             ->orderBy('favorite_count', 'desc')
             ->take(15)
             ->get();
+
+        $newcreatedfteps = Ftep::with(['ft' => function($query)
+        {
+            $query->select('id', 'title', 'host');
+        }])
+            ->select('id', 'ft_id', 'title', 'release_date')
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+        $newfteps = Ftep::with(['ft' => function($query)
+        {
+            $query->select('id', 'title', 'host');
+        }])
+            ->select('id', 'ft_id', 'title', 'release_date')
+            ->orderBy('release_date', 'desc')
+            ->take(10)
+            ->get();
+        $ftrevs = Ftrev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }, 'ftep' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+        $hotrevfts = Ftrev::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, ft_id'))
+            ->groupBy('ft_id')
+            ->orderBy('review_count', 'desc')
+            ->take(10)
+            ->get();
+        $hotfavfts = Ftfav::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, ft_id'))
+            ->groupBy('ft_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(10)
+            ->get();
         return view('zhoubian', ['newsongs' => $newsongs, 'songrevs' => $songrevs, 'hotrevsongs' => $hotrevsongs,
-            'hotfavsongs' => $hotfavsongs]);
+            'hotfavsongs' => $hotfavsongs, 'newcreatedfteps' => $newcreatedfteps, 'newfteps' => $newfteps,
+            'ftrevs' => $ftrevs, 'hotrevfts' => $hotrevfts, 'hotfavfts' => $hotfavfts]);
     }
 
 }

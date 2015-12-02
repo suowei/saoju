@@ -31,8 +31,7 @@ $(function() {
     $("#loadmore").click();
 });
 
-$('#dateTab a:first').tab('show');
-$('#dateTab a').hover(function () {
+$('.hoverTab a').hover(function () {
     $(this).tab('show');
 });
 

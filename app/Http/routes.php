@@ -113,3 +113,23 @@ Route::post('/songfav2', 'SongfavController@store2');
 Route::resource('songfav', 'SongfavController');
 
 Route::resource('songrev', 'SongrevController');
+
+Route::get('/ft/{id}/reviews', ['as' => 'ft.reviews', 'uses' => 'FtController@reviews']);
+Route::get('/ft/{id}/favorites', ['as' => 'ft.favorites', 'uses' => 'FtController@favorites']);
+Route::get('/ft/{id}/versions', ['as' => 'ft.versions', 'uses' => 'FtController@versions']);
+Route::resource('ft', 'FtController');
+
+Route::get('/ftep/{id}/reviews', ['as' => 'ftep.reviews', 'uses' => 'FtepController@reviews']);
+Route::get('/ftep/{id}/favorites', ['as' => 'ftep.favorites', 'uses' => 'FtepController@favorites']);
+Route::get('/ftep/{id}/versions', ['as' => 'ftep.versions', 'uses' => 'FtepController@versions']);
+Route::resource('ftep', 'FtepController');
+
+Route::get('/ftfav/store', 'FtfavController@store');
+Route::post('/ftfav2', 'FtfavController@store2');
+Route::resource('ftfav', 'FtfavController');
+
+Route::get('/ftepfav/store', 'FtepfavController@store');
+Route::post('/ftepfav2', 'FtepfavController@store2');
+Route::resource('ftepfav', 'FtepfavController');
+
+Route::resource('ftrev', 'FtrevController');

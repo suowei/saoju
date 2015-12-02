@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class FtrevController extends Controller
 {
@@ -50,7 +51,11 @@ class FtrevController extends Controller
         ]);
 
         $review = new Ftrev;
-        $review->song_id = $request->input('song_id');
+        $review->ft_id = $request->input('ft_id');
+        if($request->has('ftep_id'))
+            $review->ftep_id = $request->input('ftep_id');
+        else
+            $review->ftep_id = 0;
         $review->user_id = $request->user()->id;
         $review->title = $request->input('title');
         $review->content = $request->input('content');

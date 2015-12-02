@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Auth;
+use Input;
+
 class FtController extends Controller
 {
     public function __construct()
@@ -163,22 +166,22 @@ class FtController extends Controller
         $version = Ftver::select('user_id')->where('ft_id', $id)->where('first', 1)->first();
         if($version->user_id != $request->user()->id)
         {
-            return '抱歉, 目前仅支持添加此条目的用户删除FT> <';
+            return '抱歉, 目前仅支持添加此条目的用户删除节目> <';
         }
         $ftep = Ftep::select('id')->where('ft_id', $id)->first();
         if($ftep)
         {
-            return '抱歉，请先逐一删除分集FT后再删除本FT';
+            return '抱歉，请先逐一删除分集后再删除本节目';
         }
         $favorite = Ftfav::select('user_id')->where('ft_id', $id)->first();
         if($favorite)
         {
-            return '抱歉, 已有人收藏FT，不能删除> <';
+            return '抱歉, 已有人收藏请先逐一删除分集后再删除本节目，不能删除> <';
         }
         $review = Ftrev::select('id')->where('ft_id', $id)->first();
         if($review)
         {
-            return '抱歉，已有人评论FT，不能删除> <';
+            return '抱歉，已有人评论节目，不能删除> <';
         }
         $ft = Ft::find($id, ['id']);
         if($ft->delete())

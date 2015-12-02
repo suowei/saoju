@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Auth;
+use Input;
+
 class FtepController extends Controller
 {
     public function __construct()
@@ -24,11 +27,11 @@ class FtepController extends Controller
         $scope = [];
         if($request->has('title'))
         {
-            $scope['dramas.title'] = ['LIKE', '%'.$request->input('title').'%'];
+            $scope['fts.title'] = ['LIKE', '%'.$request->input('title').'%'];
         }
         if($request->has('host'))
         {
-            $scope['dramas.host'] = ['LIKE', '%'.$request->input('host').'%'];
+            $scope['fts.host'] = ['LIKE', '%'.$request->input('host').'%'];
         }
         if($request->has('staff'))
         {
@@ -204,17 +207,17 @@ class FtepController extends Controller
         $version = Ftepver::select('user_id')->where('ftep_id', $id)->where('first', 1)->first();
         if($version->user_id != $request->user()->id)
         {
-            return '抱歉, 目前仅支持添加此条目的用户删除FT分集> <';
+            return '抱歉, 目前仅支持添加此条目的用户删除节目分集> <';
         }
         $favorite = Ftepfav::select('user_id')->where('ftep_id', $id)->first();
         if($favorite)
         {
-            return '抱歉, 已有人收藏本集FT，不能删除> <';
+            return '抱歉, 已有人收藏本期节目，不能删除> <';
         }
         $review = Ftrev::select('id')->where('ftep_id', $id)->first();
         if($review)
         {
-            return '抱歉，已有人评论本集FT，不能删除> <';
+            return '抱歉，已有人评论本期节目，不能删除> <';
         }
         $ftep = Ftep::find($id, ['id', 'ft_id']);
         if($ftep->delete())
