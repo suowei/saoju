@@ -9,6 +9,9 @@ use App\Ftfav;
 use App\Ftrev;
 use App\History;
 use App\Listfav;
+use App\Live;
+use App\Livefav;
+use App\Liverev;
 use App\Review;
 use App\Favorite;
 
@@ -263,9 +266,42 @@ class IndexController extends Controller {
             ->orderBy('favorite_count', 'desc')
             ->take(10)
             ->get();
+
+        $todaylives = Live::select('id', 'title', 'showtime')
+            ->whereRaw('date(showtime) = curdate()')->orderBy('showtime')->get();
+        $newlives = Live::select('id', 'title', 'showtime')->orderBy('id', 'desc')->take(15)->get();
+        $liverevs = Liverev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->orderBy('id', 'desc')->take(10)->get();
+        $hotrevlives = Liverev::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, live_id'))
+            ->groupBy('live_id')
+            ->orderBy('review_count', 'desc')
+            ->take(15)
+            ->get();
+        $hotfavlives = Livefav::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, live_id'))
+            ->groupBy('live_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(15)
+            ->get();
         return view('zhoubian', ['newsongs' => $newsongs, 'songrevs' => $songrevs, 'hotrevsongs' => $hotrevsongs,
             'hotfavsongs' => $hotfavsongs, 'newcreatedfteps' => $newcreatedfteps, 'newfteps' => $newfteps,
-            'ftrevs' => $ftrevs, 'hotrevfts' => $hotrevfts, 'hotfavfts' => $hotfavfts]);
+            'ftrevs' => $ftrevs, 'hotrevfts' => $hotrevfts, 'hotfavfts' => $hotfavfts, 'todaylives' => $todaylives,
+            'newlives' => $newlives, 'liverevs' => $liverevs, 'hotrevlives' => $hotrevlives, 'hotfavlives' => $hotfavlives]);
     }
 
 }

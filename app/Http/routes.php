@@ -133,3 +133,14 @@ Route::post('/ftepfav2', 'FtepfavController@store2');
 Route::resource('ftepfav', 'FtepfavController');
 
 Route::resource('ftrev', 'FtrevController');
+
+Route::get('/live/{id}/reviews', ['as' => 'live.reviews', 'uses' => 'LiveController@reviews']);
+Route::get('/live/{id}/favorites', ['as' => 'live.favorites', 'uses' => 'LiveController@favorites']);
+Route::get('/live/{id}/versions', ['as' => 'live.versions', 'uses' => 'LiveController@versions']);
+Route::resource('live', 'LiveController');
+
+Route::get('/livefav/store', 'LivefavController@store');
+Route::post('/livefav2', 'LivefavController@store2');
+Route::resource('livefav', 'LivefavController');
+
+Route::resource('liverev', 'LiverevController');

@@ -54,7 +54,7 @@
                 <li><a href="{{ url('/song') }}"><span class="glyphicon glyphicon-music"></span> 歌曲列表</a></li>
                 <li><a href="{{ url('/ft') }}"><span class="glyphicon glyphicon-cutlery"></span> 节目列表</a></li>
                 <li><a href="{{ url('/ftep') }}"><span class="glyphicon glyphicon-glass"></span> 节目分集</a></li>
-                <li><a href="{{ url('/concert') }}"><span class="glyphicon glyphicon-time"></span> 闲聊歌会</a></li>
+                <li><a href="{{ url('/live') }}"><span class="glyphicon glyphicon-time"></span> 活动列表</a></li>
 
                 @if (Auth::guest())
                     <li><a href="{{ url('/auth/login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
