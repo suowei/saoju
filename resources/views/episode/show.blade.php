@@ -144,20 +144,37 @@
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
+                    <a class="btn btn-success btn-xs" href="{{ url('/song/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
+                        <span class="glyphicon glyphicon-plus"></span> 添加歌曲信息
+                    </a>
+                </p>
+                <p>
                     <a class="btn btn-warning btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑本集信息
+                        <span class="glyphicon glyphicon-edit"></span> 编辑本集信息
                     </a>
                 </p>
                 <p>
                     <a class="btn btn-info btn-xs" href="{{ url('/episode/'.$episode->id.'/versions') }}" target="_blank">
-                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 查看版本列表
+                        <span class="glyphicon glyphicon-book"></span> 查看版本列表
                     </a>
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/episode/'.$episode->id) }}">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除本期分集
+                        <span class="glyphicon glyphicon-trash"></span> 删除本期分集
                     </a>
                 </p>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲</h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach ($songs as $song)
+                            <li class="list-group-item">
+                                <a href="{{ url('/song/'.$song->id) }}" target="_blank">{{ $song->title }}</a>（{{ $song->artist }}）
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title">

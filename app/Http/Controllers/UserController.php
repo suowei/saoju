@@ -3,9 +3,16 @@
 use App\Dramalist;
 use App\Epfav;
 use App\Episode;
+use App\Ftepfav;
+use App\Ftfav;
+use App\Ftrev;
 use App\Listfav;
+use App\Livefav;
+use App\Liverev;
 use App\Review;
 use App\Screv;
+use App\Songfav;
+use App\Songrev;
 use App\Tag;
 use App\Tagmap;
 use App\User;
@@ -64,6 +71,27 @@ class UserController extends Controller {
             ->select('screvs.*', 'scs.name as sc_name', 'clubs.name as club_name')
             ->where('screvs.user_id', $id)
             ->orderBy('id', 'desc')->take(6)->get();
+        $songrevs = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('id', 'song_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
+        $ftrevs = Ftrev::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        },
+            'ftep' => function($query)
+            {
+                $query->select('id', 'title');
+            }])
+            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
+        $liverevs = Liverev::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->select('id', 'live_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
         $lists = Dramalist::select('id', 'title')->where('user_id', $id)->take(10)->get();
         $tagmaps = Tagmap::with('tag')
             ->select(DB::raw('count(*) as count, tag_id'))
@@ -71,8 +99,32 @@ class UserController extends Controller {
             ->groupBy('tag_id')
             ->orderBy('count', 'desc')
             ->take(50)->get();
-        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites,
-            'reviews' => $reviews, 'screvs' => $screvs, 'lists' => $lists, 'tagmaps' => $tagmaps]);
+        $songfavs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('song_id')
+            ->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        $ftfavs = Ftfav::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('ft_id')
+            ->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        $ftepfavs = Ftepfav::with(['ftep' => function($query)
+        {
+            $query->join('fts', 'fts.id', '=', 'fteps.ft_id')
+                ->select('fteps.id as id', 'ft_id', 'fts.title as ft_title', 'fteps.title as title');
+        }])->select('ftep_id')->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        $livefavs = Livefav::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->select('live_id')
+            ->where('user_id', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        return view('user.show', ['user' => $user, 'epfavs' => $epfavs, 'favorites' => $favorites, 'songfavs' => $songfavs,
+            'reviews' => $reviews, 'screvs' => $screvs, 'songrevs' => $songrevs, 'ftrevs' => $ftrevs, 'liverevs' => $liverevs,
+            'lists' => $lists, 'tagmaps' => $tagmaps, 'ftfavs' => $ftfavs, 'ftepfavs' => $ftepfavs, 'livefavs' => $livefavs]);
     }
 
     public function edit()
@@ -391,5 +443,119 @@ class UserController extends Controller {
             })
             ->orderBy('created_at', 'desc')->paginate(20);
         return view('user.dramafeed', ['episodes' => $episodes]);
+    }
+
+    public function songrevs($id)
+    {
+        $reviews = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('id', 'song_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->paginate(20);
+        return view('user.songrevs', ['user' => User::find($id, ['id', 'name']), 'reviews' => $reviews]);
+    }
+
+    public function songfavs(Request $request, $id)
+    {
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $songfavs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'alias', 'artist', 'staff');
+        }])
+            ->select('song_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', $order)->paginate(50);
+        return view('user.songfavs', ['user' => User::find($id, ['id', 'name']), 'songfavs' => $songfavs, 'order' => $order]);
+    }
+
+    public function ftrevs($id)
+    {
+        $reviews = Ftrev::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }, 'ftep' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->select('id', 'ft_id', 'ftep_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->paginate(20);
+        return view('user.ftrevs', ['user' => User::find($id, ['id', 'name']), 'reviews' => $reviews]);
+    }
+
+    public function ftfavs(Request $request, $id)
+    {
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $ftfavs = Ftfav::with(['ft' => function($query)
+        {
+            $query->select('id', 'title', 'host', 'poster_url', 'introduction');
+        }])
+            ->select('ft_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', $order)->paginate(50);
+        return view('user.ftfavs', ['user' => User::find($id, ['id', 'name']), 'ftfavs' => $ftfavs, 'order' => $order]);
+    }
+
+    public function ftepfavs(Request $request, $id)
+    {
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $ftepfavs = Ftepfav::with(['ftep' => function($query)
+        {
+            $query->join('fts', 'fts.id', '=', 'fteps.ft_id')
+                ->select('fteps.id as id', 'ft_id', 'fts.title as ft_title', 'fteps.title as title',
+                    'release_date', 'staff', 'fteps.poster_url as poster_url');
+        }])
+            ->select('ftep_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', $order)->paginate(50);
+        return view('user.ftepfavs', ['user' => User::find($id, ['id', 'name']), 'ftepfavs' => $ftepfavs, 'order' => $order]);
+    }
+
+    public function liverevs($id)
+    {
+        $reviews = Liverev::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->select('id', 'live_id', 'title', 'content', 'created_at')
+            ->where('user_id', $id)->paginate(20);
+        return view('user.liverevs', ['user' => User::find($id, ['id', 'name']), 'reviews' => $reviews]);
+    }
+
+    public function livefavs(Request $request, $id)
+    {
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $livefavs = Livefav::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime', 'information');
+        }])
+            ->select('live_id', 'created_at')->where('user_id', $request->user()->id)
+            ->orderBy('created_at', $order)->paginate(50);
+        return view('user.livefavs', ['user' => User::find($id, ['id', 'name']), 'livefavs' => $livefavs, 'order' => $order]);
     }
 }

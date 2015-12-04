@@ -4,11 +4,20 @@ use App\Drama;
 use App\Dramalist;
 use App\Dramaver;
 use App\Episode;
+use App\Ftep;
+use App\Ftfav;
+use App\Ftrev;
 use App\History;
 use App\Listfav;
+use App\Live;
+use App\Livefav;
+use App\Liverev;
 use App\Review;
 use App\Favorite;
 
+use App\Song;
+use App\Songfav;
+use App\Songrev;
 use Illuminate\Http\Request;
 use DB;
 
@@ -174,6 +183,117 @@ class IndexController extends Controller {
             $query->select('id', 'title');
         }]);
         return view('review.reviews', ['reviews' => $reviews]);
+    }
+
+    public function zhoubian()
+    {
+        $newsongs = Song::select('id', 'title', 'alias', 'artist')->orderBy('id', 'desc')->take(15)->get();
+        $songrevs = Songrev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'song' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->orderBy('id', 'desc')->take(10)->get();
+        $hotrevsongs = Songrev::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'artist');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, song_id'))
+            ->groupBy('song_id')
+            ->orderBy('review_count', 'desc')
+            ->take(15)
+            ->get();
+        $hotfavsongs = Songfav::with(['song' => function($query)
+        {
+            $query->select('id', 'title', 'artist');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, song_id'))
+            ->groupBy('song_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(15)
+            ->get();
+
+        $newcreatedfteps = Ftep::with(['ft' => function($query)
+        {
+            $query->select('id', 'title', 'host');
+        }])
+            ->select('id', 'ft_id', 'title', 'release_date')
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+        $ftrevs = Ftrev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }, 'ftep' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+        $hotrevfts = Ftrev::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, ft_id'))
+            ->groupBy('ft_id')
+            ->orderBy('review_count', 'desc')
+            ->take(10)
+            ->get();
+        $hotfavfts = Ftfav::with(['ft' => function($query)
+        {
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, ft_id'))
+            ->groupBy('ft_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(10)
+            ->get();
+
+        $todaylives = Live::select('id', 'title', 'showtime')
+            ->whereRaw('date(showtime) = curdate()')->orderBy('showtime')->get();
+        $newlives = Live::select('id', 'title', 'showtime')->orderBy('id', 'desc')->take(15)->get();
+        $liverevs = Liverev::with(['user' => function($query)
+        {
+            $query->select('id', 'name');
+        }, 'live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->orderBy('id', 'desc')->take(10)->get();
+        $hotrevlives = Liverev::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, live_id'))
+            ->groupBy('live_id')
+            ->orderBy('review_count', 'desc')
+            ->take(15)
+            ->get();
+        $hotfavlives = Livefav::with(['live' => function($query)
+        {
+            $query->select('id', 'title', 'showtime');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, live_id'))
+            ->groupBy('live_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(15)
+            ->get();
+        return view('zhoubian', ['newsongs' => $newsongs, 'songrevs' => $songrevs, 'hotrevsongs' => $hotrevsongs,
+            'hotfavsongs' => $hotfavsongs, 'newcreatedfteps' => $newcreatedfteps,
+            'ftrevs' => $ftrevs, 'hotrevfts' => $hotrevfts, 'hotfavfts' => $hotfavfts, 'todaylives' => $todaylives,
+            'newlives' => $newlives, 'liverevs' => $liverevs, 'hotrevlives' => $hotrevlives, 'hotfavlives' => $hotfavlives]);
     }
 
 }

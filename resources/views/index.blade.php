@@ -7,11 +7,6 @@
 
 @section('content')
     <div class="container">
-        <div class="jumbotron" style="background-color: #d8534f;color: #ffffff">
-            <h2>网站有名字啦！</h2>
-            <p>从今天起，本站正式更名为“抓糖”，感谢大家一直以来的支持。继续欢迎大家常来玩，又有惊喜掉落哦~</p>
-            <p><a class="btn btn-danger btn-lg" style="border-color: #ffffff" href="{{ url('/bbs/topic/65') }}" role="button">领取邀请码</a></p>
-        </div>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -25,8 +20,8 @@
                     ?>
 
                         <div class="col-md-8">
-                        <ul class="nav nav-tabs" id="dateTab">
-                            <li role="presentation">
+                        <ul class="nav nav-tabs hoverTab">
+                            <li role="presentation" class="active">
                                 <a href="#{{ $days[0] }}" role="tab" data-toggle="tab">两日新剧</a>
                             </li>
                             @for($i = 2; $i <= 7; $i++)
@@ -36,7 +31,7 @@
                             @endfor
                         </ul>
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane" id="{{ $days[0] }}">
+                            <div role="tabpanel" class="tab-pane active" id="{{ $days[0] }}">
                                 <div class="list-group">
                                     @if(isset($episodes[$days[0]]))
                                         @foreach ($episodes[$days[0]] as $episode)
@@ -195,36 +190,21 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/drama?type=0') }}" target="_blank">
-                        <span class="glyphicon glyphicon-film"></span> 查看全部剧集
-                    </a>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/sc') }}" target="_blank">
-                        <span class="glyphicon glyphicon-camera"></span> 查看全部SC
+                    <a class="btn btn-warning btn-xs" href="{{ url('/screv') }}" target="_blank">
+                        <span class="glyphicon glyphicon-picture"></span> SC社团印象
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/episode?type=0') }}" target="_blank">
-                        <span class="glyphicon glyphicon-facetime-video"></span> 查看全部分集
-                    </a>
-                    <a class="btn btn-success btn-xs" href="{{ url('/club') }}" target="_blank">
-                        <span class="glyphicon glyphicon-ice-lolly"></span> 查看全部社团
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/review') }}" target="_blank">
-                        <span class="glyphicon glyphicon-comment"></span> 查看全部评论
-                    </a>
-                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
-                        <span class="glyphicon glyphicon-picture"></span> 查看SC社团印象
-                    </a>
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/list') }}" target="_blank">
-                        <span class="glyphicon glyphicon-step-forward"></span> 查看全部剧单
-                    </a>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                    <a class="btn btn-info btn-xs" href="{{ url('/search/tag') }}" target="_blank">
                         <span class="glyphicon glyphicon-tag"></span> 标签搜索
                     </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 标签搜索及热门标签展示
+                </p>
+                <p>
+                    <a class="btn btn-success btn-xs" href="{{ url('/zhoubian') }}" target="_blank">
+                        <span class="glyphicon glyphicon-glass"></span> 周边板块
+                    </a>
+                    <span class="glyphicon glyphicon-hand-left"></span> 歌曲访谈闲聊歌会等相关
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
@@ -257,6 +237,7 @@
                             <a href="{{ url('/list') }}" target="_blank">
                                 <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
                             </a>
+                            <small class="pull-right"><a href="{{ url('/list') }}" target="_blank">查看全部</a></small>
                         </h4>
                     </div>
                     <ul class="list-group">

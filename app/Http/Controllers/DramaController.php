@@ -14,6 +14,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Role;
+use App\Song;
 use App\Tag;
 use App\Tagmap;
 use Illuminate\Http\Request;
@@ -163,13 +164,15 @@ class DramaController extends Controller {
             ->where('drama_id', $id)->orderByRaw('release_date, id')->get();
         $roles = Role::with(['sc' => function($query) {
             $query->select('id', 'name');
-        }])->select('sc_id', 'job', 'note')->distinct()->where('drama_id', $id)->whereIn('job', [0, 1, 2, 3, 4, 11])->orderBy('job')->get();
+        }])->select('sc_id', 'job')->distinct()->where('drama_id', $id)->whereIn('job', [0, 1, 2, 3, 4, 11])->get();
+        $roles = $roles->groupBy('job');
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
             $query->select('id', 'title');
         }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
             ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
+        $songs = Song::select('id', 'title', 'artist')->where('drama_id', $id)->get();
         $listids = Item::select('list_id')->where('drama_id', $id)->where('episode_id', 0)
             ->orderBy('id', 'desc')->take(10)->lists('list_id');
         $lists = Dramalist::with(['user' => function($query) {
@@ -177,7 +180,7 @@ class DramaController extends Controller {
         }])->select('id', 'title', 'user_id')->whereIn('id', $listids)->get();
         $favorites = Favorite::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(10)->get();
+        }])->select('user_id', 'type', 'updated_at')->where('drama_id', $id)->orderBy('updated_at', 'desc')->take(5)->get();
         $tagmaps = Tagmap::with('tag')
             ->select(DB::raw('count(*) as count, tag_id'))
             ->where('drama_id', $id)
@@ -215,7 +218,7 @@ class DramaController extends Controller {
             $userReviews = 0;
             $usertags = [];
         }
-        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews,
+        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews, 'songs' => $songs,
             'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites, 'tagmaps' => $tagmaps,
             'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews, 'usertags' => $usertags]);
 	}

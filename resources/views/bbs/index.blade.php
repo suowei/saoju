@@ -10,9 +10,9 @@
             <thead>
             <tr>
                 <th class="text-warning col-md-1"><span class="glyphicon glyphicon-comment"></span> 回复</th>
-                <th class="text-danger col-md-8"><span class="glyphicon glyphicon-bullhorn"></span> 标题</th>
-                <th class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> 作者</th>
-                <th class="text-primary"><span class="glyphicon glyphicon-time"></span> 最后回复</th>
+                <th class="text-danger col-md-7"><span class="glyphicon glyphicon-bullhorn"></span> 标题</th>
+                <th class="text-info col-md-2"><span class="glyphicon glyphicon-sunglasses"></span> 作者</th>
+                <th class="text-primary col-md-2"><span class="glyphicon glyphicon-time"></span> 最后回复</th>
             </tr>
             </thead>
             <tbody>

@@ -17,12 +17,7 @@ class EpfavController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
-    }
-
-    public function index()
-    {
-        //
+        $this->middleware('auth');
     }
 
     public function create(Request $request)
@@ -117,11 +112,6 @@ class EpfavController extends Controller
         {
             return redirect()->back()->withInput()->withErrors('评论添加成功，收藏添加失败！');
         }
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit(Request $request, $episode_id)

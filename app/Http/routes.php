@@ -1,18 +1,8 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 Route::get('/', 'IndexController@index');
 Route::get('/reviews', 'IndexController@reviews');
+Route::get('/zhoubian', 'IndexController@zhoubian');
 
 Route::post('auth/inviteRegister', 'Auth\AuthController@inviteRegister');
 Route::controllers([
@@ -43,6 +33,13 @@ Route::get('/user/{id}/reviews', ['as' => 'user.reviews', 'uses' => 'UserControl
 Route::get('/user/{id}/screvs', ['as' => 'user.screvs', 'uses' => 'UserController@screvs']);
 Route::get('/user/{id}/lists', ['as' => 'user.lists', 'uses' => 'UserController@lists']);
 Route::get('/user/{id}/tags', ['as' => 'user.tags', 'uses' => 'UserController@tags']);
+Route::get('/user/{id}/songrevs', ['as' => 'user.songrevs', 'uses' => 'UserController@songrevs']);
+Route::get('/user/{id}/songfavs', ['as' => 'user.songfavs', 'uses' => 'UserController@songfavs']);
+Route::get('/user/{id}/ftrevs', ['as' => 'user.ftrevs', 'uses' => 'UserController@ftrevs']);
+Route::get('/user/{id}/ftfavs', ['as' => 'user.ftfavs', 'uses' => 'UserController@ftfavs']);
+Route::get('/user/{id}/ftepfavs', ['as' => 'user.ftepfavs', 'uses' => 'UserController@ftepfavs']);
+Route::get('/user/{id}/liverevs', ['as' => 'user.liverevs', 'uses' => 'UserController@liverevs']);
+Route::get('/user/{id}/livefavs', ['as' => 'user.livefavs', 'uses' => 'UserController@livefavs']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);
@@ -110,3 +107,45 @@ Route::group(['prefix' => 'json'], function()
 {
    Route::get('/newepisodes', 'EpisodeController@newEpisodesJson');
 });
+
+Route::get('/song/{id}/reviews', ['as' => 'song.reviews', 'uses' => 'SongController@reviews']);
+Route::get('/song/{id}/favorites', ['as' => 'song.favorites', 'uses' => 'SongController@favorites']);
+Route::get('/song/{id}/versions', ['as' => 'song.versions', 'uses' => 'SongController@versions']);
+Route::resource('song', 'SongController');
+
+Route::get('/songfav/store', 'SongfavController@store');
+Route::post('/songfav2', 'SongfavController@store2');
+Route::resource('songfav', 'SongfavController');
+
+Route::resource('songrev', 'SongrevController');
+
+Route::get('/ft/{id}/reviews', ['as' => 'ft.reviews', 'uses' => 'FtController@reviews']);
+Route::get('/ft/{id}/favorites', ['as' => 'ft.favorites', 'uses' => 'FtController@favorites']);
+Route::get('/ft/{id}/versions', ['as' => 'ft.versions', 'uses' => 'FtController@versions']);
+Route::resource('ft', 'FtController');
+
+Route::get('/ftep/{id}/reviews', ['as' => 'ftep.reviews', 'uses' => 'FtepController@reviews']);
+Route::get('/ftep/{id}/favorites', ['as' => 'ftep.favorites', 'uses' => 'FtepController@favorites']);
+Route::get('/ftep/{id}/versions', ['as' => 'ftep.versions', 'uses' => 'FtepController@versions']);
+Route::resource('ftep', 'FtepController');
+
+Route::get('/ftfav/store', 'FtfavController@store');
+Route::post('/ftfav2', 'FtfavController@store2');
+Route::resource('ftfav', 'FtfavController');
+
+Route::get('/ftepfav/store', 'FtepfavController@store');
+Route::post('/ftepfav2', 'FtepfavController@store2');
+Route::resource('ftepfav', 'FtepfavController');
+
+Route::resource('ftrev', 'FtrevController');
+
+Route::get('/live/{id}/reviews', ['as' => 'live.reviews', 'uses' => 'LiveController@reviews']);
+Route::get('/live/{id}/favorites', ['as' => 'live.favorites', 'uses' => 'LiveController@favorites']);
+Route::get('/live/{id}/versions', ['as' => 'live.versions', 'uses' => 'LiveController@versions']);
+Route::resource('live', 'LiveController');
+
+Route::get('/livefav/store', 'LivefavController@store');
+Route::post('/livefav2', 'LivefavController@store2');
+Route::resource('livefav', 'LivefavController');
+
+Route::resource('liverev', 'LiverevController');
