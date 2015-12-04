@@ -225,14 +225,6 @@ class IndexController extends Controller {
             ->orderBy('id', 'desc')
             ->take(10)
             ->get();
-        $newfteps = Ftep::with(['ft' => function($query)
-        {
-            $query->select('id', 'title', 'host');
-        }])
-            ->select('id', 'ft_id', 'title', 'release_date')
-            ->orderBy('release_date', 'desc')
-            ->take(10)
-            ->get();
         $ftrevs = Ftrev::with(['user' => function($query)
         {
             $query->select('id', 'name');
@@ -299,7 +291,7 @@ class IndexController extends Controller {
             ->take(15)
             ->get();
         return view('zhoubian', ['newsongs' => $newsongs, 'songrevs' => $songrevs, 'hotrevsongs' => $hotrevsongs,
-            'hotfavsongs' => $hotfavsongs, 'newcreatedfteps' => $newcreatedfteps, 'newfteps' => $newfteps,
+            'hotfavsongs' => $hotfavsongs, 'newcreatedfteps' => $newcreatedfteps,
             'ftrevs' => $ftrevs, 'hotrevfts' => $hotrevfts, 'hotfavfts' => $hotfavfts, 'todaylives' => $todaylives,
             'newlives' => $newlives, 'liverevs' => $liverevs, 'hotrevlives' => $hotrevlives, 'hotfavlives' => $hotfavlives]);
     }

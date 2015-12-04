@@ -280,7 +280,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
-                            <span class="glyphicon glyphicon-list-alt"></span> STAFF
+                            <span class="glyphicon glyphicon-list-alt"></span> 主要SC
                         </a>
                         <small class="pull-right">
                             <a href="{{ url('/drama/'.$drama->id.'/sc') }}" target="_blank">
@@ -289,15 +289,20 @@
                         </small>
                     </h4>
                 </div>
-                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期']; ?>
+                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', 11 => '主役']; ?>
                 <ul class="list-group">
-                    @for($i = 0; $i <=4; $i++)
+                    @for($i = 0; $i <= 4; $i++)
                         @if(isset($roles[$i]))
                             <li class="list-group-item">
                                 {{ $jobs[$i] }}：@foreach($roles[$i] as $key => $role)@if($key)，@endif<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a>@endforeach
                             </li>
                         @endif
                     @endfor
+                        @if(isset($roles[11]))
+                            <li class="list-group-item">
+                                {{ $jobs[11] }}：@foreach($roles[11] as $key => $role)@if($key)，@endif<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a>@endforeach
+                            </li>
+                        @endif
                 </ul>
             </div>
             <p>

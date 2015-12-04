@@ -81,25 +81,14 @@
                     </span>
                 </h4>
                 <ul class="nav nav-tabs hoverTab">
-                    <li role="presentation" class="active"><a href="#newcreatedfteps" role="tab" data-toggle="tab">新加入</a></li>
-                    <li role="presentation"><a href="#newfteps" role="tab" data-toggle="tab">新发布</a></li>
-                    <li role="presentation"><a href="#hotrevfts" role="tab" data-toggle="tab">月热评</a></li>
-                    <li role="presentation"><a href="#hotfavfts" role="tab" data-toggle="tab">月热门</a></li>
+                    <li role="presentation" class="active"><a href="#newcreatedfteps" role="tab" data-toggle="tab">新加入节目</a></li>
+                    <li role="presentation"><a href="#hotrevfts" role="tab" data-toggle="tab">月热评节目</a></li>
+                    <li role="presentation"><a href="#hotfavfts" role="tab" data-toggle="tab">月热门节目</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="newcreatedfteps">
                         <div class="list-group">
                             @foreach($newcreatedfteps as $ftep)
-                                <a href="{{ url('/ftep/'.$ftep->id) }}" target="_blank" class="list-group-item">
-                                    <h4 class="list-group-item-heading">《{{ $ftep->ft->title }}》{{ $ftep->title }}</h4>
-                                    {{ $ftep->ft->host }} {{ $ftep->release_date }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="newfteps">
-                        <div class="list-group">
-                            @foreach($newfteps as $ftep)
                                 <a href="{{ url('/ftep/'.$ftep->id) }}" target="_blank" class="list-group-item">
                                     <h4 class="list-group-item-heading">《{{ $ftep->ft->title }}》{{ $ftep->title }}</h4>
                                     {{ $ftep->ft->host }} {{ $ftep->release_date }}

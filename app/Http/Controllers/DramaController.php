@@ -164,7 +164,7 @@ class DramaController extends Controller {
             ->where('drama_id', $id)->orderByRaw('release_date, id')->get();
         $roles = Role::with(['sc' => function($query) {
             $query->select('id', 'name');
-        }])->select('sc_id', 'job')->distinct()->where('drama_id', $id)->whereIn('job', [0, 1, 2, 3, 4])->get();
+        }])->select('sc_id', 'job')->distinct()->where('drama_id', $id)->whereIn('job', [0, 1, 2, 3, 4, 11])->get();
         $roles = $roles->groupBy('job');
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
