@@ -20,8 +20,7 @@
                         <div class="list-group">
                             @foreach($newsongs as $song)
                                 <a href="{{ url('/song/'.$song->id) }}" target="_blank" class="list-group-item">
-                                    <h4 class="list-group-item-heading">《{{ $song->title }}》{{ $song->artist }}
-                                        <span class="badge pull-right">{{ $song->reviews }}评论</span></h4>
+                                    <h4 class="list-group-item-heading">《{{ $song->title }}》{{ $song->artist }}</h4>
                                     {{ $song->alias }}
                                 </a>
                             @endforeach

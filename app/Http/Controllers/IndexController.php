@@ -187,7 +187,7 @@ class IndexController extends Controller {
 
     public function zhoubian()
     {
-        $newsongs = Song::select('id', 'title', 'alias', 'artist', 'reviews')->orderBy('id', 'desc')->take(15)->get();
+        $newsongs = Song::select('id', 'title', 'alias', 'artist')->orderBy('id', 'desc')->take(15)->get();
         $songrevs = Songrev::with(['user' => function($query)
         {
             $query->select('id', 'name');

@@ -6,26 +6,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div>
-                    @foreach($songfavs as $songfav)
-                        <div class="drama">
-                            <h4>
-                                <a href="{{ url('/song/'.$songfav->song_id) }}" target="_blank">{{ $songfav->song->title }}</a>
-                                <small>
-                                    {{ $songfav->song->alias }}
-                                    <span class="pull-right">
+                <h4 class="text-success">
+                    <a href="{{ url('/user/'.$user->id) }}">{{ $user->name }}</a>收藏的歌曲（{{ $songfavs->total() }}首）
+                </h4>
+                @foreach($songfavs as $songfav)
+                    <div class="drama">
+                        <h4>
+                            <a href="{{ url('/song/'.$songfav->song_id) }}" target="_blank">{{ $songfav->song->title }}</a>
+                            <small>
+                                {{ $songfav->song->alias }}
+                                <span class="pull-right">
                                         {{ $songfav->created_at }}
-                                        @if(Auth::id() == $user->id)
-                                            <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/songfav/'.$songfav->song_id) }}">删除</a>
-                                        @endif
+                                    @if(Auth::id() == $user->id)
+                                        <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/songfav/'.$songfav->song_id) }}">删除</a>
+                                    @endif
                                     </span>
-                                </small>
-                            </h4>
-                            <p>演唱：{{ $songfav->song->artist }}</p>
-                            <p>{{ $songfav->song->staff }}</p>
-                        </div>
-                    @endforeach
-                </div>
+                            </small>
+                        </h4>
+                        <p>演唱：{{ $songfav->song->artist }}</p>
+                        <p>{{ $songfav->song->staff }}</p>
+                    </div>
+                @endforeach
                 <?php echo $songfavs->appends(['order' => $order])->render(); ?>
             </div>
             <div class="col-md-3">

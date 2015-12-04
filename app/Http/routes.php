@@ -35,6 +35,11 @@ Route::get('/user/{id}/lists', ['as' => 'user.lists', 'uses' => 'UserController@
 Route::get('/user/{id}/tags', ['as' => 'user.tags', 'uses' => 'UserController@tags']);
 Route::get('/user/{id}/songrevs', ['as' => 'user.songrevs', 'uses' => 'UserController@songrevs']);
 Route::get('/user/{id}/songfavs', ['as' => 'user.songfavs', 'uses' => 'UserController@songfavs']);
+Route::get('/user/{id}/ftrevs', ['as' => 'user.ftrevs', 'uses' => 'UserController@ftrevs']);
+Route::get('/user/{id}/ftfavs', ['as' => 'user.ftfavs', 'uses' => 'UserController@ftfavs']);
+Route::get('/user/{id}/ftepfavs', ['as' => 'user.ftepfavs', 'uses' => 'UserController@ftepfavs']);
+Route::get('/user/{id}/liverevs', ['as' => 'user.liverevs', 'uses' => 'UserController@liverevs']);
+Route::get('/user/{id}/livefavs', ['as' => 'user.livefavs', 'uses' => 'UserController@livefavs']);
 
 Route::get('/drama/search', 'DramaController@search');
 Route::get('/drama/{id}/reviews', ['as' => 'drama.reviews', 'uses' => 'DramaController@reviews']);

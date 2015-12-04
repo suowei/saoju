@@ -215,6 +215,49 @@
                         <div class="review-content">{{ $review->content }}</div>
                     </div>
                 @endforeach
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> 节目评论（<a href="{{ url('/user/'.$user->id.'/ftrevs') }}" target="_blank">查看全部</a>）
+                </h4>
+                @foreach ($ftrevs as $review)
+                    <div class="review">
+                        <div class="review-title">
+                            《<a href="{{ url('/ft/'.$review->ft_id) }}"
+                                target="_blank">{{ $review->ft->title }}</a>》@if($review->ftep_id)<a
+                                    href="{{ url('/ftep/'.$review->ftep_id) }}"
+                                    target="_blank">{{ $review->ftep->title }}</a>@endif
+                            {{ $review->created_at }}
+                            {{ $review->title }}
+                            <span class="pull-right">
+                                <a href="{{ url('/ftrev/'.$review->id) }}" target="_blank">查看</a>
+                                @if(Auth::check() && Auth::id() == $user->id)
+                                    <a class="text-muted" href="{{ url('/ftrev/'.$review->id.'/edit') }}">修改</a>
+                                    <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/ftrev/'.$review->id) }}">删除</a>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="review-content">{{ $review->content }}</div>
+                    </div>
+                @endforeach
+                <h4 class="text-success">
+                    <span class="glyphicon glyphicon-comment"></span> 活动评论（<a href="{{ url('/user/'.$user->id.'/liverevs') }}" target="_blank">查看全部</a>）
+                </h4>
+                @foreach ($liverevs as $review)
+                    <div class="review">
+                        <div class="review-title">
+                            <a href="{{ url('/live/'.$review->live_id) }}" target="_blank">[{{ date('Ymd', strtotime($review->live->showtime)) }}]{{ $review->live->title }}</a>
+                            {{ $review->created_at }}
+                            {{ $review->title }}
+                            <span class="pull-right">
+                                <a href="{{ url('/liverev/'.$review->id) }}" target="_blank">查看</a>
+                                @if(Auth::check() && Auth::id() == $user->id)
+                                    <a class="text-muted" href="{{ url('/liverev/'.$review->id.'/edit') }}">修改</a>
+                                    <a class="text-muted" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/liverev/'.$review->id) }}">删除</a>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="review-content">{{ $review->content }}</div>
+                    </div>
+                @endforeach
             </div>
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
@@ -295,7 +338,7 @@
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <span class="glyphicon glyphicon-play"></span> 收藏歌曲
+                            <span class="glyphicon glyphicon-music"></span> 收藏歌曲
                             <small class="pull-right">
                                 <a href="{{ url('/user/'.$user->id.'/songfavs') }}" target="_blank">查看全部</a>
                             </small>
@@ -305,6 +348,57 @@
                         @foreach($songfavs as $songfav)
                             <a href="{{ url('/song/'.$songfav->song_id) }}" class="list-group-item" target="_blank">
                                 {{ $songfav->song->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-cutlery"></span> 收藏节目
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/ftfavs') }}" target="_blank">查看全部</a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($ftfavs as $ftfav)
+                            <a href="{{ url('/ft/'.$ftfav->ft_id) }}" class="list-group-item" target="_blank">
+                                {{ $ftfav->ft->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-glass"></span> 收藏节目分集
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/ftepfavs') }}" target="_blank">查看全部</a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($ftepfavs as $ftepfav)
+                            <a href="{{ url('/ftep/'.$ftepfav->ftep_id) }}" class="list-group-item" target="_blank">
+                                《{{ $ftepfav->ftep->ft_title }}》{{ $ftepfav->ftep->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-time"></span> 收藏活动
+                            <small class="pull-right">
+                                <a href="{{ url('/user/'.$user->id.'/livefavs') }}" target="_blank">查看全部</a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="list-group">
+                        @foreach($livefavs as $livefav)
+                            <a href="{{ url('/live/'.$livefav->live_id) }}" class="list-group-item" target="_blank">
+                                [{{ date('Ymd', strtotime($livefav->live->showtime)) }}]{{ $livefav->live->title }}
                             </a>
                         @endforeach
                     </div>
