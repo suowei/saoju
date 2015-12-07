@@ -10,17 +10,7 @@ class Song extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['drama_id', 'episode_id', 'title', 'alias', 'artist', 'url', 'poster_url', 'staff', 'lyrics'];
-
-    public function drama()
-    {
-        return $this->belongsTo('App\Drama');
-    }
-
-    public function episode()
-    {
-        return $this->belongsTo('App\Episode');
-    }
+    protected $fillable = ['title', 'alias', 'artist', 'url', 'poster_url', 'staff', 'lyrics'];
 
     public function scopeMultiwhere($query, $arr)
     {

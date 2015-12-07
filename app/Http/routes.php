@@ -50,6 +50,7 @@ Route::get('/drama/{id}/versions', ['as' => 'drama.versions', 'uses' => 'DramaCo
 Route::get('/drama/{id}/lists', ['as' => 'drama.lists', 'uses' => 'DramaController@lists']);
 Route::get('/drama/{id}/tags', ['as' => 'drama.tags', 'uses' => 'DramaController@tags']);
 Route::get('/drama/tag/{tag}', ['as' => 'drama.tag', 'uses' => 'DramaController@tag']);
+Route::get('/drama/{id}/songs', ['as' => 'drama.songs', 'uses' => 'DramaController@songs']);
 Route::resource('drama', 'DramaController');
 
 Route::get('/episode/{id}/reviews', ['as' => 'episode.reviews', 'uses' => 'EpisodeController@reviews']);
@@ -60,6 +61,7 @@ Route::get('/episode/{id}/copysc', 'EpisodeController@copysc');
 Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
 Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
 Route::get('/episode/{id}/lists', ['as' => 'episode.lists', 'uses' => 'EpisodeController@lists']);
+Route::get('/episode/{id}/songs', ['as' => 'episode.songs', 'uses' => 'EpisodeController@songs']);
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');
@@ -149,3 +151,5 @@ Route::post('/livefav2', 'LivefavController@store2');
 Route::resource('livefav', 'LivefavController');
 
 Route::resource('liverev', 'LiverevController');
+
+Route::resource('ed', 'EdController');

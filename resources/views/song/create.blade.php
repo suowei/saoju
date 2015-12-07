@@ -1,6 +1,6 @@
 @extends('appzb')
 
-@section('title', '添加歌曲'.($drama?(' - '.$drama->title):'').($episode?(' - '.$episode->title):'').' - ')
+@section('title', '添加歌曲 - ')
 
 @section('content')
     <div class="container">
@@ -8,10 +8,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">添加
-                            @if($drama)《{{ $drama->title }}》@endif
-                            @if($episode){{ $episode->title }}@endif
-                            歌曲信息</h4>
+                        <h4 class="panel-title">添加歌曲信息</h4>
                     </div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
@@ -25,15 +22,8 @@
                             </div>
                         @endif
 
-                        <p>
-                            说明：<br>
-                            添加剧集所属歌曲请至剧集页操作，添加分集所属歌曲请到分集页面操作，添加无从属歌曲请到周边板块操作。
-                        </p><br>
-
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/song') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="drama_id" value="{{ $drama?$drama->id:0 }}">
-                            <input type="hidden" name="episode_id" value="{{ $episode?$episode->id:0 }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">歌名</label>

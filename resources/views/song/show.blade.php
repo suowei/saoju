@@ -30,11 +30,6 @@
                                 <span class="glyphicon glyphicon-pencil"></span> 写歌曲评论
                             </a>
                         </p>
-                        <p>
-                            @if($drama)<span class="text-muted">关联剧集：</span>《<a
-                                    href="{{ url('/drama/'.$song->drama_id) }}">{{ $drama->title }}</a>》@if($episode)<a
-                                    href="{{ url('/episode/'.$song->episode_id) }}">{{ $episode->title }}</a>@endif @endif
-                        </p>
                         <p><span class="text-muted">演唱：</span>{{ $song->artist }}</p>
                         <p>@if ($song->url)<a href="{{ $song->url }}" target="_blank">{{ $song->url }}</a>@endif</p>
                         <p class="content-pre-line">{{ $song->staff }}</p>
@@ -102,9 +97,29 @@
                 </p>
                 <p>
                     <a class="btn btn-danger btn-xs" data-toggle="modal" href="#deleteConfirmModal" data-action="{{ url('/song/'.$song->id) }}">
-                        <span class="glyphicon glyphicon-trash"></span> 删除歌曲
+                        <span class="glyphicon glyphicon-trash"></span> 删除歌曲信息
                     </a>
                 </p>
+                <p class="text-success">
+                    添加剧集关联请前往相应剧集、分集页面操作^ ^
+                </p>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <span class="glyphicon glyphicon-play"></span> 关联剧集
+                        </h4>
+                    </div>
+                    <ul class="list-group">
+                        @foreach ($eds as $ed)
+                            <li class="list-group-item">
+                                《<a href="{{ url('/drama/'.$ed->drama_id) }}"
+                                    target="_blank">{{ $ed->drama->title }}</a>》@if($ed->episode_id)<a
+                                        href="{{ url('/episode/'.$ed->episode_id) }}"
+                                        target="_blank">{{ $ed->episode->title }}</a>@endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title">

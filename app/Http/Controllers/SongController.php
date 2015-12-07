@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Drama;
+use App\Ed;
 use App\Episode;
 use App\Song;
 use App\Songfav;
@@ -64,24 +65,14 @@ class SongController extends Controller
         return view('song.index', ['params' => $params, 'songs' => $songs]);
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        if($request->has('drama'))
-            $drama = Drama::find($request->input('drama'), ['id', 'title']);
-        else
-            $drama = 0;
-        if($request->has('episode'))
-            $episode = Episode::find($request->input('episode'), ['id', 'title']);
-        else
-            $episode = 0;
-        return view('song.create', ['drama' => $drama, 'episode' => $episode]);
+        return view('song.create');
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'drama_id' => 'required',
-            'episode_id' => 'required',
             'title' => 'required|max:255',
             'alias' => 'max:255',
             'artist' => 'required|max:255',
@@ -105,16 +96,8 @@ class SongController extends Controller
 
     public function show(Request $request, $id)
     {
-        $song = Song::find($id, ['id', 'drama_id', 'episode_id', 'title', 'alias',
-            'artist', 'url', 'poster_url', 'staff', 'lyrics', 'reviews', 'favorites']);
-        if($song->drama_id)
-            $drama = Drama::find($song->drama_id, ['title']);
-        else
-            $drama = 0;
-        if($song->episode_id)
-            $episode = Episode::find($song->episode_id, ['title']);
-        else
-            $episode = 0;
+        $song = Song::find($id, ['id', 'title', 'alias', 'artist', 'url',
+            'poster_url', 'staff', 'lyrics', 'reviews', 'favorites']);
         $reviews = Songrev::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -123,6 +106,11 @@ class SongController extends Controller
             $query->select('id', 'name');
         }])->select('user_id', 'created_at')
             ->where('song_id', $id)->orderBy('created_at', 'desc')->take(10)->get();
+        $eds = Ed::with(['drama' => function($query) {
+            $query->select('id', 'title');
+        }, 'episode' => function($query) {
+            $query->select('id', 'title');
+        }])->where('song_id', $id)->get();
         if(Auth::check())
         {
             $user_id = $request->user()->id;
@@ -135,7 +123,7 @@ class SongController extends Controller
             $favorite = 0;
             $userReviews = 0;
         }
-        return view('song.show', ['song' => $song, 'drama' => $drama, 'episode' => $episode,
+        return view('song.show', ['song' => $song, 'eds' => $eds,
             'reviews' => $reviews, 'favorites' => $favorites,
             'favorite' => $favorite, 'userReviews' => $userReviews]);
     }

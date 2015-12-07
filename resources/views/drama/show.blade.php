@@ -309,9 +309,6 @@
                 <a class="btn btn-primary btn-xs" href="{{ url('/episode/create?drama='.$drama->id) }}">
                     <span class="glyphicon glyphicon-plus"></span> 更新剧集（添加分集）
                 </a>
-                <a class="btn btn-success btn-xs" href="{{ url('/song/create?drama='.$drama->id) }}">
-                    <span class="glyphicon glyphicon-plus"></span> 添加歌曲
-                </a>
             </p>
             <p class="text-danger">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -334,12 +331,17 @@
             <p><img src="{{ $drama->poster_url }}" class="img-responsive"></p>
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲</h4>
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲
+                        <small class="pull-right">
+                            <a href="{{ url('/drama/'.$drama->id.'/songs') }}" target="_blank">
+                                操作关联<span class="glyphicon glyphicon-menu-right"></span>
+                            </a>
+                        </small></h4>
                 </div>
                 <ul class="list-group">
-                    @foreach ($songs as $song)
+                    @foreach ($eds as $ed)
                         <li class="list-group-item">
-                            <a href="{{ url('/song/'.$song->id) }}" target="_blank">{{ $song->title }}</a>（{{ $song->artist }}）
+                            <a href="{{ url('/song/'.$ed->song_id) }}" target="_blank">{{ $ed->song->title }}</a>（{{ $ed->song->artist }}）
                         </li>
                     @endforeach
                 </ul>

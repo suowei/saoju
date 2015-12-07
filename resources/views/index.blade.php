@@ -217,11 +217,14 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/63') }}" class="list-group-item" target="_blank">
-                            标签功能上线
+                        <a href="{{ url('/bbs/topic/67') }}" class="list-group-item" target="_blank">
+                            歌曲关联逻辑更改
                         </a>
-                        <a style="color:red;" href="{{ url('/bbs/topic/57') }}" class="list-group-item" target="_blank">
-                            征集网站名称
+                        <a style="color:red;" href="{{ url('/bbs/topic/66') }}" class="list-group-item" target="_blank">
+                            周边板块上线
+                        </a>
+                        <a href="{{ url('/bbs/topic/63') }}" class="list-group-item" target="_blank">
+                            标签功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
