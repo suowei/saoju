@@ -217,6 +217,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a href="{{ url('/bbs/topic/67') }}" class="list-group-item" target="_blank">
+                            歌曲关联逻辑更改
+                        </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/66') }}" class="list-group-item" target="_blank">
                             周边板块上线
                         </a>
