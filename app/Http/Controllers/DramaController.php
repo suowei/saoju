@@ -3,6 +3,7 @@
 use App\Drama;
 use App\Dramalist;
 use App\Dramaver;
+use App\Ed;
 use App\Epfav;
 use App\History;
 use App\Favorite;
@@ -172,7 +173,9 @@ class DramaController extends Controller {
             $query->select('id', 'title');
         }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
             ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
-        $songs = Song::select('id', 'title', 'artist')->where('drama_id', $id)->get();
+        $eds = Ed::with(['song' => function($query) {
+            $query->select('id', 'title', 'artist');
+        }])->select('song_id')->distinct()->where('drama_id', $id)->get();
         $listids = Item::select('list_id')->where('drama_id', $id)->where('episode_id', 0)
             ->orderBy('id', 'desc')->take(10)->lists('list_id');
         $lists = Dramalist::with(['user' => function($query) {
@@ -218,7 +221,7 @@ class DramaController extends Controller {
             $userReviews = 0;
             $usertags = [];
         }
-        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews, 'songs' => $songs,
+        return view('drama.show', ['drama' => $drama, 'episodes' => $episodes, 'reviews' => $reviews, 'eds' => $eds,
             'roles' => $roles, 'lists' => $lists, 'favorites' => $favorites, 'tagmaps' => $tagmaps,
             'favorite' => $favorite, 'epfavs' => $epfavs, 'userReviews' => $userReviews, 'usertags' => $usertags]);
 	}
@@ -474,6 +477,17 @@ class DramaController extends Controller {
         if(!$dramas || !$dramas->total())
             return view('search.tag', ['message' => '未找到结果']);
         return view('drama.tag', ['tag' => $tag->name, 'dramas' => $dramas, 'sort' => $sort, 'order' => $order]);
+    }
+
+    public function songs($id)
+    {
+        $drama = Drama::find($id, ['id', 'title']);
+        $eds = Ed::with(['episode' => function($query) {
+            $query->select('id', 'title');
+        }, 'song' => function($query) {
+            $query->select('id', 'title');
+        }])->where('drama_id', $id)->get();
+        return view('drama.songs', ['drama' => $drama, 'eds' => $eds]);
     }
 
 }

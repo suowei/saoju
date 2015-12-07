@@ -169,7 +169,7 @@
                 </p>
                 <p class="text-danger">
                     <span class="glyphicon glyphicon-info-sign"></span>
-                    添加歌曲请先进行筛选，避免重复添加。添加剧集或分集所属歌曲请前往相应剧集、分集页面操作。
+                    添加歌曲请先进行筛选，避免重复添加^ ^
                 </p>
             </div>
         </div>

@@ -165,12 +165,17 @@
                 </p>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲</h4>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-music"></span> 关联歌曲
+                            <small class="pull-right">
+                                <a href="{{ url('/episode/'.$episode->id.'/songs') }}" target="_blank">
+                                    操作关联<span class="glyphicon glyphicon-menu-right"></span>
+                                </a>
+                            </small></h4>
                     </div>
                     <ul class="list-group">
-                        @foreach ($songs as $song)
+                        @foreach ($eds as $ed)
                             <li class="list-group-item">
-                                <a href="{{ url('/song/'.$song->id) }}" target="_blank">{{ $song->title }}</a>（{{ $song->artist }}）
+                                <a href="{{ url('/ed/'.$ed->song_id) }}" target="_blank">{{ $ed->song->title }}</a>（{{ $ed->song->artist }}）
                             </li>
                         @endforeach
                     </ul>
