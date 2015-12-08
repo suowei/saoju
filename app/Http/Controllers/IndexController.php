@@ -43,6 +43,7 @@ class IndexController extends Controller {
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
+                ->orderBy('episode_id', 'desc')
                 ->get();
         }
         else
@@ -57,10 +58,9 @@ class IndexController extends Controller {
                     'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
+                ->orderBy('episode_id', 'desc')
                 ->get();
         }
-        //按添加顺序倒序排列
-        $episodes = $episodes->sortByDesc('episode_id');
         $top10 = $episodes->take(10);
         //将一周新剧按发剧日期分组
         $episodes = $episodes->groupBy('release_date');
@@ -78,62 +78,28 @@ class IndexController extends Controller {
         $newlists = Dramalist::select('id', 'title')->orderBy('id', 'desc')->take(10)->get();
 
         //查询30天评论数前10的剧集id
-        if($type < 0)
+        $hotDramas = Review::with(['drama' => function($query)
         {
-            $hotDramas = Review::join('dramas', function($join) use($type)
-            {
-                $join->on('reviews.drama_id', '=', 'dramas.id')
-                    ->where('reviews.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
-            })
-                ->select(DB::raw('count(*) as review_count, drama_id, dramas.title as title'))
-                ->groupBy('drama_id')
-                ->orderBy('review_count', 'desc')
-                ->take(10)
-                ->get();
-        }
-        else
-        {
-            $hotDramas = Review::join('dramas', function($join) use($type)
-            {
-                $join->on('reviews.drama_id', '=', 'dramas.id')
-                    ->where('dramas.type', '=', $type)
-                    ->where('reviews.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
-            })
-                ->select(DB::raw('count(*) as review_count, drama_id, dramas.title as title'))
-                ->groupBy('drama_id')
-                ->orderBy('review_count', 'desc')
-                ->take(10)
-                ->get();
-        }
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as review_count, drama_id'))
+            ->groupBy('drama_id')
+            ->orderBy('review_count', 'desc')
+            ->take(10)
+            ->get();
 
         //查询30天收藏前10的剧集id
-        if($type < 0)
+        $hotFavorites = Favorite::with(['drama' => function($query)
         {
-            $hotFavorites = Favorite::join('dramas', function($join) use($type)
-            {
-                $join->on('favorites.drama_id', '=', 'dramas.id')
-                    ->where('favorites.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
-            })
-                ->select(DB::raw('count(*) as favorite_count, drama_id, title'))
-                ->groupBy('drama_id')
-                ->orderBy('favorite_count', 'desc')
-                ->take(10)
-                ->get();
-        }
-        else
-        {
-            $hotFavorites = Favorite::join('dramas', function($join) use($type)
-            {
-                $join->on('favorites.drama_id', '=', 'dramas.id')
-                    ->where('dramas.type', '=', $type)
-                    ->where('favorites.created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")));
-            })
-                ->select(DB::raw('count(*) as favorite_count, drama_id, title'))
-                ->groupBy('drama_id')
-                ->orderBy('favorite_count', 'desc')
-                ->take(10)
-                ->get();
-        }
+            $query->select('id', 'title');
+        }])
+            ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-30 day")))
+            ->select(DB::raw('count(*) as favorite_count, drama_id'))
+            ->groupBy('drama_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(10)
+            ->get();
 
         //查询最新10条新剧的添加历史
         $versions = Dramaver::select('user_id', 'drama_id', 'created_at')->where('first', 1)
