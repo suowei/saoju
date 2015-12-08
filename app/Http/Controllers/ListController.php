@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dramalist;
 use App\Item;
+use App\Listfav;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -115,6 +116,11 @@ class ListController extends Controller
     public function destroy(Request $request, $id)
     {
         $list = Dramalist::find($id);
+        $favorite = Listfav::select('user_id')->where('list_id', $id)->first();
+        if($favorite)
+        {
+            return '抱歉, 已有人收藏剧单，不能删除> <';
+        }
         if ($list->user_id == $request->user()->id)
         {
             $list->delete();

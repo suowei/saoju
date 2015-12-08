@@ -90,7 +90,8 @@
                         <div class="list-group">
                             @foreach($newcreatedfteps as $ftep)
                                 <a href="{{ url('/ftep/'.$ftep->id) }}" target="_blank" class="list-group-item">
-                                    <h4 class="list-group-item-heading">《{{ $ftep->ft->title }}》{{ $ftep->title }}</h4>
+                                    <h4 class="list-group-item-heading">《{{ $ftep->ft->title }}》</h4>
+                                    {{ $ftep->title }}<br>
                                     {{ $ftep->ft->host }} {{ $ftep->release_date }}
                                 </a>
                             @endforeach

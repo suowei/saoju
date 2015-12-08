@@ -237,63 +237,55 @@
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="{{ url('/list') }}" target="_blank">
-                                <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
-                            </a>
+                            <span class="glyphicon glyphicon-step-forward"></span> 最新剧单
                             <small class="pull-right"><a href="{{ url('/list') }}" target="_blank">查看全部</a></small>
                         </h4>
                     </div>
-                    <ul class="list-group">
+                    <div class="list-group">
                         @foreach($newlists as $list)
-                            <li class="list-group-item">
-                                <a href="{{ url('/list/'.$list->id) }}" target="_blank">{{ $list->title }}</a>
-                            </li>
+                            <a class="list-group-item" href="{{ url('/list/'.$list->id) }}" target="_blank">
+                                {{ $list->title }}
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-play"></span> 热门剧单</h4>
                     </div>
-                    <ul class="list-group">
+                    <div class="list-group">
                         @foreach($lists as $list)
-                            @if(isset($list->dramalist))
-                                <li class="list-group-item">
-                                    <a href="{{ url('/list/'.$list->list_id) }}" target="_blank">{{ $list->dramalist->title }}</a>
-                                </li>
-                            @endif
+                            <a class="list-group-item" href="{{ url('/list/'.$list->list_id) }}" target="_blank">
+                                {{ $list->dramalist->title }}
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-equalizer"></span> 月热评剧集</h4>
                     </div>
-                    <ul class="list-group">
+                    <div class="list-group">
                         @foreach($hotDramas as $hot)
-                            <li class="list-group-item">
-                                    《<a href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">{{ $hot->title }}</a>》
-                                    <span class="pull-right">
-                                        <a href="{{ url('/drama/'.$hot->drama_id.'/reviews') }}" target="_blank">{{ $hot->review_count }}评论</a>
-                                    </span>
-                            </li>
+                            <a class="list-group-item" href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">
+                                《{{ $hot->drama->title }}》
+                                <span class="pull-right">{{ $hot->review_count }}评论</span>
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-stats"></span> 月热门剧集</h4>
                     </div>
-                    <ul class="list-group">
+                    <div class="list-group">
                         @foreach($hotFavorites as $hot)
-                            <li class="list-group-item">
-                                《<a href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">{{ $hot->title }}</a>》
-                                <span class="pull-right">
-                                    <a href="{{ url('/drama/'.$hot->drama_id.'/favorites') }}" target="_blank">{{ $hot->favorite_count }}收藏</a>
-                                </span>
-                            </li>
+                            <a class="list-group-item" href="{{ url('/drama/'.$hot->drama_id) }}" target="_blank">
+                                《{{ $hot->drama->title }}》
+                                <span class="pull-right">{{ $hot->favorite_count }}收藏</span>
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
