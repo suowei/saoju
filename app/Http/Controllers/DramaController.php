@@ -327,6 +327,11 @@ class DramaController extends Controller {
         {
             return '抱歉，已有人评论本剧，不能删除> <';
         }
+        $ed = Ed::select('id')->where('drama_id', $id)->first();
+        if($ed)
+        {
+            return '抱歉，请先逐一删除歌曲关联后再删除本剧';
+        }
         $drama = Drama::find($id, ['id']);
         if($drama->delete())
         {

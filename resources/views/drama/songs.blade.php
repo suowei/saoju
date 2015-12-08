@@ -8,10 +8,16 @@
             <div class="col-md-7">
                 <h3 class="text-success">
                     《{{ $drama->title }}》的关联歌曲
-                    <a class="btn btn-primary btn-xs" href="{{ url('/ed/create?drama='.$drama->id) }}" target="_blank">
+                </h3>
+                <p>添加分集关联歌曲请前往相应分集页面操作^ ^</p>
+                <p>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/ed/create?drama='.$drama->id) }}">
                         <span class="glyphicon glyphicon-plus"></span> 添加关联歌曲
                     </a>
-                </h3>
+                    <a class="btn btn-success btn-xs" href="{{ url('/song/create?drama='.$drama->id) }}">
+                        <span class="glyphicon glyphicon-plus"></span> 添加歌曲信息并关联剧集
+                    </a>
+                </p>
                 @foreach($eds as $ed)
                     <div class="row">
                         @if($ed->episode_id)[{{ $ed->episode->title }}]@endif

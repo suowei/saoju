@@ -65,9 +65,17 @@ class SongController extends Controller
         return view('song.index', ['params' => $params, 'songs' => $songs]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('song.create');
+        if($request->has('drama'))
+            $drama = $request->input('drama');
+        else
+            $drama = 0;
+        if($request->has('episode'))
+            $episode = $request->input('episode');
+        else
+            $episode = 0;
+        return view('song.create', ['drama' => $drama, 'episode' => $episode]);
     }
 
     public function store(Request $request)
@@ -86,6 +94,10 @@ class SongController extends Controller
             Songver::create(['song_id' => $song->id, 'user_id' => $request->user()->id, 'first' => 1,
                 'title' => $song->title, 'alias' => $song->alias, 'artist' => $song->artist, 'url' => $song->url,
                 'poster_url' => $song->poster_url, 'staff' => $song->staff, 'lyrics' => $song->lyrics]);
+            if($request->has('drama_id'))
+                Ed::create(['drama_id' => $request->input('drama_id'), 'episode_id' =>
+                    ($request->has('episode_id') ? $request->input('episode_id') : 0),
+                    'song_id' => $song->id, 'user_id' => $request->user()->id]);
             return redirect()->route('song.show', [$song]);
         }
         else
@@ -198,6 +210,11 @@ class SongController extends Controller
         if($review)
         {
             return '抱歉，已有人评论歌曲，不能删除> <';
+        }
+        $ed = Ed::select('id')->where('song_id', $id)->first();
+        if($ed)
+        {
+            return '抱歉，请先逐一删除歌曲关联后再删除歌曲';
         }
         $song = Song::find($id, ['id']);
         if($song->delete())
