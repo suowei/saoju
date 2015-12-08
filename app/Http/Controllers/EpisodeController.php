@@ -330,6 +330,11 @@ class EpisodeController extends Controller {
         {
             return '抱歉，请先逐一删除SC关联后再删除本集';
         }
+        $ed = Ed::select('id')->where('episode_id', $id)->first();
+        if($ed)
+        {
+            return '抱歉，请先逐一删除歌曲关联后再删除本集';
+        }
         $episode = Episode::find($id, ['id', 'drama_id']);
         if($episode->delete())
         {

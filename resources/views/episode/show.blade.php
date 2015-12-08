@@ -175,7 +175,7 @@
                     <ul class="list-group">
                         @foreach ($eds as $ed)
                             <li class="list-group-item">
-                                <a href="{{ url('/ed/'.$ed->song_id) }}" target="_blank">{{ $ed->song->title }}</a>（{{ $ed->song->artist }}）
+                                <a href="{{ url('/song/'.$ed->song_id) }}" target="_blank">{{ $ed->song->title }}</a>（{{ $ed->song->artist }}）
                             </li>
                         @endforeach
                     </ul>

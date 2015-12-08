@@ -24,6 +24,8 @@
 
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/song') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            @if($drama)<input type="hidden" name="drama_id" value="{{ $drama }}">@endif
+                            @if($episode)<input type="hidden" name="episode_id" value="{{ $episode }}">@endif
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">歌名</label>
