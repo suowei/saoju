@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">发布地址</label>
+                                <label class="col-md-4 control-label">歌曲地址</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="url" value="{{ $song->url }}">
                                 </div>
