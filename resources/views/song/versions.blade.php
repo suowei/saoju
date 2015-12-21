@@ -19,7 +19,7 @@
                             <span class="text-muted">歌名：</span>{{ $version->title }}<br>
                             <span class="text-muted">副标题：</span>{{ $version->alias }}<br>
                             <span class="text-muted">演唱者：</span>{{ $version->artist }}<br>
-                            <span class="text-muted">发布地址：</span>{{ $version->url }}<br>
+                            <span class="text-muted">歌曲地址：</span>{{ $version->url }}<br>
                             <span class="text-muted">海报地址：</span>{{ $version->poster_url }}<br>
                             <span class="text-muted">制作名单：</span>{{ $version->staff }}<br>
                             <span class="text-muted">歌词：</span>{{ $version->lyrics }}

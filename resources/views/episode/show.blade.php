@@ -102,7 +102,44 @@
 
                 @if (Auth::check())
                     <div class="reviews">
-                        <h4 class="text-success">我的评论</h4>
+                        <h4 class="text-success">我的评论
+                            <a class="btn btn-success btn-xs" role="button" data-toggle="collapse" href="#addReview">
+                                当前页面写评 <span class="caret"></span></a></h4>
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form class="form-horizontal collapse" id="addReview" role="form" method="POST" action="{{ url('/review') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="drama_id" value="{{ $episode->drama_id }}">
+                            <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">标题</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="title" placeholder="可不填" value="{{ old('title') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">内容</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" name="content" required="required" rows="15">{{ old('content') }}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-1">
+                                    <button type="submit" class="btn btn-primary">
+                                        提交
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                         @foreach ($userReviews as $review)
                             <div class="review">
                                 <div class="review-title">
@@ -143,11 +180,6 @@
             </div>
             <div class="col-md-3">
                 <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-                <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/song/create?drama='.$episode->drama_id.'&episode='.$episode->id) }}">
-                        <span class="glyphicon glyphicon-plus"></span> 添加歌曲信息
-                    </a>
-                </p>
                 <p>
                     <a class="btn btn-warning btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
                         <span class="glyphicon glyphicon-edit"></span> 编辑本集信息
