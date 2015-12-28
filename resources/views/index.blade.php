@@ -166,16 +166,13 @@
                         有{{ $dramafeed }}部在追剧集更新啦！<a href="{{ url('/user/dramafeed') }}">去看看</a>
                     </div>
                 @endif
-                <h4>
-                    <a href="http://weibo.com/5243765174/CpK8UermN" target="_blank">
-                        <span class="glyphicon glyphicon-link"></span><strong>2015年YS发剧统计半年版</strong>
-                    </a>
-                </h4>
-                <h4>
-                    <a style="color:red;" href="http://weibo.com/2304976825/Ctei24nej" target="_blank">
-                        <span class="glyphicon glyphicon-link"></span><strong>2014年YS出剧清单及盘点</strong>
-                    </a>
-                </h4>
+                @if(Auth::check())
+                    <div class="alert alert-warning">
+                        个人年终总结小工具：<br>
+                        <a href="{{ url('/user/drama2015') }}" target="_blank">2015听剧总结（按剧集评分排序）</a><br>
+                        <a href="{{ url('/user/episode2015') }}" target="_blank">2015听剧总结（按分集评分排序）</a>
+                    </div>
+                @endif
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加剧集信息
