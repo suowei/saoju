@@ -173,6 +173,8 @@
                         <a href="{{ url('/user/episode2015') }}" target="_blank">2015听剧总结（按分集评分排序）</a>
                     </div>
                 @endif
+                <h4><strong><a href="{{ url('/report2015') }}" target="_blank">抓糖2015年终总结</a></strong></h4>
+                <h4><strong><a href="{{ url('/guide') }}" target="_blank">抓糖用户手册</a></strong></h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加剧集信息

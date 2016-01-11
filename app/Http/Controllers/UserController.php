@@ -98,7 +98,7 @@ class UserController extends Controller {
             ->where('user_id', $id)
             ->groupBy('tag_id')
             ->orderBy('count', 'desc')
-            ->take(50)->get();
+            ->take(20)->get();
         $songfavs = Songfav::with(['song' => function($query)
         {
             $query->select('id', 'title');

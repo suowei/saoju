@@ -262,4 +262,13 @@ class IndexController extends Controller {
             'newlives' => $newlives, 'liverevs' => $liverevs, 'hotrevlives' => $hotrevlives, 'hotfavlives' => $hotfavlives]);
     }
 
+    public function report2015()
+    {
+        return view('report2015');
+    }
+
+    public function guide()
+    {
+        return view('guide');
+    }
 }

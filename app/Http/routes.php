@@ -157,3 +157,7 @@ Route::resource('liverev', 'LiverevController');
 Route::resource('ed', 'EdController');
 
 Route::get('/juemi', 'JuemiController@juemi');
+
+Route::get('/report2015', 'IndexController@report2015');
+
+Route::get('/guide', 'IndexController@guide');
