@@ -107,11 +107,6 @@ Route::resource('item', 'ItemController');
 Route::get('/listfav/delete', ['as' => 'listfav.delete', 'uses' => 'ListfavController@destroy']);
 Route::resource('listfav', 'ListfavController');
 
-Route::group(['prefix' => 'json'], function()
-{
-   Route::get('/newepisodes', 'EpisodeController@newEpisodesJson');
-});
-
 Route::get('/song/{id}/reviews', ['as' => 'song.reviews', 'uses' => 'SongController@reviews']);
 Route::get('/song/{id}/favorites', ['as' => 'song.favorites', 'uses' => 'SongController@favorites']);
 Route::get('/song/{id}/versions', ['as' => 'song.versions', 'uses' => 'SongController@versions']);
@@ -161,3 +156,11 @@ Route::get('/juemi', 'JuemiController@juemi');
 Route::get('/report2015', 'IndexController@report2015');
 
 Route::get('/guide', 'IndexController@guide');
+
+Route::group(['prefix' => 'app'], function()
+{
+    Route::get('/newepisodes', 'App\IndexController@episodes');
+    Route::get('/review', 'App\ReviewController@index');
+    Route::get('/lists', 'App\IndexController@lists');
+});
+
