@@ -448,20 +448,6 @@ class EpisodeController extends Controller {
         return view('episode.lists', ['episode' => $episode, 'drama' => $drama, 'items' => $items, 'lists' => $lists]);
     }
 
-    public function newEpisodesJson()
-    {
-        $episodes = Episode::join('dramas', function($join)
-        {
-            $join->on('episodes.drama_id', '=', 'dramas.id');
-        })
-            ->select('dramas.title as dramaTitle', 'dramas.type as type', 'dramas.original as original',
-                'episodes.id as episodeId', 'episodes.title as episodeTitle', 'episodes.release_date as releaseDate',
-                'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as posterUrl',
-                'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
-            ->orderByRaw('release_date desc, episodes.id desc')->simplePaginate(20);
-        return $episodes;
-    }
-
     public function songs($id)
     {
         $episode = Episode::find($id, ['id', 'drama_id', 'title']);
