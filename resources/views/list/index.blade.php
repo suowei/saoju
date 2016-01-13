@@ -18,6 +18,11 @@
                 <?php echo $lists->appends(['sort' => $sort])->render(); ?>
             </div>
             <div class="col-md-3">
+                <p>
+                    <a class="btn btn-primary btn-xs" href="{{ url('/list/create') }}" target="_blank">
+                        <span class="glyphicon glyphicon-plus"></span> 创建剧单
+                    </a>
+                </p>
                 <h4 class="text-warning">
                     排序看这里<span class="glyphicon glyphicon-hand-down" aria-hidden="true"></span>
                 </h4>
