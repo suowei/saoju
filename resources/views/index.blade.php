@@ -306,10 +306,6 @@
     </div>
 @endsection
 
-@section('link')
-    <a href="http://www.chinadra.com/" target="_blank">无限中抓</a>
-@endsection
-
 @section('script')
     <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

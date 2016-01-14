@@ -101,7 +101,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <p>©2015 saoju.net</p>
+                <p>©2015-2016 saoju.net</p>
             </div>
             <div class="col-md-3 text-right">
                 <img src="http://weibo.com/favicon.ico" height="14px">
