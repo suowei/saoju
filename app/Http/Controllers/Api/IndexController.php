@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Drama;
 use App\Dramalist;
 use App\Episode;
 
