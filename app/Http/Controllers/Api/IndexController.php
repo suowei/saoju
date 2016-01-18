@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\App;
+<?php namespace App\Http\Controllers\Api;
 
 use App\Dramalist;
 use App\Episode;
@@ -8,7 +8,8 @@ use App\Listfav;
 use App\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+
+use DB;
 
 class IndexController extends Controller {
 
@@ -22,14 +23,18 @@ class IndexController extends Controller {
                 'episodes.id as episodeId', 'episodes.title as episodeTitle', 'episodes.release_date as releaseDate',
                 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as posterUrl',
                 'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
-            ->orderByRaw('release_date desc, episodes.id desc')->simplePaginate(20);
+            ->orderByRaw('release_date desc, episodes.id desc')
+            ->simplePaginate(30);
         return $episodes;
     }
 
     public function lists()
     {
         //最新剧单
-        $newLists = Dramalist::select('id', 'title')->orderBy('id', 'desc')->take(10)->get();
+        $newLists = Dramalist::select('id', 'title')
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
         //查询60天收藏数前10的剧单
         $hotLists = Listfav::with(['dramalist' => function($query)
         {
@@ -37,7 +42,10 @@ class IndexController extends Controller {
         }])
             ->select(DB::raw('count(*) as favorite_count, list_id'))
             ->where('created_at', '>=', date("Y-m-d H:i:s", strtotime("-60 day")))
-            ->groupBy('list_id')->orderBy('favorite_count', 'desc')->take(10)->get();
+            ->groupBy('list_id')
+            ->orderBy('favorite_count', 'desc')
+            ->take(10)
+            ->get();
         //查询30天评论数前10的剧集id
         $hotDramas = Review::with(['drama' => function($query)
         {
@@ -62,5 +70,15 @@ class IndexController extends Controller {
             ->get();
         $data = ['newLists' => $newLists, 'hotLists' => $hotLists, 'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites];
         return $data;
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre', 'original', 'count', 'state', 'sc')
+            ->where('title', 'LIKE', '%'.$keyword.'%')
+            ->orWhere('alias', 'LIKE', '%'.$keyword.'%')
+            ->get();
+        return $dramas;
     }
 }
