@@ -69,8 +69,7 @@ class IndexController extends Controller {
             ->orderBy('favorite_count', 'desc')
             ->take(10)
             ->get();
-        $data = ['newLists' => $newLists, 'hotLists' => $hotLists, 'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites];
-        return $data;
+        return ['newLists' => $newLists, 'hotLists' => $hotLists, 'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites];
     }
 
     public function search(Request $request)
@@ -81,5 +80,10 @@ class IndexController extends Controller {
             ->orWhere('alias', 'LIKE', '%'.$keyword.'%')
             ->get();
         return $dramas;
+    }
+
+    public function csrftoken()
+    {
+        return csrf_token();
     }
 }

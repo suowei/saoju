@@ -26,7 +26,7 @@ class DramaController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
+        $this->middleware('apiauth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
     public function show($id)
