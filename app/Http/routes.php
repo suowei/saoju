@@ -157,10 +157,22 @@ Route::get('/report2015', 'IndexController@report2015');
 
 Route::get('/guide', 'IndexController@guide');
 
-Route::group(['prefix' => 'app'], function()
+Route::group(['prefix' => 'api'], function()
 {
-    Route::get('/newepisodes', 'App\IndexController@episodes');
-    Route::get('/review', 'App\ReviewController@index');
-    Route::get('/lists', 'App\IndexController@lists');
-});
+    Route::get('/newepisodes', 'Api\IndexController@episodes');
+    Route::get('/lists', 'Api\IndexController@lists');
+    Route::get('/search', 'Api\IndexController@search');
+    Route::get('/csrftoken', 'Api\IndexController@csrftoken');
 
+    Route::post('/auth/login', 'Api\AuthController@login');
+    Route::get('/auth/logout', 'Api\AuthController@logout');
+    Route::post('/auth/register', 'Api\AuthController@register');
+
+    Route::get('/drama/{id}/reviews', 'Api\DramaController@reviews');
+    Route::resource('drama', 'Api\DramaController');
+
+    Route::get('/episode/{id}/reviews', 'Api\EpisodeController@reviews');
+    Route::resource('episode', 'Api\EpisodeController');
+
+    Route::resource('review', 'Api\ReviewController');
+});

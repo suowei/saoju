@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\App;
+<?php namespace App\Http\Controllers\Api;
 
 use App\Review;
 
@@ -11,7 +11,7 @@ class ReviewController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('apiauth', ['except' => ['index', 'show']]);
     }
 
     public function index()
@@ -19,14 +19,18 @@ class ReviewController extends Controller {
         $reviews = Review::with(['drama' => function($query)
         {
             $query->select('id', 'title');
-        }, 'user' => function($query)
+        },
+            'user' => function($query)
         {
             $query->select('id','name');
-        }, 'episode' => function($query)
+        },
+            'episode' => function($query)
         {
             $query->select('id', 'title');
         }])
-            ->orderBy('id', 'desc')->simplePaginate(20);
+            ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+            ->orderBy('id', 'desc')
+            ->simplePaginate(20);
         return $reviews;
     }
 }
