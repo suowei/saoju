@@ -1,15 +1,13 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Api;
 
-use App\Drama;
 use App\Epfav;
 use App\Favorite;
 use App\Http\Requests;
 
 use App\Review;
 use App\Tag;
-use App\Tagmap;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class FavoriteController extends Controller {
 
@@ -25,9 +23,9 @@ class FavoriteController extends Controller {
             $query->select('id', 'name');
         },
             'drama' => function($query)
-        {
-            $query->select('id', 'title');
-        }])
+            {
+                $query->select('id', 'title');
+            }])
             ->select('user_id', 'drama_id', 'type', 'updated_at')
             ->orderBy('updated_at', 'desc')->take(50)->get();
         $epfavs = Epfav::join('episodes', function($join)
@@ -35,31 +33,16 @@ class FavoriteController extends Controller {
             $join->on('episodes.id', '=', 'epfavs.episode_id');
         })
             ->join('dramas', function($join) {
-            $join->on('dramas.id', '=', 'episodes.drama_id');
-        })
+                $join->on('dramas.id', '=', 'episodes.drama_id');
+            })
             ->select('user_id', 'drama_id', 'dramas.title as drama_title', 'episode_id',
-            'episodes.title as episode_title', 'epfavs.type as type', 'epfavs.updated_at as updated_at')
+                'episodes.title as episode_title', 'epfavs.type as type', 'epfavs.updated_at as updated_at')
             ->orderBy('epfavs.updated_at', 'desc')->take(50)->get();
         $epfavs->load(['user' => function($query)
         {
             $query->select('id', 'name');
         }]);
-        return view('favorite.index', ['favorites' => $favorites, 'epfavs' => $epfavs]);
-    }
-
-    public function create(Request $request)
-    {
-        $this->validate($request, [
-            'drama' => 'required',
-        ]);
-        $drama = Drama::find($request->input('drama'), ['id', 'title']);
-        $tagmaps = Tagmap::with('tag')
-            ->select(DB::raw('count(*) as count, tag_id'))
-            ->where('user_id', $request->user()->id)
-            ->groupBy('tag_id')
-            ->orderBy('count', 'desc')
-            ->take(15)->get();
-        return view('favorite.create', ['drama' => $drama, 'tagmaps' => $tagmaps]);
+        return ['favorites' => $favorites, 'epfavs' => $epfavs];
     }
 
     public function store(Request $request)
@@ -74,7 +57,7 @@ class FavoriteController extends Controller {
         $favorite->user_id = $request->user()->id;
         $favorite->drama_id = $request->input('drama_id');
         $favorite->type = $request->input('type');
-        if($favorite->type == 0)//想听状态下不能评分
+        if($favorite->type == 0)
         {
             $favorite->rating = 0;
         }
@@ -87,7 +70,7 @@ class FavoriteController extends Controller {
         {
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
             DB::table('dramas')->where('id', $favorite->drama_id)->increment('favorites');
-            if($request->input('tags'))//防止出现空字符串标签
+            if($request->input('tags'))
             {
                 $tagmaps = [];
                 $tags = explode(',', $request->input('tags'));
@@ -98,11 +81,11 @@ class FavoriteController extends Controller {
                 }
                 DB::table('tagmaps')->insert($tagmaps);
             }
+            return "success";
         }
-        return redirect()->back();
+        return response('收藏失败> <', 422);
     }
 
-    //添加收藏及评论
     public function store2(Request $request)
     {
         $this->validate($request, [
@@ -117,7 +100,7 @@ class FavoriteController extends Controller {
         $favorite->user_id = $request->user()->id;
         $favorite->drama_id = $request->input('drama_id');
         $favorite->type = $request->input('type');
-        if($favorite->type == 0)//想听状态下不能评分
+        if($favorite->type == 0)
         {
             $favorite->rating = 0;
         }
@@ -126,7 +109,6 @@ class FavoriteController extends Controller {
             $favorite->rating = $request->input('rating');
         }
         $favorite->tags = $request->input('tags');
-        //评论内容不为空则新建评论
         if($request->has('content'))
         {
             $review = new Review;
@@ -141,14 +123,14 @@ class FavoriteController extends Controller {
             }
             else
             {
-                return redirect()->back()->withInput()->withErrors('添加失败');
+                return response('添加失败', 422);
             }
         }
         if($favorite->save())
         {
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
             DB::table('dramas')->where('id', $favorite->drama_id)->increment('favorites');
-            if($request->input('tags'))//防止出现空字符串标签
+            if($request->input('tags'))
             {
                 $tagmaps = [];
                 $tags = explode(',', $request->input('tags'));
@@ -159,27 +141,12 @@ class FavoriteController extends Controller {
                 }
                 DB::table('tagmaps')->insert($tagmaps);
             }
-            return redirect()->route('drama.show', [$favorite->drama_id]);
+            return "success";
         }
         else
         {
-            return redirect()->back()->withInput()->withErrors('评论添加成功，收藏添加失败！');
+            return response('评论添加成功，收藏添加失败> <', 422);
         }
-    }
-
-    public function edit(Request $request, $drama_id)
-    {
-        $drama = Drama::find($drama_id, ['id', 'title']);
-        $user_id = $request->user()->id;
-        $favorite = Favorite::select('type', 'rating', 'tags')->where('user_id', $user_id)->where('drama_id', $drama_id)->first();
-        $review = Review::select('title', 'content')->where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
-        $tagmaps = Tagmap::with('tag')
-            ->select(DB::raw('count(*) as count, tag_id'))
-            ->where('user_id', $request->user()->id)
-            ->groupBy('tag_id')
-            ->orderBy('count', 'desc')
-            ->take(15)->get();
-        return view('favorite.edit', ['drama' => $drama, 'favorite' => $favorite, 'review' => $review, 'tagmaps' => $tagmaps]);
     }
 
     public function update(Request $request, $id)
@@ -194,7 +161,7 @@ class FavoriteController extends Controller {
         {
             $oldType = $favorite->type;
             $favorite->type = $request->input('type');
-            if($favorite->type == 0)//想听状态下不能评分
+            if($favorite->type == 0)
             {
                 $favorite->rating = 0;
             }
@@ -207,20 +174,17 @@ class FavoriteController extends Controller {
             {
                 DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$oldType);
                 DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
-                //获取用户当前标签
                 $tags_old = DB::table('tagmaps')->where('drama_id', $favorite->drama_id)
                     ->where('user_id', $favorite->user_id)->lists('tag_id');
-                //获取输入标签
                 if($request->input('tags'))
                     $tagsinput = explode(',', $request->input('tags'));
                 else
-                    $tagsinput = [];//防止出现空字符串标签
+                    $tagsinput = [];
                 $tags_new = [];
                 foreach($tagsinput as $tag)
                 {
                     $tags_new[] = Tag::firstOrCreate(['name' => $tag])->id;
                 }
-                //得到新输入标签中有而过去无的新增标签映射
                 $adds = array_diff($tags_new, $tags_old);
                 $add_maps = [];
                 foreach($adds as $tag)
@@ -228,14 +192,14 @@ class FavoriteController extends Controller {
                     $add_maps[] = ['drama_id' => $favorite->drama_id, 'user_id' => $favorite->user_id,
                         'tag_id' => $tag];
                 }
-                //得到过去有而现在无的移除标签
                 $removes = array_diff($tags_old, $tags_new);
                 DB::table('tagmaps')->insert($add_maps);
                 DB::table('tagmaps')->where('drama_id', $favorite->drama_id)->where('user_id', $favorite->user_id)
                     ->whereIn('tag_id', $removes)->delete();
             }
+            return "success";
         }
-        return redirect()->back();
+        return response('收藏失败> <', 422);
     }
 
     public function update2(Request $request, $drama_id)
@@ -250,7 +214,7 @@ class FavoriteController extends Controller {
         $favorite = Favorite::where('user_id', $request->user()->id)->where('drama_id', $drama_id)->first();
         $oldType = $favorite->type;
         $favorite->type = $request->input('type');
-        if($favorite->type == 0)//想听状态下不能评分
+        if($favorite->type == 0)
         {
             $favorite->rating = 0;
         }
@@ -260,16 +224,16 @@ class FavoriteController extends Controller {
         }
         $favorite->tags = $request->input('tags');
         $review = Review::where('user_id', $favorite->user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
-        if($review)//若已有评论则修改
+        if($review)
         {
             $review->title = $request->input('title');
             $review->content = $request->input('content');
             if(!$review->save())
             {
-                return redirect()->back()->withInput()->withErrors('修改评论失败');
+                return response('修改评论失败', 422);
             }
         }
-        else if($request->has('content'))//若原先无评论且此次评论内容不为空则新建评论
+        else if($request->has('content'))
         {
             $review = new Review;
             $review->user_id = $favorite->user_id;
@@ -283,28 +247,24 @@ class FavoriteController extends Controller {
             }
             else
             {
-                return redirect()->back()->withInput()->withErrors('添加评论失败');
+                return response('添加评论失败', 422);
             }
         }
-        //修改收藏
         if($favorite->save())
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
-            //获取用户当前标签
             $tags_old = DB::table('tagmaps')->where('drama_id', $favorite->drama_id)
                 ->where('user_id', $favorite->user_id)->lists('tag_id');
-            //获取输入标签
             if($request->input('tags'))
                 $tagsinput = explode(',', $request->input('tags'));
             else
-                $tagsinput = [];//防止出现空字符串标签
+                $tagsinput = [];
             $tags_new = [];
             foreach($tagsinput as $tag)
             {
                 $tags_new[] = Tag::firstOrCreate(['name' => $tag])->id;
             }
-            //得到新输入标签中有而过去无的新增标签映射
             $adds = array_diff($tags_new, $tags_old);
             $add_maps = [];
             foreach($adds as $tag)
@@ -312,16 +272,15 @@ class FavoriteController extends Controller {
                 $add_maps[] = ['drama_id' => $favorite->drama_id, 'user_id' => $favorite->user_id,
                     'tag_id' => $tag];
             }
-            //得到过去有而现在无的移除标签
             $removes = array_diff($tags_old, $tags_new);
             DB::table('tagmaps')->insert($add_maps);
             DB::table('tagmaps')->where('drama_id', $favorite->drama_id)->where('user_id', $favorite->user_id)
                 ->whereIn('tag_id', $removes)->delete();
-            return redirect()->route('drama.show', [$drama_id]);
+            return "success";
         }
         else
         {
-            return redirect()->back()->withInput()->withErrors('评论修改成功，收藏修改失败');
+            return response('评论修改成功，收藏修改失败> <', 422);
         }
     }
 
@@ -336,7 +295,8 @@ class FavoriteController extends Controller {
                 DB::table('dramas')->where('id', $favorite->drama_id)->decrement('favorites');
                 DB::table('tagmaps')->where('drama_id', $favorite->drama_id)->where('user_id', $favorite->user_id)->delete();
             }
+            return "success";
         }
-        return redirect()->back();
+        return response('删除失败> <', 422);
     }
 }

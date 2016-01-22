@@ -30,7 +30,7 @@ class EpisodeController extends Controller {
     public function show($id)
     {
         $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url', 'sc',
-            'duration', 'poster_url', 'introduction']);
+            'duration', 'poster_url', 'introduction', 'reviews', 'favorites']);
         $episode->load(['drama' => function($query)
         {
             $query->select('id', 'title', 'type', 'era', 'genre', 'original');
