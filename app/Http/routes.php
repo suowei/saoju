@@ -159,6 +159,7 @@ Route::get('/guide', 'IndexController@guide');
 
 Route::group(['prefix' => 'api'], function()
 {
+    Route::get('/twodayepisodes', 'Api\IndexController@twodayepisodes');
     Route::get('/newepisodes', 'Api\IndexController@episodes');
     Route::get('/lists', 'Api\IndexController@lists');
     Route::get('/search', 'Api\IndexController@search');
@@ -175,4 +176,12 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('episode', 'Api\EpisodeController');
 
     Route::resource('review', 'Api\ReviewController');
+
+    Route::post('/favorite2', 'Api\FavoriteController@store2');
+    Route::put('/favorite2/{id}', 'Api\FavoriteController@update2');
+    Route::resource('favorite', 'Api\FavoriteController');
+
+    Route::post('/epfav2', 'Api\EpfavController@store2');
+    Route::put('/epfav2/{id}', 'Api\EpfavController@update2');
+    Route::resource('epfav', 'Api\EpfavController');
 });
