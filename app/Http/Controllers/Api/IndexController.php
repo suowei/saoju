@@ -98,6 +98,6 @@ class IndexController extends Controller {
 
     public function csrftoken()
     {
-        return csrf_token();
+        return ['token' => csrf_token()];
     }
 }
