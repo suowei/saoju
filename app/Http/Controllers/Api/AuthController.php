@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('apiguest', ['except' => 'logout']);
+        $this->middleware('apiguest');
     }
 
     protected function create(array $data)
@@ -46,13 +46,6 @@ class AuthController extends Controller
         }
 
         return response('登录失败> <请检查输入', 422);
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-
-        return "success";
     }
 
     public function inviteRegister(Request $request)

@@ -159,14 +159,12 @@ Route::get('/guide', 'IndexController@guide');
 
 Route::group(['prefix' => 'api'], function()
 {
-    Route::get('/twodayepisodes', 'Api\IndexController@twodayepisodes');
     Route::get('/newepisodes', 'Api\IndexController@episodes');
     Route::get('/lists', 'Api\IndexController@lists');
     Route::get('/search', 'Api\IndexController@search');
     Route::get('/csrftoken', 'Api\IndexController@csrftoken');
 
     Route::post('/auth/login', 'Api\AuthController@login');
-    Route::get('/auth/logout', 'Api\AuthController@logout');
     Route::post('/auth/register', 'Api\AuthController@register');
 
     Route::get('/drama/{id}/reviews', 'Api\DramaController@reviews');

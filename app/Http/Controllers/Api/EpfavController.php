@@ -15,16 +15,18 @@ class EpfavController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('apiauth');
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'episode_id' => 'required',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $epfav = new Epfav;
         $epfav->user_id = $request->user()->id;
@@ -49,7 +51,7 @@ class EpfavController extends Controller
 
     public function store2(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'drama_id' => 'required',
             'episode_id' => 'required',
             'content' => 'required_with:title',
@@ -57,6 +59,8 @@ class EpfavController extends Controller
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $epfav = new Epfav;
         $epfav->user_id = $request->user()->id;
@@ -103,10 +107,12 @@ class EpfavController extends Controller
 
     public function update(Request $request, $episode_id)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = Epfav::where('user_id', $request->user()->id)->where('episode_id', $episode_id)->first();
         $oldType = $favorite->type;
@@ -132,12 +138,14 @@ class EpfavController extends Controller
 
     public function update2(Request $request, $episode_id)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'content' => 'required_with:title',
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = Epfav::where('user_id', $request->user()->id)->where('episode_id', $episode_id)->first();
         $oldType = $favorite->type;
