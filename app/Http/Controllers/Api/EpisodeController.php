@@ -27,14 +27,19 @@ class EpisodeController extends Controller {
         $this->middleware('apiauth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url', 'sc',
-            'duration', 'poster_url', 'introduction', 'reviews', 'favorites']);
+            'duration', 'poster_url', 'introduction', 'reviews']);
         $episode->load(['drama' => function($query)
         {
             $query->select('id', 'title', 'type', 'era', 'genre', 'original');
         }]);
+        if(Auth::check())
+        {
+            $episode->userFavorite = Epfav::select('type', 'rating')
+                ->where('user_id', $request->user()->id)->where('episode_id', $id)->first();
+        }
         return $episode;
     }
 
@@ -47,7 +52,7 @@ class EpisodeController extends Controller {
             ->select('id', 'user_id', 'title', 'content', 'created_at')
             ->where('episode_id', $id)
             ->orderBy('id', 'desc')
-            ->simplePaginate(20);
+            ->simplePaginate(10);
         return $reviews;
     }
 }

@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('apiguest', ['except' => 'logout']);
+        $this->middleware('apiguest');
     }
 
     protected function create(array $data)
@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email', 'password' => 'required',
         ]);
         if ($validator->fails())
@@ -48,16 +48,9 @@ class AuthController extends Controller
         return response('登录失败> <请检查输入', 422);
     }
 
-    public function logout()
-    {
-        Auth::logout();
-
-        return "success";
-    }
-
     public function inviteRegister(Request $request)
     {
-        $validator = Validator::make($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|max:255|unique:users',
             'name' => 'required|max:30|unique:users',
             'password' => 'required|confirmed|min:6',

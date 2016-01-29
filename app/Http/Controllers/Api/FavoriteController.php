@@ -13,7 +13,7 @@ class FavoriteController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index']]);
+        $this->middleware('apiauth', ['except' => ['index']]);
     }
 
     public function index()
@@ -47,11 +47,13 @@ class FavoriteController extends Controller {
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'drama_id' => 'required',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = new Favorite;
         $favorite->user_id = $request->user()->id;
@@ -88,13 +90,15 @@ class FavoriteController extends Controller {
 
     public function store2(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'drama_id' => 'required',
             'content' => 'required_with:title',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = new Favorite;
         $favorite->user_id = $request->user()->id;
@@ -151,10 +155,12 @@ class FavoriteController extends Controller {
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = Favorite::find($id);
         if($favorite->user_id == $request->user()->id)
@@ -204,12 +210,14 @@ class FavoriteController extends Controller {
 
     public function update2(Request $request, $drama_id)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'content' => 'required_with:title',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
         ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
 
         $favorite = Favorite::where('user_id', $request->user()->id)->where('drama_id', $drama_id)->first();
         $oldType = $favorite->type;

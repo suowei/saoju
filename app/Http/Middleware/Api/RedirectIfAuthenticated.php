@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     {
         if ($this->auth->check()) {
             $user = $this->auth->user();
-            return response(['id' => $user->id, 'name' => $user->name, 'email' => $user->email], 400);
+            return response(['id' => $user->id, 'name' => $user->name], 400);
         }
 
         return $next($request);

@@ -14,20 +14,6 @@ use DB;
 
 class IndexController extends Controller {
 
-    public function twodayepisodes()
-    {
-        $episodes = Episode::with(['drama' => function($query)
-        {
-            $query->select('id', 'title', 'type', 'era', 'original', 'state', 'sc');
-        }])
-            ->where('release_date', date("Y-m-d", strtotime("-1 day")))
-            ->orWhere('release_date', date("Y-m-d"))
-            ->select('id', 'drama_id', 'title', 'release_date', 'alias', 'duration')
-            ->orderByRaw('release_date desc, id desc')
-            ->get();
-        return $episodes;
-    }
-
     public function episodes()
     {
         $episodes = Episode::join('dramas', function($join)
@@ -39,7 +25,7 @@ class IndexController extends Controller {
                 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as posterUrl',
                 'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
             ->orderByRaw('release_date desc, episodes.id desc')
-            ->simplePaginate(30);
+            ->simplePaginate(20);
         return $episodes;
     }
 
@@ -89,6 +75,8 @@ class IndexController extends Controller {
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
+        if($keyword == '')
+            return [];
         $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre', 'original', 'count', 'state', 'sc')
             ->where('title', 'LIKE', '%'.$keyword.'%')
             ->orWhere('alias', 'LIKE', '%'.$keyword.'%')
@@ -98,6 +86,6 @@ class IndexController extends Controller {
 
     public function csrftoken()
     {
-        return csrf_token();
+        return ['token' => csrf_token()];
     }
 }
