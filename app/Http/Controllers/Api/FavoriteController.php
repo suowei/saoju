@@ -7,7 +7,7 @@ use App\Http\Requests;
 use App\Review;
 use App\Tag;
 use Illuminate\Http\Request;
-use DB;
+use DB, Validator;
 
 class FavoriteController extends Controller {
 
