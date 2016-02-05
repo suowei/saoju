@@ -21,9 +21,9 @@ class EpfavController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'episode_id' => 'required',
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
-            'episode_id' => 'required',
         ]);
         if ($validator->fails())
             return response($validator->messages(), 422);
@@ -44,7 +44,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $epfav->user_id)->increment('epfav'.$epfav->type);
             DB::table('episodes')->where('id', $epfav->episode_id)->increment('favorites');
-            return "success";
+            return ['result' => 'success'];
         }
         return response('收藏失败> <', 422);
     }
@@ -97,7 +97,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $epfav->user_id)->increment('epfav'.$epfav->type);
             DB::table('episodes')->where('id', $epfav->episode_id)->increment('favorites');
-            return "success";
+            return ['result' => 'success'];
         }
         else
         {
@@ -131,7 +131,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('epfav'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('epfav'.$favorite->type);
-            return "success";
+            return ['result' => 'success'];
         }
         return response('修改失败> <', 422);
     }
@@ -193,7 +193,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('epfav'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('epfav'.$favorite->type);
-            return "success";
+            return ['result' => 'success'];
         }
         else
         {
@@ -210,7 +210,7 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $user_id)->decrement('epfav'.$favorite->type);
             DB::table('episodes')->where('id', $episode_id)->decrement('favorites');
-            return "success";
+            return ['result' => 'success'];
         }
         return response('删除失败> <', 422);
     }

@@ -48,7 +48,7 @@ class AuthController extends Controller
         return response('登录失败> <请检查输入', 422);
     }
 
-    public function inviteRegister(Request $request)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|max:255|unique:users',
@@ -61,12 +61,12 @@ class AuthController extends Controller
 
         $invitation = DB::table('invitations')->select('id', 'new_user_id', 'code')
             ->where('id', $request->input('invitation'))->first();
-        if($invitation->code != $request->input('code'))
-            return reponse('暗号不对> <', 422);
         if($invitation->new_user_id)
             return response('该邀请码已被使用', 422);
+        if($invitation->code != $request->input('code'))
+            return response('暗号不对> <', 422);
 
-        Auth::login($this->create($request->all()));
+        Auth::login($this->create($request->all()), $request->has('remember'));
 
         DB::table('invitations')->where('id', $invitation->id)->update(['new_user_id' => Auth::user()->id]);
 
