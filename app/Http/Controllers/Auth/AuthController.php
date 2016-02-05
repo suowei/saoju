@@ -78,10 +78,10 @@ class AuthController extends Controller
 
         $invitation = DB::table('invitations')->select('id', 'new_user_id', 'code')
             ->where('id', $request->input('invitation'))->first();
-        if($invitation->code != $request->input('code'))
-            return redirect()->back()->withInput()->withErrors('暗号不对> <');
         if($invitation->new_user_id)
             return redirect()->back()->withInput()->withErrors('该邀请码已被使用');
+        if($invitation->code != $request->input('code'))
+            return redirect()->back()->withInput()->withErrors('暗号不对> <');
 
         Auth::login($this->create($request->all()));
 
