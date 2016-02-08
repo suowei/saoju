@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use DB, Validator;
 
 class ReviewController extends Controller {
 
@@ -32,5 +33,36 @@ class ReviewController extends Controller {
             ->orderBy('id', 'desc')
             ->simplePaginate(15);
         return $reviews;
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+            'title' => 'max:255',
+            'drama_id' => 'required',
+            'episode_id' => 'exists:episodes,id',
+        ]);
+        if ($validator->fails())
+            return response($validator->messages(), 422);
+
+        $review = new Review;
+        $review->user_id = $request->user()->id;
+        $review->drama_id = $request->input('drama_id');
+        $review->episode_id = $request->input('episode_id');
+        $review->title = $request->input('title');
+        $review->content = $request->input('content');
+        if($review->save())
+        {
+            DB::table('users')->where('id', $review->user_id)->increment('reviews');
+            DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
+            if($review->episode_id)
+                DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
+            return ['result' => 'success'];
+        }
+        else
+        {
+            return response('添加失败> <', 422);
+        }
     }
 }
