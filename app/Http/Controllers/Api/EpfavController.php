@@ -136,6 +136,15 @@ class EpfavController extends Controller
         return response('修改失败> <', 422);
     }
 
+    public function edit(Request $request, $episode_id)
+    {
+        $review = Review::select('title', 'content')
+            ->where('user_id', $request->user()->id)
+            ->where('episode_id', $episode_id)
+            ->first();
+        return $review;
+    }
+
     public function update2(Request $request, $episode_id)
     {
         $validator = Validator::make($request->all(), [
