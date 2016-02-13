@@ -29,10 +29,10 @@ class DramaController extends Controller {
         $this->middleware('apiauth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
-            'original', 'count', 'state', 'sc', 'poster_url', 'introduction', 'reviews', 'favorites']);
+            'original', 'count', 'state', 'sc', 'introduction', 'reviews']);
         $drama->load(['episodes' => function($query)
         {
             $query->select('id', 'drama_id', 'title', 'alias', 'release_date', 'poster_url')
@@ -44,8 +44,20 @@ class DramaController extends Controller {
             ->where('drama_id', $id)
             ->groupBy('tag_id')
             ->orderBy('count', 'desc')
-            ->take(20)
+            ->take(5)
             ->get();
+        if(Auth::check())
+        {
+            $user_id = $request->user()->id;
+            $drama->userFavorite = Favorite::select('id', 'type', 'rating', 'tags')
+                ->where('user_id', $user_id)->where('drama_id', $id)->first();
+            $drama->userTags = Tagmap::with('tag')
+                ->select(DB::raw('count(*) as count, tag_id'))
+                ->where('user_id', $user_id)
+                ->groupBy('tag_id')
+                ->orderBy('count', 'desc')
+                ->take(10)->get();
+        }
         return $drama;
     }
 
@@ -61,7 +73,8 @@ class DramaController extends Controller {
         }])
             ->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
             ->where('drama_id', $id)
-            ->simplePaginate(20);
+            ->orderBy('id', 'desc')
+            ->simplePaginate(10);
         return $reviews;
     }
 }

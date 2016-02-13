@@ -31,7 +31,7 @@ class ReviewController extends Controller {
         }])
             ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
             ->orderBy('id', 'desc')
-            ->simplePaginate(15);
+            ->simplePaginate(10);
         return $reviews;
     }
 
