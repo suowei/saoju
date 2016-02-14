@@ -49,7 +49,8 @@ class ReviewController extends Controller {
         $review = new Review;
         $review->user_id = $request->user()->id;
         $review->drama_id = $request->input('drama_id');
-        $review->episode_id = $request->input('episode_id');
+        if ($request->has('episode_id'))
+            $review->episode_id = $request->input('episode_id');
         $review->title = $request->input('title');
         $review->content = $request->input('content');
         if($review->save())
