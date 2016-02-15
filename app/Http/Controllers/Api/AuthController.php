@@ -45,7 +45,7 @@ class AuthController extends Controller
             return ['id' => $user->id, 'name' => $user->name];
         }
 
-        return response('登录失败> <请检查输入', 422);
+        return response('登录失败，请检查输入', 422);
     }
 
     public function register(Request $request)
@@ -64,7 +64,7 @@ class AuthController extends Controller
         if($invitation->new_user_id)
             return response('该邀请码已被使用', 422);
         if($invitation->code != $request->input('code'))
-            return response('暗号不对> <', 422);
+            return response('暗号不对', 422);
 
         Auth::login($this->create($request->all()), $request->has('remember'));
 

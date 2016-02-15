@@ -57,7 +57,7 @@ class FavoriteController extends Controller {
             }
             return ['result' => 'success'];
         }
-        return response('收藏失败> <', 422);
+        return response('收藏失败', 422);
     }
 
     public function store2(Request $request)
@@ -85,23 +85,6 @@ class FavoriteController extends Controller {
             $favorite->rating = $request->input('rating');
         }
         $favorite->tags = $request->input('tags');
-        if($request->has('content'))
-        {
-            $review = new Review;
-            $review->user_id = $favorite->user_id;
-            $review->drama_id = $favorite->drama_id;
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if($review->save())
-            {
-                DB::table('users')->where('id', $review->user_id)->increment('reviews');
-                DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
-            }
-            else
-            {
-                return response('添加失败', 422);
-            }
-        }
         if($favorite->save())
         {
             DB::table('users')->where('id', $favorite->user_id)->increment('favorite'.$favorite->type);
@@ -117,11 +100,28 @@ class FavoriteController extends Controller {
                 }
                 DB::table('tagmaps')->insert($tagmaps);
             }
+            if($request->has('content'))
+            {
+                $review = new Review;
+                $review->user_id = $favorite->user_id;
+                $review->drama_id = $favorite->drama_id;
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if($review->save())
+                {
+                    DB::table('users')->where('id', $review->user_id)->increment('reviews');
+                    DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
+                }
+                else
+                {
+                    return response('收藏添加成功，评论添加失败', 422);
+                }
+            }
             return ['result' => 'success'];
         }
         else
         {
-            return response('评论添加成功，收藏添加失败> <', 422);
+            return response('添加失败', 422);
         }
     }
 
@@ -177,7 +177,7 @@ class FavoriteController extends Controller {
             }
             return ['result' => 'success'];
         }
-        return response('修改失败> <', 422);
+        return response('修改失败', 422);
     }
 
     public function edit(Request $request, $drama_id)
@@ -213,33 +213,6 @@ class FavoriteController extends Controller {
             $favorite->rating = $request->input('rating');
         }
         $favorite->tags = $request->input('tags');
-        $review = Review::where('user_id', $favorite->user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
-        if($review)
-        {
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if(!$review->save())
-            {
-                return response('修改评论失败', 422);
-            }
-        }
-        else if($request->has('content'))
-        {
-            $review = new Review;
-            $review->user_id = $favorite->user_id;
-            $review->drama_id = $drama_id;
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if($review->save())
-            {
-                DB::table('users')->where('id', $review->user_id)->increment('reviews');
-                DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
-            }
-            else
-            {
-                return response('添加评论失败', 422);
-            }
-        }
         if($favorite->save())
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('favorite'.$oldType);
@@ -266,11 +239,38 @@ class FavoriteController extends Controller {
             DB::table('tagmaps')->insert($add_maps);
             DB::table('tagmaps')->where('drama_id', $favorite->drama_id)->where('user_id', $favorite->user_id)
                 ->whereIn('tag_id', $removes)->delete();
+            $review = Review::where('user_id', $favorite->user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
+            if($review)
+            {
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if(!$review->save())
+                {
+                    return response('收藏修改成功，评论修改失败', 422);
+                }
+            }
+            else if($request->has('content'))
+            {
+                $review = new Review;
+                $review->user_id = $favorite->user_id;
+                $review->drama_id = $drama_id;
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if($review->save())
+                {
+                    DB::table('users')->where('id', $review->user_id)->increment('reviews');
+                    DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
+                }
+                else
+                {
+                    return response('收藏修改成功，添加评论失败', 422);
+                }
+            }
             return ['result' => 'success'];
         }
         else
         {
-            return response('评论修改成功，收藏修改失败> <', 422);
+            return response('修改失败', 422);
         }
     }
 
@@ -287,6 +287,6 @@ class FavoriteController extends Controller {
             }
             return ['result' => 'success'];
         }
-        return response('删除失败> <', 422);
+        return response('删除失败', 422);
     }
 }

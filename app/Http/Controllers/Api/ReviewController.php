@@ -63,7 +63,7 @@ class ReviewController extends Controller {
         }
         else
         {
-            return response('添加失败> <', 422);
+            return response('添加失败', 422);
         }
     }
 }

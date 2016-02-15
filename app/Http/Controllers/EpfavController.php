@@ -82,35 +82,35 @@ class EpfavController extends Controller
         {
             $epfav->rating = $request->input('rating');
         }
-        //评论内容不为空则新建评论
-        if($request->has('content'))
-        {
-            $review = new Review;
-            $review->user_id = $epfav->user_id;
-            $review->drama_id = $request->input('drama_id');
-            $review->episode_id = $epfav->episode_id;
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if($review->save())
-            {
-                DB::table('users')->where('id', $review->user_id)->increment('reviews');
-                DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
-                DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
-            }
-            else
-            {
-                return redirect()->back()->withInput()->withErrors('添加失败');
-            }
-        }
         if($epfav->save())
         {
             DB::table('users')->where('id', $epfav->user_id)->increment('epfav'.$epfav->type);
             DB::table('episodes')->where('id', $epfav->episode_id)->increment('favorites');
+            //评论内容不为空则新建评论
+            if($request->has('content'))
+            {
+                $review = new Review;
+                $review->user_id = $epfav->user_id;
+                $review->drama_id = $request->input('drama_id');
+                $review->episode_id = $epfav->episode_id;
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if($review->save())
+                {
+                    DB::table('users')->where('id', $review->user_id)->increment('reviews');
+                    DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
+                    DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
+                }
+                else
+                {
+                    return redirect()->back()->withInput()->withErrors('收藏添加成功，评论添加失败');
+                }
+            }
             return redirect()->route('episode.show', [$epfav->episode_id]);
         }
         else
         {
-            return redirect()->back()->withInput()->withErrors('评论添加成功，收藏添加失败！');
+            return redirect()->back()->withInput()->withErrors('添加失败！');
         }
     }
 
@@ -172,35 +172,6 @@ class EpfavController extends Controller
         {
             $favorite->rating = $request->input('rating');
         }
-        $review = Review::where('user_id', $favorite->user_id)->where('episode_id', $episode_id)->first();
-        if($review)//若已有评论则修改
-        {
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if(!$review->save())
-            {
-                return redirect()->back()->withInput()->withErrors('修改评论失败');
-            }
-        }
-        else if($request->has('content'))//若原先无评论且此次评论内容不为空则新建评论
-        {
-            $review = new Review;
-            $review->user_id = $favorite->user_id;
-            $review->drama_id = $request->input('drama_id');
-            $review->episode_id = $favorite->episode_id;
-            $review->title = $request->input('title');
-            $review->content = $request->input('content');
-            if($review->save())
-            {
-                DB::table('users')->where('id', $review->user_id)->increment('reviews');
-                DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
-                DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
-            }
-            else
-            {
-                return redirect()->back()->withInput()->withErrors('添加评论失败');
-            }
-        }
         //修改收藏
         $result = DB::table('epfavs')->where('user_id', $favorite->user_id)->where('episode_id', $episode_id)
             ->update(['type' => $favorite->type, 'rating' => $favorite->rating, 'updated_at' => date("Y-m-d H:i:s")]);
@@ -208,11 +179,40 @@ class EpfavController extends Controller
         {
             DB::table('users')->where('id', $favorite->user_id)->decrement('epfav'.$oldType);
             DB::table('users')->where('id', $favorite->user_id)->increment('epfav'.$favorite->type);
+            $review = Review::where('user_id', $favorite->user_id)->where('episode_id', $episode_id)->first();
+            if($review)//若已有评论则修改
+            {
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if(!$review->save())
+                {
+                    return redirect()->back()->withInput()->withErrors('收藏修改成功，评论修改失败');
+                }
+            }
+            else if($request->has('content'))//若原先无评论且此次评论内容不为空则新建评论
+            {
+                $review = new Review;
+                $review->user_id = $favorite->user_id;
+                $review->drama_id = $request->input('drama_id');
+                $review->episode_id = $favorite->episode_id;
+                $review->title = $request->input('title');
+                $review->content = $request->input('content');
+                if($review->save())
+                {
+                    DB::table('users')->where('id', $review->user_id)->increment('reviews');
+                    DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
+                    DB::table('episodes')->where('id', $review->episode_id)->increment('reviews');
+                }
+                else
+                {
+                    return redirect()->back()->withInput()->withErrors('收藏修改成功，评论添加失败');
+                }
+            }
             return redirect()->route('episode.show', [$episode_id]);
         }
         else
         {
-            return redirect()->back()->withInput()->withErrors('评论修改成功，收藏修改失败');
+            return redirect()->back()->withInput()->withErrors('修改失败');
         }
     }
 
