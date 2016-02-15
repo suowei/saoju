@@ -8,7 +8,7 @@ class Review extends Model {
 
 	use SoftDeletes;
 
-    protected $fillable = ['drama_id', 'episode_id', 'user_id', 'title', 'content'];
+    protected $fillable = ['drama_id', 'episode_id', 'user_id', 'title', 'content', 'visible'];
 
     public function drama()
     {

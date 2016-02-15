@@ -26,7 +26,6 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="drama_id" value="{{ $drama->id }}">
                             @if(isset($episode))<input type="hidden" name="episode_id" value="{{ $episode->id }}">@endif
-                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
 
                             <div class="form-group">
                                 <label class="col-md-2 control-label">标题</label>
@@ -39,6 +38,16 @@
                                 <label class="col-md-2 control-label">内容</label>
                                 <div class="col-md-8">
                                     <textarea class="form-control" name="content" required="required" rows="15">{{ old('content') }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">可见性</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="visible">
+                                        <option value="1">首页可见</option>
+                                        <option value="0">首页不可见</option>
+                                    </select>
                                 </div>
                             </div>
 

@@ -29,6 +29,7 @@ class ReviewController extends Controller {
         {
             $query->select('id', 'title');
         }])
+            ->where('visible', 1)
             ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
             ->orderBy('id', 'desc')
             ->simplePaginate(10);
@@ -38,9 +39,10 @@ class ReviewController extends Controller {
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'content' => 'required',
-            'title' => 'max:255',
             'drama_id' => 'required',
+            'content' => 'required',
+            'visible' => 'required',
+            'title' => 'max:255',
             'episode_id' => 'exists:episodes,id',
         ]);
         if ($validator->fails())
@@ -53,6 +55,7 @@ class ReviewController extends Controller {
             $review->episode_id = $request->input('episode_id');
         $review->title = $request->input('title');
         $review->content = $request->input('content');
+        $review->visible = $request->input('visible');
         if($review->save())
         {
             DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -63,7 +66,7 @@ class ReviewController extends Controller {
         }
         else
         {
-            return response('添加失败> <', 422);
+            return response('添加失败', 422);
         }
     }
 }

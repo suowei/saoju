@@ -10,7 +10,7 @@ use App\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use DB;
+use DB, Auth;
 
 class IndexController extends Controller {
 
@@ -86,6 +86,9 @@ class IndexController extends Controller {
 
     public function csrftoken()
     {
-        return ['token' => csrf_token()];
+        if (Auth::check())
+            return ['token' => csrf_token(), 'auth' => true];
+        else
+            return ['token' => csrf_token()];
     }
 }
