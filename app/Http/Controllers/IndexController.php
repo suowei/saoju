@@ -130,6 +130,7 @@ class IndexController extends Controller {
         if($type < 0)
         {
             $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
+                ->where('reviews.visible', '=', 1)
                 ->select('reviews.*', 'dramas.title as drama_title')
                 ->orderBy('id', 'desc')->simplePaginate(20);
         }
@@ -137,6 +138,7 @@ class IndexController extends Controller {
         {
             $reviews = Review::join('dramas', 'reviews.drama_id', '=', 'dramas.id')
                 ->where('dramas.type', '=', $type)
+                ->where('reviews.visible', '=', 1)
                 ->select('reviews.*', 'dramas.title as drama_title')
                 ->orderBy('id', 'desc')->simplePaginate(20);
         }

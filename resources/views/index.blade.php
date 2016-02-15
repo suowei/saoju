@@ -166,13 +166,6 @@
                         有{{ $dramafeed }}部在追剧集更新啦！<a href="{{ url('/user/dramafeed') }}">去看看</a>
                     </div>
                 @endif
-                @if(Auth::check())
-                    <div class="alert alert-warning">
-                        个人年终总结小工具：<br>
-                        <a href="{{ url('/user/drama2015') }}" target="_blank">2015听剧总结（按剧集评分排序）</a><br>
-                        <a href="{{ url('/user/episode2015') }}" target="_blank">2015听剧总结（按分集评分排序）</a>
-                    </div>
-                @endif
                 <h4><strong><a href="{{ url('/report2015') }}" target="_blank">抓糖2015年终总结</a></strong></h4>
                 <h4><strong><a href="{{ url('/guide') }}" target="_blank">抓糖用户手册</a></strong></h4>
                 <p>
@@ -216,10 +209,10 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a href="{{ url('/bbs/topic/67') }}" class="list-group-item" target="_blank">
-                            歌曲关联逻辑更改
+                        <a style="color:red;" href="{{ url('/bbs/topic/77') }}" class="list-group-item" target="_blank">
+                            评论不发送到首页功能上线
                         </a>
-                        <a style="color:red;" href="{{ url('/bbs/topic/66') }}" class="list-group-item" target="_blank">
+                        <a href="{{ url('/bbs/topic/66') }}" class="list-group-item" target="_blank">
                             周边板块上线
                         </a>
                         <a href="{{ url('/bbs/topic/63') }}" class="list-group-item" target="_blank">

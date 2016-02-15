@@ -77,14 +77,22 @@ class ReviewController extends Controller {
 	public function store(Request $request)
 	{
 		$this->validate($request, [
-            'content' => 'required',
-            'title' => 'max:255',
-            'user_id' => 'required',
             'drama_id' => 'required',
+            'content' => 'required',
+            'visible' => 'required',
+            'title' => 'max:255',
             'episode_id' => 'exists:episodes,id',
         ]);
 
-        if($review = Review::create(Input::all()))
+        $review = new Review;
+        $review->user_id = $request->user()->id;
+        $review->drama_id = $request->input('drama_id');
+        if ($request->has('episode_id'))
+            $review->episode_id = $request->input('episode_id');
+        $review->title = $request->input('title');
+        $review->content = $request->input('content');
+        $review->visible = $request->input('visible');
+        if($review->save())
         {
             DB::table('users')->where('id', $review->user_id)->increment('reviews');
             DB::table('dramas')->where('id', $review->drama_id)->increment('reviews');
@@ -167,12 +175,17 @@ class ReviewController extends Controller {
 	{
         $this->validate($request, [
             'content' => 'required',
+            'visible' => 'required',
             'title' => 'max:255',
         ]);
 
         $review = Review::find($id);
+        if($review->user_id != $request->user()->id)
+            return redirect()->back()->withErrors('您不是发表该评论的用户，无法修改');
+
         $review->title = $request->input('title');
         $review->content = $request->input('content');
+        $review->visible = $request->input('visible');
 
         if($review->save())
         {

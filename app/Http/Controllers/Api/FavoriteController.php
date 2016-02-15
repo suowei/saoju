@@ -65,6 +65,7 @@ class FavoriteController extends Controller {
         $validator = Validator::make($request->all(), [
             'drama_id' => 'required',
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -107,6 +108,7 @@ class FavoriteController extends Controller {
                 $review->drama_id = $favorite->drama_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -182,7 +184,7 @@ class FavoriteController extends Controller {
 
     public function edit(Request $request, $drama_id)
     {
-        $review = Review::select('title', 'content')
+        $review = Review::select('title', 'content', 'visible')
             ->where('user_id', $request->user()->id)
             ->where('drama_id', $drama_id)
             ->where('episode_id', 0)
@@ -194,6 +196,7 @@ class FavoriteController extends Controller {
     {
         $validator = Validator::make($request->all(), [
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -244,6 +247,7 @@ class FavoriteController extends Controller {
             {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if(!$review->save())
                 {
                     return response('收藏修改成功，评论修改失败', 422);
@@ -256,6 +260,7 @@ class FavoriteController extends Controller {
                 $review->drama_id = $drama_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');

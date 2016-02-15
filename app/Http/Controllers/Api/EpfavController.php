@@ -55,6 +55,7 @@ class EpfavController extends Controller
             'drama_id' => 'required',
             'episode_id' => 'required',
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -86,6 +87,7 @@ class EpfavController extends Controller
                 $review->episode_id = $epfav->episode_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -138,7 +140,7 @@ class EpfavController extends Controller
 
     public function edit(Request $request, $episode_id)
     {
-        $review = Review::select('title', 'content')
+        $review = Review::select('title', 'content', 'visible')
             ->where('user_id', $request->user()->id)
             ->where('episode_id', $episode_id)
             ->first();
@@ -149,6 +151,7 @@ class EpfavController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,2,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -178,6 +181,7 @@ class EpfavController extends Controller
             {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if(!$review->save())
                 {
                     return response('收藏修改成功，评论修改失败> <', 422);
@@ -191,6 +195,7 @@ class EpfavController extends Controller
                 $review->episode_id = $favorite->episode_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');

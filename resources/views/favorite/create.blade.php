@@ -82,6 +82,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-2 control-label">可见性：</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="visible">
+                                        <option value="1">首页可见</option>
+                                        <option value="0">首页不可见</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-md-10 col-md-offset-2">
                                     <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                 </div>

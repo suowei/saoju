@@ -108,6 +108,7 @@ class FavoriteController extends Controller {
         $this->validate($request, [
             'drama_id' => 'required',
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -149,6 +150,7 @@ class FavoriteController extends Controller {
                 $review->drama_id = $favorite->drama_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -172,7 +174,7 @@ class FavoriteController extends Controller {
         $drama = Drama::find($drama_id, ['id', 'title']);
         $user_id = $request->user()->id;
         $favorite = Favorite::select('type', 'rating', 'tags')->where('user_id', $user_id)->where('drama_id', $drama_id)->first();
-        $review = Review::select('title', 'content')->where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
+        $review = Review::select('title', 'content', 'visible')->where('user_id', $user_id)->where('drama_id', $drama_id)->where('episode_id', 0)->first();
         $tagmaps = Tagmap::with('tag')
             ->select(DB::raw('count(*) as count, tag_id'))
             ->where('user_id', $request->user()->id)
@@ -242,6 +244,7 @@ class FavoriteController extends Controller {
     {
         $this->validate($request, [
             'content' => 'required_with:title',
+            'visible' => 'required_with:content',
             'type' => 'required|in:0,1,2,3,4',
             'rating' => 'in:0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5',
             'title' => 'max:255',
@@ -295,6 +298,7 @@ class FavoriteController extends Controller {
             {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if(!$review->save())
                 {
                     return redirect()->back()->withInput()->withErrors('收藏修改成功，评论修改失败');
@@ -307,6 +311,7 @@ class FavoriteController extends Controller {
                 $review->drama_id = $drama_id;
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
+                $review->visible = $request->input('visible');
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
