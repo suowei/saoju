@@ -167,6 +167,11 @@ Route::group(['prefix' => 'api'], function()
     Route::post('/auth/login', 'Api\AuthController@login');
     Route::post('/auth/register', 'Api\AuthController@register');
 
+    Route::get('/user/{id}', 'Api\UserController@show');
+    Route::get('/user/{id}/favorites/{type}', 'Api\UserController@favorites');
+    Route::get('/user/{id}/epfavs/{type}', 'Api\UserController@epfavs');
+    Route::get('/user/{id}/reviews',  'Api\UserController@reviews');
+
     Route::get('/drama/{id}/reviews', 'Api\DramaController@reviews');
     Route::resource('drama', 'Api\DramaController');
 

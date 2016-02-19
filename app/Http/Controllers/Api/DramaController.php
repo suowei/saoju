@@ -29,6 +29,76 @@ class DramaController extends Controller {
         $this->middleware('apiauth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
+    public function index(Request $request)
+    {
+        //数据库查询参数
+        $scope = [];
+        //性向筛选
+        if($request->has('type'))
+        {
+            $scope['type'] = ['=', $request->input('type')];
+        }
+        //时代筛选
+        if($request->has('era'))
+        {
+            $scope['era'] = ['=', $request->input('era')];
+        }
+        //原创性筛选
+        if($request->has('original'))
+        {
+            $scope['original'] = ['=', $request->input('original')];
+        }
+        //进度筛选，结合state与count字段
+        if($request->has('state'))
+        {
+            switch($request->input('state'))
+            {
+                case 0://连载中
+                    $scope['state'] = ['=', 0];
+                    break;
+                case 1://已完结
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['>', 1];
+                    break;
+                case 2://全一期
+                    $scope['state'] = ['=', 1];
+                    $scope['count'] = ['=', 1];
+                    break;
+                case 3://已坑
+                    $scope['state'] = ['=', 2];
+                    break;
+            }
+        }
+        //主役筛选
+        if($request->has('cv'))
+        {
+            $scope['sc'] = ['LIKE', '%'.$request->input('cv').'%'];
+        }
+        //排序
+        if($request->has('sort'))
+        {
+            $sort = $request->input('sort');
+        }
+        else
+        {
+            $sort = 'id';
+        }
+        if($request->has('order'))
+        {
+            $order = $request->input('order');
+        }
+        else
+        {
+            $order = 'desc';
+        }
+        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era',
+            'genre', 'original', 'count', 'state', 'sc', 'poster_url')
+            ->multiwhere($scope)
+            ->orderBy($sort, $order)
+            ->simplePaginate(20);
+        return $dramas;
+    }
+
     public function show(Request $request, $id)
     {
         $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
