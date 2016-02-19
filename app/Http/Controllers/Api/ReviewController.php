@@ -69,4 +69,47 @@ class ReviewController extends Controller {
             return response('添加失败', 422);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'content' => 'required',
+            'visible' => 'required',
+            'title' => 'max:255',
+        ]);
+
+        $review = Review::find($id);
+        if($review->user_id != $request->user()->id)
+            return response('非评论用户', 422);
+
+        $review->title = $request->input('title');
+        $review->content = $request->input('content');
+        $review->visible = $request->input('visible');
+
+        if($review->save())
+        {
+            return ['result' => 'success'];
+        }
+        else
+        {
+            return response('修改失败', 422);
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $review = Review::find($id);
+        if ($review->user_id == $request->user()->id)
+        {
+            if($review->delete())
+            {
+                DB::table('users')->where('id', $review->user_id)->decrement('reviews');
+                DB::table('dramas')->where('id', $review->drama_id)->decrement('reviews');
+                if($review->episode_id)
+                    DB::table('episodes')->where('id', $review->episode_id)->decrement('reviews');
+                return ['result' => 'success'];
+            }
+        }
+        return response('非评论用户', 422);
+    }
 }
