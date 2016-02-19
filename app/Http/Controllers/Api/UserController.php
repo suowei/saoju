@@ -75,6 +75,7 @@ class UserController extends Controller {
         {
             $query->select('id', 'title');
         }])
+            ->select('id', 'drama_id', 'episode_id', 'title', 'content', 'visible', 'created_at')
             ->where('user_id', $id)
             ->orderBy('id', 'desc')
             ->simplePaginate(20);

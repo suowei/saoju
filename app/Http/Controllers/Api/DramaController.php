@@ -91,8 +91,7 @@ class DramaController extends Controller {
         {
             $order = 'desc';
         }
-        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era',
-            'genre', 'original', 'count', 'state', 'sc', 'poster_url')
+        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre', 'original', 'count', 'state', 'sc')
             ->multiwhere($scope)
             ->orderBy($sort, $order)
             ->simplePaginate(20);
@@ -141,7 +140,7 @@ class DramaController extends Controller {
         {
             $query->select('id', 'title');
         }])
-            ->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+            ->select('id', 'episode_id', 'user_id', 'title', 'content', 'visible', 'created_at')
             ->where('drama_id', $id)
             ->orderBy('id', 'desc')
             ->simplePaginate(10);

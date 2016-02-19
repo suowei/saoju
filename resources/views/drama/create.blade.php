@@ -131,7 +131,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">海报地址</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="poster_url" value="{{ old('poster_url') }}">
+                                <input type="text" class="form-control" name="poster_url" value="{{ old('poster_url') }}" placeholder="用于剧集列表的展示，可选取其中一期的海报">
                             </div>
                         </div>
 
