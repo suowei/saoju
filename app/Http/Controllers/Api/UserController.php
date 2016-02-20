@@ -32,8 +32,9 @@ class UserController extends Controller {
         }
         $favorites = Favorite::with(['drama' => function($query)
         {
-            $query->select('id', 'title', 'poster_url');
+            $query->select('id', 'title', 'sc');
         }])
+            ->select('drama_id', 'type', 'rating', 'tags', 'updated_at')
             ->where('user_id', $id)
             ->where('type', $type)
             ->orderBy($sort, 'desc')
@@ -54,7 +55,7 @@ class UserController extends Controller {
         $favorites = Epfav::with(['episode' => function($query)
         {
             $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
-                ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title',
+                ->select('episodes.id as id', 'dramas.title as dramaTitle', 'episodes.title as title',
                     'dramas.sc as cv', 'episodes.duration as duration');
         }])
             ->select('episode_id', 'type', 'rating', 'updated_at')
