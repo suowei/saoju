@@ -209,14 +209,11 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a style="color:red;" href="{{ url('/bbs/topic/86') }}" class="list-group-item" target="_blank">
+                            Android版抓糖app上线
+                        </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/77') }}" class="list-group-item" target="_blank">
                             评论不发送到首页功能上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/66') }}" class="list-group-item" target="_blank">
-                            周边板块上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/63') }}" class="list-group-item" target="_blank">
-                            标签功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
