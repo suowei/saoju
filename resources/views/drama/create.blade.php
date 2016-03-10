@@ -25,7 +25,8 @@
                         1. 连载剧更新请前往相应剧集页面“更新剧集”。<br>
                         2. 此条目为广播剧基本信息，不包含分集内容，别忘记在剧集添加完成后再通过“添加分集”加入全一期、第一期、第二期等分集哦~<br>
                         3. 请注意剧组版权声明中关于转载部分的内容。<br>
-                        <span class="text-danger">4. 添加前请先搜索，以免重复添加^ ^</span>
+                        <span class="text-danger">4. 添加前请先搜索，以免重复添加^ ^</span><br>
+                        5. 可利用别名功能解决剧名不易搜索的问题，如剧名中包含标点符号或其他因素导致剧集不容易被搜索时，可将易搜索的名称填写在别名中。
                     </p><br>
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/drama') }}" onsubmit="this.submit.disabled=true;this.submit.innerHTML='处理中';">
