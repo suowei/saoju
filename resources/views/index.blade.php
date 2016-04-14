@@ -7,6 +7,13 @@
 
 @section('content')
     <div class="container">
+        <a href="{{ url('/bbs/topic/92') }}" target="_blank">
+             <div class="jumbotron" style="color: #ffffff;background-color: #ce4646;">
+                 <h2>热烈庆祝本站创意提出一周年！</h2>
+                 <p>2015.4.14 - 2016.4.14 感谢大家一直以来的支持，欢迎常来玩~</p>
+                 <p><button class="btn btn-default btn-lg" style="color: #ffffff;background-color: transparent;">查看详情</button></p>
+             </div>
+         </a>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -211,9 +218,6 @@
                     <div class="list-group">
                         <a style="color:red;" href="{{ url('/bbs/topic/86') }}" class="list-group-item" target="_blank">
                             Android版抓糖app上线
-                        </a>
-                        <a style="color:red;" href="{{ url('/bbs/topic/77') }}" class="list-group-item" target="_blank">
-                            评论不发送到首页功能上线
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
