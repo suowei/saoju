@@ -209,7 +209,10 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/86') }}" class="list-group-item" target="_blank">
+                        <a style="color:red;" href="{{ url('/bbs/topic/98') }}" class="list-group-item" target="_blank">
+                            iOS版抓糖app上线
+                        </a>
+                        <a href="{{ url('/bbs/topic/86') }}" class="list-group-item" target="_blank">
                             Android版抓糖app上线
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
