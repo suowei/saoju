@@ -133,6 +133,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-1 control-label">可见性</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="visible">
+                                        <option value="1">首页可见</option>
+                                        <option value="0">首页不可见</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-md-8 col-md-offset-1">
                                     <button type="submit" class="btn btn-primary">
                                         提交
@@ -173,7 +182,11 @@
                                     <a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a>
                                 </span>
                             </div>
-                            <div class="review-content">{{ $review->content }}</div>
+                            @if($review->banned)
+                                <p class="text-muted">{{ $review->banned }}</p>
+                            @else
+                                <div class="review-content">{{ $review->content }}</div>
+                            @endif
                         </div>
                     @endforeach
                 </div>

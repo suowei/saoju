@@ -171,7 +171,7 @@ class DramaController extends Controller {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
             $query->select('id', 'title');
-        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
             ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
         $eds = Ed::with(['song' => function($query) {
             $query->select('id', 'title', 'artist');
@@ -327,6 +327,11 @@ class DramaController extends Controller {
         {
             return '抱歉，已有人评论本剧，不能删除> <';
         }
+        $item = Item::select('id')->where('drama_id', $id)->first();
+        if($item)
+        {
+            return '抱歉，已有剧单收录本剧，不能删除> <';
+        }
         $ed = Ed::select('id')->where('drama_id', $id)->first();
         if($ed)
         {
@@ -350,7 +355,7 @@ class DramaController extends Controller {
             $query->select('id', 'name');
         }, 'episode' => function($query) {
             $query->select('id', 'title');
-        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+        }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
             ->where('drama_id', $id)->paginate(20);
         return view('drama.reviews', ['drama' => $drama, 'reviews' => $reviews]);
     }

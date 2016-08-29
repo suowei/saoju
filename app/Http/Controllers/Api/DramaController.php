@@ -140,7 +140,7 @@ class DramaController extends Controller {
         {
             $query->select('id', 'title');
         }])
-            ->select('id', 'episode_id', 'user_id', 'title', 'content', 'visible', 'created_at')
+            ->select('id', 'episode_id', 'user_id', 'title', 'content', 'visible', 'created_at', 'banned')
             ->where('drama_id', $id)
             ->orderBy('id', 'desc')
             ->simplePaginate(10);

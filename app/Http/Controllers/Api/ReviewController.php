@@ -30,7 +30,7 @@ class ReviewController extends Controller {
             $query->select('id', 'title');
         }])
             ->where('visible', 1)
-            ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at')
+            ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
             ->orderBy('id', 'desc')
             ->simplePaginate(10);
         return $reviews;

@@ -8,10 +8,12 @@
             @endif
             {{ $review->created_at }}
             {{ $review->title }}
-            <span class="pull-right">
-                                <a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a>
-                            </span>
+            <span class="pull-right"><a href="{{ url('/review/'.$review->id) }}" target="_blank">查看</a></span>
         </div>
-        <div class="review-content">{{ $review->content }}</div>
+        @if($review->banned)
+            <p class="text-muted">{{ $review->banned }}</p>
+        @else
+            <div class="review-content">{{ $review->content }}</div>
+        @endif
     </div>
 @endforeach
