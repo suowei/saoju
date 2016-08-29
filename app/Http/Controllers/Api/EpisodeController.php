@@ -49,7 +49,7 @@ class EpisodeController extends Controller {
         {
             $query->select('id', 'name');
         }])
-            ->select('id', 'user_id', 'title', 'content', 'visible', 'created_at')
+            ->select('id', 'user_id', 'title', 'content', 'visible', 'created_at', 'banned')
             ->where('episode_id', $id)
             ->orderBy('id', 'desc')
             ->simplePaginate(10);

@@ -204,7 +204,7 @@ class EpisodeController extends Controller {
         $drama = Drama::find($episode->drama_id, ['title']);
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('id', 'user_id', 'title', 'content', 'created_at')
+        }])->select('id', 'user_id', 'title', 'content', 'created_at', 'banned')
             ->where('episode_id', $id)->orderBy('id', 'desc')->take(20)->get();
         $listids = Item::select('list_id')->where('episode_id', $id)->orderBy('id', 'desc')->take(10)->lists('list_id');
         $lists = Dramalist::with(['user' => function($query) {
@@ -330,6 +330,11 @@ class EpisodeController extends Controller {
         {
             return '抱歉，请先逐一删除SC关联后再删除本集';
         }
+        $item = Item::select('id')->where('episode_id', $id)->first();
+        if($item)
+        {
+            return '抱歉，已有剧单收录本集，不能删除> <';
+        }
         $ed = Ed::select('id')->where('episode_id', $id)->first();
         if($ed)
         {
@@ -353,7 +358,7 @@ class EpisodeController extends Controller {
         $drama = Drama::find($episode->drama_id, ['title']);
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('id', 'user_id', 'title', 'content', 'created_at')->where('episode_id', $id)->paginate(20);
+        }])->select('id', 'user_id', 'title', 'content', 'created_at', 'banned')->where('episode_id', $id)->paginate(20);
         return view('episode.reviews', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews]);
     }
 

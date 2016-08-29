@@ -157,6 +157,12 @@ Route::get('/report2015', 'IndexController@report2015');
 
 Route::get('/guide', 'IndexController@guide');
 
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
+{
+    Route::get('/', 'AdminController@index');
+    Route::post('/deletereview', 'AdminController@deleteReview');
+});
+
 Route::group(['prefix' => 'api'], function()
 {
     Route::get('/newepisodes', 'Api\IndexController@episodes');
