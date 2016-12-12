@@ -7,6 +7,10 @@
 
 @section('content')
     <div class="container">
+        <div class="alert alert-success">
+            应服务器提供商要求以及苹果明年一月的安全策略变更，本站计划从明日（12月13日）起对服务进行迁移，并进行https升级。
+            <br/>在此期间，网站及app服务将关闭若干天，恢复时间不定，快则一天，慢则多日，给您带来的不便敬请谅解> <
+        </div>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
