@@ -118,13 +118,10 @@
                 </div>
                 <?php echo $dramas->appends(['sort' => $sort, 'order' => $order])->render(); ?>
             </div>
-            <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-            </div>
         </div>
     </div>
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

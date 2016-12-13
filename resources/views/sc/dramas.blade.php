@@ -206,9 +206,6 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
-            </div>
         </div>
     </div>
 @endsection

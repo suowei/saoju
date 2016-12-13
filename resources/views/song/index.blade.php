@@ -161,7 +161,6 @@
                 <?php echo $songs->appends($params)->render(); ?>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/song/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加歌曲信息

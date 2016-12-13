@@ -115,7 +115,7 @@
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var clubs = new Bloodhound({
@@ -136,7 +136,7 @@
             });
         });
     </script>
-    <script src="http://cdn.bootcss.com/tinymce/4.2.2/tinymce.min.js"></script>
+    <script src="https://cdn.bootcss.com/tinymce/4.2.2/tinymce.min.js"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: "#richtext",
@@ -152,8 +152,8 @@
             font_formats: "宋体=宋体;微软雅黑=微软雅黑;楷体=楷体;黑体=黑体;隶书=隶书;"+
             "Arial=Arial;Arial Black=Arial Black;Comic Sans MS=Comic Sans MS;Courier New=Courier New;"+
             "Helvetica=Helvetica;Impact=Impact;Tahoma=Tahoma;Times New Roman=Times New Roman;Verdana=Verdana",
-            language_url: 'http://cdn.bootcss.com/tinymce/4.2.0/langs/zh_CN.js',
-            content_css: ['http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css', '/css/content.css']
+            language_url: 'https://cdn.bootcss.com/tinymce/4.2.0/langs/zh_CN.js',
+            content_css: ['https://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css', '/css/content.css']
         });
     </script>
 @endsection

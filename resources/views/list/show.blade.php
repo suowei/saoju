@@ -78,7 +78,6 @@
                 <?php echo $items->render(); ?>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p class="text-success">
                     <span class="glyphicon glyphicon-info-sign"></span>
                     剧单既可以包含剧集也可以包含分集，请前往相应剧集或分集页面找到“添加至剧单”进行操作

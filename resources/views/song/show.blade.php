@@ -84,7 +84,6 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-warning btn-xs" href="{{ url('/song/'.$song->id.'/edit') }}">
                         <span class="glyphicon glyphicon-edit"></span> 编辑歌曲信息
@@ -164,5 +163,5 @@
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

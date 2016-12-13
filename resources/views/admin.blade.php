@@ -20,7 +20,7 @@
             <div class="panel-body">
                 <form class="form-horizontal" method="POST" action="{{ url('/admin/deletereview') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <p>打开评论详情页，查看地址，例如http://saoju.net/review/3189，则评论ID为3189。</p>
+                    <p>打开评论详情页，查看地址，例如https://saoju.net/review/3189，则评论ID为3189。</p>
                     <p>同时需输入评论时间进行校验，例如2016-08-28 20:18:44，以防输错评论ID。</p>
                     <p>屏蔽成功后会跳转到首页，否则会提示屏蔽失败。</p><br/>
                     <div class="form-group">
