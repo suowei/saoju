@@ -274,7 +274,6 @@
             <?php echo $dramas->appends($params)->render(); ?>
         </div>
         <div class="col-md-3">
-            <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
             <p>
                 <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
                     <span class="glyphicon glyphicon-plus"></span> 添加剧集信息
@@ -286,5 +285,5 @@
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

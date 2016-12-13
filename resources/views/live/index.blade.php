@@ -3,7 +3,7 @@
 @section('title', '活动列表 - ')
 
 @section('css')
-    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -162,7 +162,6 @@
                 <?php echo $lives->appends($params)->render(); ?>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/live/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加活动信息
@@ -178,9 +177,9 @@
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript">
         $('.date').datepicker({
             format: "yyyy-mm-dd",

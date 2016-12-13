@@ -260,7 +260,6 @@
                 @endforeach
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button><br>
                 <p class="text-info">以下勋章仅代表网站态度，与谦逊的用户本人无关……</p>
                 @if($user->reviews > 200)
                     <h3 class="medal"><span class="glyphicon glyphicon-bookmark"></span> 扫剧界一代宗师</h3>
@@ -472,5 +471,5 @@
 @endsection
 
 @section('script')
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

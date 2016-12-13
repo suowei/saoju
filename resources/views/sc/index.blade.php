@@ -131,7 +131,6 @@
                 <?php echo $scs->appends($params)->render(); ?>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/sc/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加SC信息

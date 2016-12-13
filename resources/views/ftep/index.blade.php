@@ -3,7 +3,7 @@
 @section('title', '节目分集列表 - ')
 
 @section('css')
-    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -195,7 +195,6 @@
                 <?php echo $fteps->appends($params)->render(); ?>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/ft/create') }}" target="_blank">
                         <span class="glyphicon glyphicon-plus"></span> 添加节目信息
@@ -207,8 +206,8 @@
 @endsection
 
 @section('script')
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript">
         $('.date').datepicker({
             format: "yyyy-mm-dd",

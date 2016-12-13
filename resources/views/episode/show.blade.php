@@ -192,7 +192,6 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <wb:share-button appkey="125628789" addition="number" type="button"></wb:share-button>
                 <p>
                     <a class="btn btn-warning btn-xs" href="{{ url('/episode/'.$episode->id.'/edit') }}">
                         <span class="glyphicon glyphicon-edit"></span> 编辑本集信息
@@ -333,5 +332,5 @@
 
 @section('script')
     <script src="{{ asset('/js/star-rating.min.js') }}"></script>
-    <script src="http://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection
