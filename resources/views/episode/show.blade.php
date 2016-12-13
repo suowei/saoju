@@ -63,8 +63,9 @@
                                 </a>
                         </p>
 
-                        <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
                         <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
+                        <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
+                        <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
                         <p><a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#sc">查看关联SC <span class="caret"></span></a></p>
                         <div class="panel panel-primary collapse" id="sc">
                             <div class="panel-heading">
@@ -89,7 +90,6 @@
 
                         <p class="content-pre-line">{{ $episode->sc }}</p>
                         @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
-                        <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
                     </div>
                     <div class="col-md-4">
                         <p>
