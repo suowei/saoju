@@ -8,8 +8,10 @@
 @section('content')
     <div class="container">
         <div class="alert alert-success">
-            应服务器提供商要求以及苹果明年一月的安全策略变更，本站计划从明日（12月13日）起对服务进行迁移，并进行https升级。
-            <br/>在此期间，网站及app服务将关闭若干天，恢复时间不定，快则一天，慢则多日，给您带来的不便敬请谅解> <
+            本站服务器迁移及https升级已完成，全部服务已恢复正常。
+            <br/>安卓用户请下载安装最新版本https://pan.baidu.com/s/1o8deuIQ，安装完毕后请退出账号并重新登录。
+            <br/>苹果用户请于应用商店更新https://itunes.apple.com/cn/app/id1127382516，并重新登录。
+            <br/>为庆祝升级成功，网站给每位用户发送了一枚邀请码，请点击“我的主页”→“邀请朋友”查看~
         </div>
         <div class="row">
             <div class="col-md-9">
@@ -213,11 +215,8 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/98') }}" class="list-group-item" target="_blank">
-                            iOS版抓糖app上线
-                        </a>
-                        <a href="{{ url('/bbs/topic/86') }}" class="list-group-item" target="_blank">
-                            Android版抓糖app上线
+                        <a style="color:red;" href="{{ url('/bbs/topic/110') }}" class="list-group-item" target="_blank">
+                            网站及app升级说明
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
