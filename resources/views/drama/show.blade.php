@@ -77,7 +77,13 @@
                                 @endif
                             </p>
                             <p><span class="text-muted">其他：</span>{{ $drama->genre ? $drama->genre : '无' }}</p>
-                            <p><span class="text-muted">原创性：</span>{{ $drama->original == 1 ? '原创' : '改编' }}</p>
+                            <p>
+                                @if($drama->original == 1)
+                                    <span class="text-muted">原创剧本：</span>{{ $drama->author }}
+                                @else
+                                    <span class="text-muted">原著：</span>{{ $drama->author }}
+                                @endif
+                            </p>
                             <p><span class="text-muted">期数：</span>{{ $drama->count }}</p>
                             <p>
                                 <span class="text-muted">进度：</span>

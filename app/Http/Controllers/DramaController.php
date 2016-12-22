@@ -55,6 +55,11 @@ class DramaController extends Controller {
         {
             $scope['original'] = ['=', $request->input('original')];
         }
+        //作者筛选
+        if($request->has('author'))
+        {
+            $scope['author'] = ['=', $request->input('author')];
+        }
         //进度筛选，结合state与count字段
         if($request->has('state'))
         {
@@ -101,7 +106,7 @@ class DramaController extends Controller {
             $params['order'] = 'desc';
         }
         $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre',
-            'original', 'count', 'state', 'sc', 'poster_url', 'introduction')
+            'original', 'author', 'count', 'state', 'sc', 'poster_url', 'introduction')
             ->multiwhere($scope)->orderBy($params['sort'], $params['order'])->paginate(20);
 		return view('drama.index', ['params' => $params, 'dramas' => $dramas]);
 	}
@@ -130,6 +135,7 @@ class DramaController extends Controller {
             'era' =>'required|in:0,1,2,3,4',
             'genre' => 'max:255',
             'original' => 'required|in:0,1',
+            'aurhot' => 'required|max:255',
             'count' => 'required|integer',
             'state' => 'required|in:0,1,2',
             'sc' => 'required|max:255',
@@ -140,7 +146,7 @@ class DramaController extends Controller {
         {
             Dramaver::create(['drama_id' => $drama->id, 'user_id' => $request->user()->id, 'first' => 1,
                 'title' => $drama->title, 'alias' => $drama->alias, 'type' => $drama->type, 'era' => $drama->era,
-                'genre' => $drama->genre, 'original' => $drama->original, 'count' => $drama->count,
+                'genre' => $drama->genre, 'original' => $drama->original, 'author' => $drama->author, 'count' => $drama->count,
                 'state' => $drama->state, 'sc' => $drama->sc, 'poster_url' => $drama->poster_url,
                 'introduction' => $drama->introduction]);
             return redirect()->route('drama.show', [$drama]);
@@ -160,7 +166,7 @@ class DramaController extends Controller {
 	public function show(Request $request, $id)
 	{
         $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
-            'original', 'count', 'state', 'sc', 'poster_url', 'introduction', 'reviews', 'favorites']);
+            'original', 'author', 'count', 'state', 'sc', 'poster_url', 'introduction', 'reviews', 'favorites']);
         $episodes = Episode::select('id', 'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction')
             ->where('drama_id', $id)->orderByRaw('release_date, id')->get();
         $roles = Role::with(['sc' => function($query) {
@@ -235,7 +241,7 @@ class DramaController extends Controller {
 	public function edit($id)
 	{
         $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
-            'original', 'count', 'state', 'sc', 'poster_url', 'introduction']);
+            'original', 'author', 'count', 'state', 'sc', 'poster_url', 'introduction']);
 		return view('drama.edit', ['drama' => $drama]);
 	}
 
@@ -254,6 +260,7 @@ class DramaController extends Controller {
             'era' =>'required|in:0,1,2,3,4',
             'genre' => 'max:255',
             'original' => 'required|in:0,1',
+            'author' => 'required|max:255',
             'count' => 'required|integer',
             'state' => 'required|in:0,1,2',
             'sc' => 'required|max:255',
@@ -267,6 +274,7 @@ class DramaController extends Controller {
         $drama->era = $request->input('era');
         $drama->genre = $request->input('genre');
         $drama->original = $request->input('original');
+        $drama->author = $request->input('author');
         $drama->count = $request->input('count');
         $drama->state = $request->input('state');
         $drama->sc = $request->input('sc');
@@ -290,6 +298,7 @@ class DramaController extends Controller {
             $version->era = $drama->era;
             $version->genre = $drama->genre;
             $version->original = $drama->original;
+            $version->author = $drama->author;
             $version->count = $drama->count;
             $version->state = $drama->state;
             $version->sc = $drama->sc;
@@ -405,7 +414,7 @@ class DramaController extends Controller {
         {
             $query->select('id', 'name');
         }])
-            ->select('user_id', 'first', 'title', 'alias', 'type', 'era', 'genre', 'original',
+            ->select('user_id', 'first', 'title', 'alias', 'type', 'era', 'genre', 'original', 'author',
                 'count', 'state', 'sc', 'poster_url', 'introduction', 'created_at', 'updated_at')
             ->where('drama_id', $id)->orderBy('updated_at', 'desc')->get();
         return view('drama.versions', ['drama' => $drama, 'versions' => $versions]);

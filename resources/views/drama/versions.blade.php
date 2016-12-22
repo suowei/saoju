@@ -24,6 +24,7 @@
                             @elseif($drama->era == 2)民国@elseif($drama->era == 3)未来@else其他@endif<br>
                             <span class="text-muted">其他描述：</span>{{ $version->genre }}<br>
                             <span class="text-muted">原创性：</span>{{ $version->original == 1 ? '原创' : '改编' }}<br>
+                            <span class="text-muted">作者：</span>{{ $version->author }}<br>
                             <span class="text-muted">期数：</span>{{ $version->count }}<br>
                             <span class="text-muted">进度：</span>@if($version->state == 0)连载
                             @elseif($version->state == 1)完结@else已坑@endif<br>

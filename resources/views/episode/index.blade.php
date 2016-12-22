@@ -327,7 +327,11 @@
                                     @if($episode->genre)
                                         {{ $episode->genre }}，
                                     @endif
-                                    {{ $episode->original == 1 ? '原创' : '改编' }}，
+                                    @if($episode->original == 1)
+                                        {{ $episode->author }}原创
+                                    @else
+                                        {{ $episode->author }}原著
+                                    @endif，
                                     @if($episode->state == 0)
                                         连载
                                     @elseif($episode->state == 1)

@@ -20,7 +20,7 @@ class IndexController extends Controller {
         {
             $join->on('episodes.drama_id', '=', 'dramas.id');
         })
-            ->select('dramas.title as dramaTitle', 'dramas.type as type', 'dramas.original as original',
+            ->select('dramas.title as dramaTitle', 'dramas.type as type', 'dramas.original as original', 'dramas.author as author',
                 'episodes.id as episodeId', 'episodes.title as episodeTitle', 'episodes.release_date as releaseDate',
                 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as posterUrl',
                 'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
@@ -77,7 +77,7 @@ class IndexController extends Controller {
         $keyword = $request->input('keyword');
         if($keyword == '')
             return [];
-        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre', 'original', 'count', 'state', 'sc')
+        $dramas = Drama::select('id', 'title', 'alias', 'type', 'era', 'genre', 'original', 'author', 'count', 'state', 'sc')
             ->where('title', 'LIKE', '%'.$keyword.'%')
             ->orWhere('alias', 'LIKE', '%'.$keyword.'%')
             ->get();
