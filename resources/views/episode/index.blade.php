@@ -114,6 +114,29 @@
                     @endif
                 </p>
                 <p>
+                <form class="form-inline" method="GET" action="{{ url('/episode') }}">
+                    原著：&nbsp;&nbsp;
+                    <?php
+                    $url = url('/episode?');
+                    foreach($params as $key => $value)
+                    {
+                        if($key != 'author')
+                        {
+                            $url .= $key.'='.$value.'&';
+                            echo '<input type="hidden" name="'.$key.'" value="'.$value.'">';
+                        }
+                    }
+                    ?>
+                    @if(isset($params['author']))
+                        <span class="label label-primary">
+                        {{ $params['author'] }}
+                            <a class="white-link" href="{{ $url }}"><span class="glyphicon glyphicon-remove"></span></a></span>&nbsp;&nbsp;
+                    @endif
+                    <input type="text" class="form-control input-sm" name="author">
+                    <button type="submit" class="btn btn-default btn-sm">确定</button>（或原创编剧）
+                </form>
+                </p>
+                <p>
                     进度：&nbsp;&nbsp;
                     <?php
                     $url = url('/episode?');
