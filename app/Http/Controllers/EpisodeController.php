@@ -52,6 +52,11 @@ class EpisodeController extends Controller {
         {
             $scope['dramas.original'] = ['=', $request->input('original')];
         }
+        //作者筛选
+        if($request->has('author'))
+        {
+            $scope['dramas.author'] = ['=', $request->input('author')];
+        }
         //进度筛选，结合state与count字段
         if($request->has('state'))
         {
