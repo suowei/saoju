@@ -99,6 +99,14 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label">作者</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="author" placeholder="必填" required="required" value="{{ $drama->author }}">
+                                    <h5>说明：如果是改编剧请填写原著作者，如果是原创剧请填写编剧。</h5>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-4 control-label">期数</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="count" placeholder="必填，只允许填入数字" value="{{ $drama->count }}" required="required">

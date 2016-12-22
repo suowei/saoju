@@ -7,12 +7,6 @@
 
 @section('content')
     <div class="container">
-        <div class="alert alert-success">
-            本站服务器迁移及https升级已完成，全部服务已恢复正常。
-            <br/>安卓用户请下载安装最新版本https://pan.baidu.com/s/1o8deuIQ，安装完毕后请退出账号并重新登录。
-            <br/>苹果用户请于应用商店更新https://itunes.apple.com/cn/app/id1127382516，并重新登录。
-            <br/>为庆祝升级成功，网站给每位用户发送了一枚邀请码，请点击“我的主页”→“邀请朋友”查看~
-        </div>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -45,14 +39,14 @@
                                                class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
                                                 <h4 class="list-group-item-heading">
                                                     @if($episode->state==1)<strong>@endif
-                                                        {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
-                                                        @if($episode->alias){{ $episode->alias }}@endif
-                                                        @if($episode->state==1)</strong>@endif
+                                                    @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                    @if($episode->alias){{ $episode->alias }}@endif
+                                                    @if($episode->state==1)</strong>@endif
                                                     <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                 </h4>
                                                 {{ $episode->sc }}
                                                 <span class="pull-right">
-                                                    @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                    {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                 </span>
                                             </a>
                                         @endforeach
@@ -66,14 +60,14 @@
                                                    class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
                                                     <h4 class="list-group-item-heading">
                                                         @if($episode->state==1)<strong>@endif
-                                                        {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                        @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
                                                         @if($episode->alias){{ $episode->alias }}@endif
-                                                            @if($episode->state==1)</strong>@endif
+                                                        @if($episode->state==1)</strong>@endif
                                                         <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
@@ -89,14 +83,14 @@
                                                    class="list-group-item @if($episode->state==1){{ 'list-group-item-info' }}@endif">
                                                     <h4 class="list-group-item-heading">
                                                         @if($episode->state==1)<strong>@endif
-                                                            {{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
-                                                            @if($episode->alias){{ $episode->alias }}@endif
-                                                            @if($episode->state==1)</strong>@endif
+                                                        @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
+                                                        @if($episode->alias){{ $episode->alias }}@endif
+                                                        @if($episode->state==1)</strong>@endif
                                                         <span class="badge pull-right">{{ $episode->reviews }}评论</span>
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
-                                                        @if($episode->original)原创，@endif{{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
+                                                        {{ $states[$episode->state] }}@if($episode->genre)，{{ $episode->genre }}@endif，{{ $episode->duration }}分钟
                                                     </span>
                                                 </a>
                                             @endforeach
@@ -215,6 +209,9 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
+                        <a style="color:red;" href="{{ url('/bbs/topic/112') }}" class="list-group-item" target="_blank">
+                            剧集信息新增作者字段
+                        </a>
                         <a style="color:red;" href="{{ url('/bbs/topic/110') }}" class="list-group-item" target="_blank">
                             网站及app升级说明
                         </a>

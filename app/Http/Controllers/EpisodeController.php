@@ -125,8 +125,8 @@ class EpisodeController extends Controller {
                 }
             })
                 ->select('episodes.*', 'dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
-                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.state as state',
-                    'dramas.sc as cv')
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.author as author',
+                    'dramas.state as state', 'dramas.sc as cv')
                 ->orderBy('episodes.'.$params['sort'], $params['order'])->paginate(20);
         }
         else
@@ -140,8 +140,8 @@ class EpisodeController extends Controller {
                 }
             })
                 ->select('episodes.*', 'dramas.id as drama_id', 'dramas.title as drama_title', 'dramas.type as type',
-                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.state as state',
-                    'dramas.sc as cv')
+                    'dramas.era as era', 'dramas.genre as genre', 'dramas.original as original', 'dramas.author as author',
+                    'dramas.state as state', 'dramas.sc as cv')
                 ->orderBy('episodes.'.$params['sort'], $params['order'])->paginate(20);
         }
         return view('episode.index', ['params'=> $params, 'episodes' => $episodes]);

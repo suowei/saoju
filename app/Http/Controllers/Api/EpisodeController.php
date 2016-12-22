@@ -33,7 +33,7 @@ class EpisodeController extends Controller {
             'duration', 'poster_url', 'introduction', 'reviews']);
         $episode->load(['drama' => function($query)
         {
-            $query->select('id', 'title', 'type', 'era', 'genre', 'original');
+            $query->select('id', 'title', 'type', 'era', 'genre', 'original', 'author');
         }]);
         if(Auth::check())
         {

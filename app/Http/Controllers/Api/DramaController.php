@@ -48,6 +48,11 @@ class DramaController extends Controller {
         {
             $scope['original'] = ['=', $request->input('original')];
         }
+        //作者筛选
+        if($request->has('author'))
+        {
+            $scope['author'] = ['=', $request->input('author')];
+        }
         //进度筛选，结合state与count字段
         if($request->has('state'))
         {
@@ -101,7 +106,7 @@ class DramaController extends Controller {
     public function show(Request $request, $id)
     {
         $drama = Drama::find($id, ['id', 'title', 'alias', 'type', 'era', 'genre',
-            'original', 'count', 'state', 'sc', 'introduction', 'reviews']);
+            'original', 'author', 'count', 'state', 'sc', 'introduction', 'reviews']);
         $drama->load(['episodes' => function($query)
         {
             $query->select('id', 'drama_id', 'title', 'alias', 'release_date', 'poster_url')

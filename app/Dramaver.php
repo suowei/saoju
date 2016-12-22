@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dramaver extends Model
 {
     protected $fillable = ['drama_id', 'user_id', 'first',
-        'title', 'alias', 'type', 'era', 'genre', 'original', 'count', 'state', 'sc', 'poster_url', 'introduction'];
+        'title', 'alias', 'type', 'era', 'genre', 'original', 'author', 'count', 'state', 'sc', 'poster_url', 'introduction'];
 
     public function user()
     {
