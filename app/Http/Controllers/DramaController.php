@@ -135,7 +135,7 @@ class DramaController extends Controller {
             'era' =>'required|in:0,1,2,3,4',
             'genre' => 'max:255',
             'original' => 'required|in:0,1',
-            'aurhot' => 'required|max:255',
+            'author' => 'required|max:255',
             'count' => 'required|integer',
             'state' => 'required|in:0,1,2',
             'sc' => 'required|max:255',
