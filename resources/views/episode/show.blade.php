@@ -66,28 +66,6 @@
                         <p><span class="text-muted">发布时间：</span>{{ $episode->release_date }}</p>
                         <p><span class="text-muted">发布地址：</span>@if ($episode->url)<a href="{{ $episode->url }}" target="_blank">{{ $episode->url }}</a>@else未知@endif</p>
                         <p><span class="text-muted">时长：</span>{{ $episode->duration.'分钟' }}</p>
-                        <p><a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#sc">查看关联SC <span class="caret"></span></a></p>
-                        <div class="panel panel-primary collapse" id="sc">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
-                                        <span class="glyphicon glyphicon-list-alt"></span> 关联SC
-                                    </a>
-                                    <small class="pull-right">
-                                        <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
-                                            查看<span class="glyphicon glyphicon-menu-right"></span>
-                                        </a>
-                                    </small>
-                                </h4>
-                            </div>
-                            <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
-                            <div style="padding: 5px 10px;">
-                                @foreach ($roles as $role)
-                                    {{ $role->note ? $role->note : $jobs[$role->job] }}：<a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a><br>
-                                @endforeach
-                            </div>
-                        </div>
-
                         <p class="content-pre-line">{{ $episode->sc }}</p>
                         @if ($episode->introduction)<p class="content-pre-line">{{ $episode->introduction }}</p>@endif
                     </div>
@@ -240,7 +218,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="panel panel-info">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title"><span class="glyphicon glyphicon-gift"></span> 最新收藏<small>（<a href="{{ url('/episode/'.$episode->id.'/favorites') }}" target="_blank">查看全部{{ $episode->favorites }}条收藏</a>）</small></h4>
                     </div>
@@ -253,6 +231,47 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
+                                <span class="glyphicon glyphicon-list-alt"></span> 关联SC
+                            </a>
+                            <small class="pull-right">
+                                <a href="{{ url('/episode/'.$episode->id.'/sc') }}" target="_blank">
+                                    操作关联<span class="glyphicon glyphicon-menu-right"></span>
+                                </a>
+                            </small>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-center">演职员表</div>
+                        <table class="table table-condensed table-sc">
+                            <thead>
+                            <tr>
+                                <th class="col-md-6"></th>
+                                <th class="col-md-6"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
+                            @foreach ($roles as $i => $role)
+                                <tr>
+                                    <td class="text-right">
+                                        @if($i > 0 && $role->job == $roles[$i-1]->job && $role->note == $roles[$i-1]->note)
+                                        @else
+                                        {{ $role->note ? $role->note : $jobs[$role->job] }}
+                                        @endif&nbsp;
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('/sc/'.$role->sc_id) }}" target="_blank">{{ $role->sc->name }}</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

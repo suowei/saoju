@@ -203,3 +203,8 @@ a:hover {
     color: #666666;
     background-color: transparent;
 }
+
+.table-sc th,
+.table-sc td {
+    border: 0px !important;
+}

@@ -177,7 +177,7 @@ class UserController extends Controller {
         }
         if ($user->save())
         {
-            return redirect()->route('user.editPassword')->withStatus('修改成功');
+            return redirect()->route('user.editPassword')->withStatus('修改成功，请务必退出账号并重新登录！');
         }
         else
         {
