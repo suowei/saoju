@@ -246,7 +246,7 @@
                         </h4>
                     </div>
                     <div class="panel-body">
-                        <div class="text-center">演职员表</div>
+                        <h5 class="text-center">演职员表</h5>
                         <table class="table table-condensed table-sc">
                             <thead>
                             <tr>
@@ -257,6 +257,9 @@
                             <tbody>
                             <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
                             @foreach ($roles as $i => $role)
+                                @if($role->job == 11 && $i > 0 && $role->job != $roles[$i-1]->job)
+                                    <tr><td><br/></td></tr>
+                                @endif
                                 <tr>
                                     <td class="text-right">
                                         @if($i > 0 && $role->job == $roles[$i-1]->job && $role->note == $roles[$i-1]->note)
