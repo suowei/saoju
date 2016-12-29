@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sc extends Model
 {
-    protected $fillable = ['name', 'alias', 'club_id', 'jobs', 'information', 'user_id'];
+    protected $fillable = ['name', 'alias', 'club_id', 'jobs', 'weibo', 'information', 'user_id'];
 
     public function club()
     {
