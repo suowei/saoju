@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Scver extends Model
 {
-    protected $fillable = ['sc_id', 'user_id', 'first', 'name', 'alias', 'club_id', 'jobs', 'information'];
+    protected $fillable = ['sc_id', 'user_id', 'first', 'name', 'alias', 'club_id', 'jobs', 'weibo', 'information'];
 
     public function user()
     {

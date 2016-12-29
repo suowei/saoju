@@ -82,6 +82,7 @@ class ScController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255|unique:scs',
             'alias' => 'max:255',
+            'weibo' => 'max:255',
         ]);
 
         $sc = new Sc;
@@ -96,12 +97,13 @@ class ScController extends Controller
             $sc->club_id = 0;
         }
         $sc->jobs = $request->input('jobs');
+        $sc->weibo = $request->input('weibo');
         $sc->information = $request->input('information');
         if($sc->save())
         {
             Scver::create(['sc_id' => $sc->id, 'user_id' => $request->user()->id, 'first' => 1,
                 'name' => $sc->name, 'alias' => $sc->alias, 'club_id' => $sc->club_id,
-                'jobs' => $sc->jobs, 'information' => $sc->information]);
+                'jobs' => $sc->jobs, 'weibo' => $sc->weibo, 'information' => $sc->information]);
             if($request->has('job'))
             {
                 $jobs = [];
@@ -121,7 +123,7 @@ class ScController extends Controller
 
     public function show(Request $request, $id)
     {
-        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'information', 'reviews']);
+        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'weibo', 'information', 'reviews']);
         $sc->load(['club' => function($query)
         {
             $query->select('id', 'name');
@@ -150,7 +152,7 @@ class ScController extends Controller
 
     public function edit($id)
     {
-        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'information']);
+        $sc = Sc::find($id, ['id', 'name', 'alias', 'club_id', 'jobs', 'weibo', 'information']);
         $sc->load(['club' => function($query)
         {
             $query->select('id', 'name');
@@ -169,6 +171,7 @@ class ScController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'alias' => 'max:255',
+            'weibo' => 'max:255',
         ]);
 
         $sc = Sc::find($id);
@@ -183,6 +186,7 @@ class ScController extends Controller
             $sc->club_id = 0;
         }
         $sc->jobs = $request->input('jobs');
+        $sc->weibo = $request->input('weibo');
         $sc->information = $request->input('information');
         if($sc->save())
         {
@@ -199,6 +203,7 @@ class ScController extends Controller
             $version->alias = $sc->alias;
             $version->club_id = $sc->club_id;
             $version->jobs = $sc->jobs;
+            $version->weibo = $sc->weibo;
             $version->information = $sc->information;
             $version->save();
 
@@ -394,7 +399,7 @@ class ScController extends Controller
         {
             $query->select('id', 'name');
         }])
-            ->select('user_id', 'first', 'name', 'alias', 'club_id', 'jobs', 'information', 'created_at', 'updated_at')
+            ->select('user_id', 'first', 'name', 'alias', 'club_id', 'jobs', 'weibo', 'information', 'created_at', 'updated_at')
             ->where('sc_id', $id)->orderBy('updated_at', 'desc')->get();
         return view('sc.versions', ['sc' => $sc, 'versions' => $versions]);
     }

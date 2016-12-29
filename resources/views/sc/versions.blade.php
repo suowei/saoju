@@ -22,6 +22,7 @@
                                     href="{{ url('/club/'.$version->club_id) }}"
                                     target="_blank">{{ $version->club->name }}</a>@endif<br>
                             <span class="text-muted">职位：</span>{{ $version->jobs }}<br>
+                            <span class="text-muted">微博：</span>{{ $version->weibo }}<br>
                             <span class="text-muted">信息：</span>{{ $version->information }}
                         </div>
                     </div>

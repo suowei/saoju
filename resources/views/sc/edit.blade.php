@@ -92,6 +92,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-2 control-label">微博</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="weibo" value="{{ $sc->weibo }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-2 control-label">SC信息</label>
                                 <div class="col-md-9">
                                     <h5>直接回车将另起一段，新段落与上一段落有间距，如只想另起一行，即与上一行无间距，请输入Shift+回车。</h5>

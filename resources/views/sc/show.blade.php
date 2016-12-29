@@ -15,6 +15,7 @@
                 <p>马甲及昵称：{{ $sc->alias ? $sc->alias : '无' }}</p>
                 <p>社团或工作室：@if($sc->club_id)<a href="{{ url('/club/'.$sc->club_id) }}" target="_blank">{{ $sc->club->name }}</a>@else无@endif</p>
                 <p>职位：{{ $sc->jobs ? $sc->jobs : '无' }}</p>
+                <p>微博：@if($sc->weibo)<a href="{{ $sc->weibo }}" target="_blank">{{ $sc->weibo }}</a>@else无@endif</p>
                 <div>
                     {!! $sc->information !!}
                 </div>
@@ -84,7 +85,7 @@
                     </a>
                 </p>
                 <p class="text-danger">
-                    <span class="glyphicon glyphicon-info-sign"></span> 添加关联作品请前往相应剧集或分集页面，剧集页关联链接在右边栏，分集页在SC信息上方。
+                    <span class="glyphicon glyphicon-info-sign"></span> 添加关联作品请前往相应剧集或分集页面，右边栏有相应链接。
                 </p>
             </div>
         </div>
