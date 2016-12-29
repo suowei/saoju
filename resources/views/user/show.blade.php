@@ -318,7 +318,12 @@
                     </p>
                     <p>
                         <a class="btn btn-info btn-xs" href="{{ url('/user/export/favorites') }}">
-                            <span class="glyphicon glyphicon-export"></span> 导出所有收藏
+                            <span class="glyphicon glyphicon-export"></span> 导出剧集收藏
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-success btn-xs" href="{{ url('/user/export/epfavs') }}">
+                            <span class="glyphicon glyphicon-export"></span> 导出分集收藏
                         </a>
                     </p>
                     <p>
