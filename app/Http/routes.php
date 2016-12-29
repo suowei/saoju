@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::put('/user/updatePassword', ['as' => 'user.updatPassword', 'uses' => 'UserController@updatePassword']);
     Route::get('/user/export/reviews', ['as' => 'user.export.reviews', 'uses' => 'UserController@exportReviews']);
     Route::get('/user/export/favorites', ['as' => 'user.export.favorites', 'uses' => 'UserController@exportFavorites']);
+    Route::get('/user/export/epfavs', ['as' => 'user.export.epfavs', 'uses' => 'UserController@exportEpfavs']);
     Route::get('/user/export/screvs', ['as' => 'user.export.screvs', 'uses' => 'UserController@exportScrevs']);
     Route::get('/user/invite', ['as' => 'user.invite', 'uses' => 'UserController@invite']);
     Route::put('/user/updateCode', ['as' => 'user.updateCode', 'uses' => 'UserController@updateCode']);

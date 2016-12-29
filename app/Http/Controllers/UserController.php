@@ -349,6 +349,40 @@ class UserController extends Controller {
         return response($str, 200, $headers);
     }
 
+    public function exportEpfavs()
+    {
+        $favorites = Epfav::with(['episode' => function($query)
+        {
+            $query->join('dramas', 'dramas.id', '=', 'episodes.drama_id')
+                ->select('episodes.id as id', 'drama_id', 'dramas.title as drama_title', 'episodes.title as title', 'dramas.sc as cv');
+        }])->select('episode_id', 'type', 'rating', 'updated_at')
+            ->where('user_id', Auth::id())->get();
+        $str = "\xEF\xBB\xBF剧集,分集,主役,收藏类型,评分,更新时间\n";
+        foreach($favorites as $favorite)
+        {
+            switch($favorite->type)
+            {
+                case 0:
+                    $type = '想听';
+                    break;
+                case 2:
+                    $type = '听过';
+                    break;
+                default:
+                    $type = '抛弃';
+            }
+            $str .= "\"".str_replace("\"", "\"\"", $favorite->episode->drama_title)
+                ."\",\"".str_replace("\"", "\"\"", $favorite->episode->title)
+                ."\",\"".str_replace("\"", "\"\"", $favorite->episode->cv)
+                ."\",".$type.",\"".($favorite->rating != 0 ? $favorite->rating : '')."\",".$favorite->updated_at."\n";
+        }
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="epfavs.csv"',
+        );
+        return response($str, 200, $headers);
+    }
+
     public function exportScrevs()
     {
         $reviews = Screv::leftJoin('scs', function($join)
