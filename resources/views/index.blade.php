@@ -166,7 +166,6 @@
                         有{{ $dramafeed }}部在追剧集更新啦！<a href="{{ url('/user/dramafeed') }}">去看看</a>
                     </div>
                 @endif
-                <h4><strong><a href="{{ url('/report2015') }}" target="_blank">抓糖2015年终总结</a></strong></h4>
                 <h4><strong><a href="{{ url('/guide') }}" target="_blank">抓糖用户手册</a></strong></h4>
                 <p>
                     <a class="btn btn-primary btn-xs" href="{{ url('/drama/create') }}" target="_blank">
@@ -211,9 +210,6 @@
                     <div class="list-group">
                         <a style="color:red;" href="{{ url('/bbs/topic/112') }}" class="list-group-item" target="_blank">
                             剧集信息新增作者字段
-                        </a>
-                        <a style="color:red;" href="{{ url('/bbs/topic/110') }}" class="list-group-item" target="_blank">
-                            网站及app升级说明
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线
@@ -290,6 +286,19 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-qrcode"></span> 其他平台</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            手机客户端：<a href="https://itunes.apple.com/cn/app/id1127382516" target="_blank">苹果</a>
+                            <a href="https://pan.baidu.com/s/1nvfiVc1" target="_blank">安卓</a>
+                        </p>
+                        <p>微博：<a href="http://weibo.com/u/5634790755" target="_blank">抓糖DramaTown</a></p>
+                        <p>微信：<img src="{{ asset('/img/qrcode.jpg') }}" height="128px"></p>
+                    </div>
                 </div>
             </div>
         </div>
