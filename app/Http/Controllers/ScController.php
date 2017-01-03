@@ -128,12 +128,19 @@ class ScController extends Controller
         {
             $query->select('id', 'name');
         }]);
-        $roles = Role::with(['drama' => function($query) {
-            $query->select('id', 'title');
-        }, 'episode' => function($query) {
-            $query->select('id', 'title');
-        }])->select('drama_id', 'episode_id', 'job', 'note')
-            ->where('sc_id', $id)->orderBy('id', 'desc')->take(10)->get();
+        $roles = Role::join('episodes', function($join) use($id)
+        {
+            $join->on('episodes.id', '=', 'roles.episode_id')
+                ->where('roles.sc_id', '=', $id);
+        })->join('dramas', function($join) use($id)
+        {
+            $join->on('dramas.id', '=', 'roles.drama_id')
+                ->where('roles.sc_id', '=', $id);
+        })->select('roles.drama_id as drama_id', 'dramas.title as drama_title', 'dramas.type as drama_type',
+            'dramas.era as drama_era', 'dramas.state as drama_state',
+            'episode_id', 'episodes.title as episode_title', 'job', 'note', 'release_date')
+            ->orderBy('release_date', 'asc')->get();
+        $roles = $roles->groupBy('job');
         $reviews = Screv::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('id', 'user_id', 'title', 'content', 'created_at')

@@ -23,8 +23,6 @@ Route::group(['middleware' => 'auth'], function()
     Route::put('/user/updateCode', ['as' => 'user.updateCode', 'uses' => 'UserController@updateCode']);
     Route::get('/user/listfavs', ['as' => 'user.listfavs', 'uses' => 'UserController@listfavs']);
     Route::get('/user/dramafeed', ['as' => 'user.dramafeed', 'uses' => 'UserController@dramafeed']);
-    Route::get('/user/drama2015', ['as' => 'user.drama2015', 'uses' => 'UserController@drama2015']);
-    Route::get('/user/episode2015', ['as' => 'user.episode2015', 'uses' => 'UserController@episode2015']);
 });
 
 Route::get('/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
@@ -150,10 +148,6 @@ Route::resource('livefav', 'LivefavController');
 Route::resource('liverev', 'LiverevController');
 
 Route::resource('ed', 'EdController');
-
-Route::get('/juemi', 'JuemiController@juemi');
-
-Route::get('/report2015', 'IndexController@report2015');
 
 Route::get('/guide', 'IndexController@guide');
 

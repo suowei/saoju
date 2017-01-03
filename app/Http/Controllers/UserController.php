@@ -559,44 +559,4 @@ class UserController extends Controller {
         return view('user.livefavs', ['user' => User::find($id, ['id', 'name']), 'livefavs' => $livefavs, 'order' => $order]);
     }
 
-    public function drama2015(Request $request)
-    {
-        $user_id = $request->user()->id;
-        $episodes = Episode::with(['drama' => function($query)
-        {
-            $query->select('id', 'title', 'type', 'era', 'original', 'state', 'sc');
-        }])
-            ->join('favorites', function($join) use($user_id)
-            {
-                $join->on('episodes.drama_id', '=', 'favorites.drama_id')
-                    ->where('favorites.user_id', '=', $user_id)
-                    ->where('release_date', '>=', '2015-01-01')
-                    ->where('release_date', '<=', '2015-12-31');
-            })
-            ->select('episodes.id as id', 'episodes.drama_id as drama_id', 'title', 'release_date',
-                'favorites.rating as rating')
-            ->orderByRaw('rating desc, release_date')
-            ->paginate(50);
-        return view('user.drama2015', ['episodes' => $episodes]);
-    }
-
-    public function episode2015(Request $request)
-    {
-        $user_id = $request->user()->id;
-        $episodes = Episode::with(['drama' => function($query)
-        {
-            $query->select('id', 'title', 'type', 'era', 'original', 'state', 'sc');
-        }])
-            ->join('epfavs', function($join) use($user_id)
-            {
-                $join->on('episodes.id', '=', 'epfavs.episode_id')
-                    ->where('epfavs.user_id', '=', $user_id)
-                    ->where('release_date', '>=', '2015-01-01')
-                    ->where('release_date', '<=', '2015-12-31');
-            })
-            ->select('id', 'drama_id', 'title', 'release_date', 'rating')
-            ->orderByRaw('rating desc, release_date')
-            ->paginate(50);
-        return view('user.episode2015', ['episodes' => $episodes]);
-    }
 }

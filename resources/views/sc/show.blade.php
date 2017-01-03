@@ -8,7 +8,7 @@
             <div class="col-md-9">
                 <h3>
                     {{ $sc->name }}
-                    <a class="btn btn-success btn-xs" href="{{ url('/screv/create?sc='.$sc->id) }}">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/screv/create?sc='.$sc->id) }}">
                         <span class="glyphicon glyphicon-pencil"></span> 发表印象
                     </a>
                 </h3>
@@ -20,18 +20,57 @@
                     {!! $sc->information !!}
                 </div>
                 <h4 class="text-success">
-                    新关联作品
+                    作品列表
                     <small>
-                        （查看全部：<span class="glyphicon glyphicon-th"></span>
+                        （更多筛选：<span class="glyphicon glyphicon-th"></span>
                         <a href="{{ url('/sc/'.$sc->id.'/dramas') }}" target="_blank">剧集</a>
                         <span class="glyphicon glyphicon-th-list"></span>
                         <a href="{{ url('/sc/'.$sc->id.'/episodes') }}" target="_blank">分集</a>）
                     </small>
                 </h4>
-                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套']; ?>
-                @foreach($roles as $role)
-                    《<a href="{{ url('/drama/'.$role->drama_id) }}" target="_blank">{{ $role->drama->title }}</a>》<a href="{{ url('/episode/'.$role->episode_id) }}" target="_blank">{{ $role->episode->title }}</a>
-                    {{ $jobs[$role->job] }} {{ $role->note }}<br>
+                <?php $jobs = ['原著', '策划', '导演', '编剧', '后期', '美工', '宣传', '填词', '翻唱', '歌曲后期', '其他staff', '主役', '协役', '龙套'];
+                $types = ['耽美', '全龄', '言情', '百合'];
+                $eras = ['现代', '古风', '民国', '未来', '其他时代'];
+                ?>
+                <p>
+                    @foreach($jobs as $key => $job)
+                        @if($roles->has($key))
+                            <a href="#{{ $key }}" class="btn btn-default btn-xs">{{ $job }}（{{ $roles[$key]->count() }}）</a>
+                        @endif
+                @endforeach
+                </p>
+                @foreach($jobs as $key => $job)
+                    @if($roles->has($key))
+                        <?php $roles[$key] = $roles[$key]->groupBy('drama_id'); ?>
+                        <div id="{{ $key }}" class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ $job }}<small>（共{{ $roles[$key]->count() }}部）</small></h3>
+                            </div>
+                            <ul class="list-group">
+                                @foreach($roles[$key] as $drama)
+                                    <li class="list-group-item">
+                                        <h4 class="panel-title sc-drama-title">
+                                            <a href="{{ url('/drama/'.$drama[0]->drama_id) }}" target="_blank">
+                                                {{ $eras[$drama[0]->drama_era] }}{{ $types[$drama[0]->drama_type] }}《{{ $drama[0]->drama_title }}》
+                                            </a>
+                                            @if($drama[0]->drama_state == 0)
+                                                <span class="label label-info">连载</span>
+                                            @elseif($drama[0]->drama_state == 1)
+                                                <span class="label label-success">完结</span>
+                                            @elseif($drama[0]->drama_state == 2)
+                                                <span class="label label-default">已坑</span>
+                                            @endif
+                                        </h4>
+                                        @foreach($drama as $episode)
+                                            <a href="{{ url('/episode/'.$episode->episode_id) }}" target="_blank">{{ $episode->episode_title }}</a>
+                                            &nbsp;@if($episode->note){{ $episode->note }}@else{{ $job }}@endif
+                                            <span class="pull-right">{{ $episode->release_date }}</span><br/>
+                                        @endforeach
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 @endforeach
                 @if (Auth::check())
                     <div class="reviews">
@@ -75,7 +114,7 @@
             </div>
             <div class="col-md-3">
                 <p>
-                    <a class="btn btn-primary btn-xs" href="{{ url('/sc/'.$sc->id.'/edit') }}">
+                    <a class="btn btn-success btn-xs" href="{{ url('/sc/'.$sc->id.'/edit') }}">
                         <span class="glyphicon glyphicon-edit"></span> 编辑SC信息
                     </a>
                 </p>

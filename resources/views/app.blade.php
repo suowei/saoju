@@ -19,7 +19,6 @@
 		<script src="https://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
 	<![endif]-->
 
-    <script src="https://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var _hmt = _hmt || [];
         (function() {
