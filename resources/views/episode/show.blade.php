@@ -80,54 +80,8 @@
 
                 @if (Auth::check())
                     <div class="reviews">
-                        <h4 class="text-success">我的评论
-                            <a class="btn btn-success btn-xs" role="button" data-toggle="collapse" href="#addReview">
-                                当前页面写评 <span class="caret"></span></a></h4>
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <form class="form-horizontal collapse" id="addReview" role="form" method="POST" action="{{ url('/review') }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="drama_id" value="{{ $episode->drama_id }}">
-                            <input type="hidden" name="episode_id" value="{{ $episode->id }}">
-                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">标题</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" name="title" placeholder="可不填" value="{{ old('title') }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">内容</label>
-                                <div class="col-md-8">
-                                    <textarea class="form-control" name="content" required="required" rows="15">{{ old('content') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">可见性</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="visible">
-                                        <option value="1">首页可见</option>
-                                        <option value="0">首页不可见</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-8 col-md-offset-1">
-                                    <button type="submit" class="btn btn-primary">
-                                        提交
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        @foreach ($userReviews as $review)
+                        <h4 class="text-success">我的评论</h4>
+                        @forelse ($userReviews as $review)
                             <div class="review">
                                 <div class="review-title">
                                     <div class="row">
@@ -144,7 +98,81 @@
                                 </div>
                                 <div class="review-content">{{ $review->content }}</div>
                             </div>
-                        @endforeach
+                        @empty
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            @if($favorite)
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/epfav2/'.$episode->id) }}">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="0" checked><span class="btn btn-warning btn-xs">想听</span>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="2" @if($favorite->type == 2) checked @endif><span class="btn btn-success btn-xs">听过</span>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="4" @if($favorite->type == 4) checked @endif><span class="btn btn-danger btn-xs">抛弃</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs" value="{{ $favorite->rating }}">
+                                        </div>
+                                    </div>
+                            @else
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/epfav2') }}">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="0"><span class="btn btn-warning btn-xs">想听</span>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="2" @if(old('type') == 2) checked @endif><span class="btn btn-success btn-xs">听过</span>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="type" value="4" @if(old('type') == 4) checked @endif><span class="btn btn-danger btn-xs">抛弃</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="number" class="rating form-control" name="rating" min=0 max=5 step=0.5 data-size="xxs" value="{{ old('rating') }}">
+                                        </div>
+                                    </div>
+                            @endif
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="drama_id" value="{{ $episode->drama_id }}">
+                                    <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="title" placeholder="标题可不填" value="{{ old('title') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" name="content" placeholder="评论内容" required="required" rows="3">{{ old('content') }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-3">
+                                            <select class="form-control" name="visible">
+                                                <option value="1">首页可见</option>
+                                                <option value="0">首页不可见</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-9 text-right">
+                                            <button type="submit" class="btn btn-primary">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+                        @endforelse
                     </div>
                 @endif
 
