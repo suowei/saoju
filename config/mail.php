@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'saoju_net@126.com', 'name' => 'saoju'],
+    'from' => ['address' => 'admin@saoju.net', 'name' => '抓糖'],
 
     /*
     |--------------------------------------------------------------------------
