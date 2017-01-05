@@ -382,5 +382,5 @@
 
 @section('script')
     <script src="{{ asset('/js/star-rating.min.js') }}"></script>
-    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="//cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
 @endsection

@@ -3,7 +3,7 @@
 @section('title', '活动列表 - ')
 
 @section('css')
-    <link href="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -177,9 +177,9 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="//cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript">
         $('.date').datepicker({
             format: "yyyy-mm-dd",

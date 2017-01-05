@@ -8,15 +8,15 @@
 	<title>@yield('title')抓糖</title>
     @yield('meta')
 
-	<link href="https://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     @yield('css')
     <link href="{{ asset('/css/site.css') }}" rel="stylesheet">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
-		<script src="https://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
-		<script src="https://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
+		<script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+		<script src="//apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
 	<![endif]-->
 
     <script>
@@ -107,8 +107,6 @@
                     </p>
                 </div>
                 <div class="col-md-3 text-right">
-                    <img src="{{ asset('/img/weibo.ico') }}" height="14px">
-                    <a href="http://weibo.com/u/5634790755" target="_blank">微博</a>&nbsp;
                     <img src="{{ asset('/img/jjwxc.ico') }}" height="14px">
                     <a href="http://bbs.jjwxc.net/board.php?board=52&page=1" target="_blank">优声由色</a>
                     <a href="http://bbs.jjwxc.net/board.php?board=44&page=1" target="_blank">留声花园</a>
@@ -118,8 +116,8 @@
         </div>
     </footer>
 
-	<script src="https://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="//apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     @yield('script')
     <script src="{{ asset('/js/site.js') }}"></script>
 </body>
