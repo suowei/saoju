@@ -9,17 +9,37 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div class="row">
-                    <?php $days = [date("Y-m-d", strtotime("now")), date("Y-m-d", strtotime("-1 day")),
-                            date("Y-m-d", strtotime("-2 day")), date("Y-m-d", strtotime("-3 day")),
-                            date("Y-m-d", strtotime("-4 day")), date("Y-m-d", strtotime("-5 day")),
-                            date("Y-m-d", strtotime("-6 day")), date("Y-m-d", strtotime("-7 day")),];
-                        $types = ['耽美', '全龄', '言情', '百合'];
-                        $eras = ['现代', '古风', '民国', '未来', '其他时代'];
-                        $states = ['连载', '完结', '已坑'];
-                    ?>
-
-                        <div class="col-md-8">
+                <?php
+                $days = [date("Y-m-d", strtotime("now")), date("Y-m-d", strtotime("-1 day")),
+                        date("Y-m-d", strtotime("-2 day")), date("Y-m-d", strtotime("-3 day")),
+                        date("Y-m-d", strtotime("-4 day")), date("Y-m-d", strtotime("-5 day")),
+                        date("Y-m-d", strtotime("-6 day")), date("Y-m-d", strtotime("-7 day")),];
+                $types = [-1 => '全部', '耽美', '全年龄', '言情', '百合'];
+                $eras = ['现代', '古风', '民国', '未来', '其他时代'];
+                $states = ['连载', '完结', '已坑'];
+                ?>
+                    <h4>
+                        <span class="glyphicon glyphicon-bullhorn"></span> 新剧发布
+                        <div class="dropdown pull-right">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                Dropdown
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <small class="pull-right">
+                            <div class="btn-group">
+                                @for($i = -1; $i <= 3; $i++)
+                                    <a href="{{ url('/?type='.$i) }}" class="btn btn-{{ $i == $type ? "info" : "default"}} btn-sm">{{ $types[$i] }}</a>
+                                @endfor
+                            </div>
+                        </small>
+                    </h4>
                         <ul class="nav nav-tabs hoverTab">
                             <li role="presentation" class="active">
                                 <a href="#{{ $days[0] }}" role="tab" data-toggle="tab">两日新剧</a>
@@ -99,63 +119,11 @@
                                 </div>
                             @endfor
                         </div>
-                    </div>
-                        <div class="col-md-4">
-                            <p class="text-muted">
-                                <span class="glyphicon glyphicon-map-marker"></span>
-                                <a href="{{ url('/?type=-1') }}">全部</a>
-                                @if($type == 0)/ 耽美@elseif($type == 1)/ 全年龄@elseif($type == 2)/ 言情@elseif($type == 3)/ 百合@endif
-                                <span class="pull-right">
-                                    切换至
-                                    @if($type != 0)<a href="{{ url('/?type=0') }}">耽美</a>@endif
-                                    @if($type != 1)<a href="{{ url('/?type=1') }}">全年龄</a>@endif
-                                    @if($type != 2)<a href="{{ url('/?type=2') }}">言情</a>@endif
-                                    @if($type != 3)<a href="{{ url('/?type=3') }}">百合</a>@endif
-                                </span>
-                            </p>
-                            <div id="carousel" class="carousel slide">
-                                <ol class="carousel-indicators">
-                                    @if($count = count($top10))
-                                        <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                                    @endif
-                                    @for($i = 1; $i < $count; $i++)
-                                        <li data-target="#carousel" data-slide-to="{{ $i }}"></li>
-                                    @endfor
-                                </ol>
-                                <div class="carousel-inner" role="listbox">
-                                    @if($count)
-                                        <div class="item active">
-                                            <a href="{{ url('/episode/'.$top10[0]->episode_id) }}" target="_blank">
-                                                <img src="{{ $top10[0]->poster_url }}" class="center-block"
-                                                     title="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}"
-                                                     alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
-                                            </a>
-                                        </div>
-                                    @endif
-                                    @for($i = 1; $i < $count; $i++)
-                                        <div class="item">
-                                            <a href="{{ url('/episode/'.$top10[$i]->episode_id) }}" target="_blank">
-                                                <img src="{{ $top10[$i]->poster_url }}" class="center-block"
-                                                     title="{{ $top10[$i]->drama_title }}{{ $top10[$i]->episode_title }}"
-                                                     alt="{{ $top10[0]->drama_title }}{{ $top10[0]->episode_title }}">
-                                            </a>
-                                        </div>
-                                    @endfor
-                                </div>
-                                <a class="carousel-control" href="#carousel" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                </a>
-                                <a class="myright carousel-control" href="#carousel" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                        </div>
-                </div>
 
-                <h4 class="text-success">
+                <h4>
                     <span class="glyphicon glyphicon-comment"></span>
-                    最新评论（<a href="{{ url('/review') }}"） target="_blank">查看全部</a>）
-                    <small class="pull-right"><a class="text-muted" href="{{ url('/favorite') }}" target="_blank">看看大家在听什么</a></small>
+                    <a class="text-default" href="{{ url('/review') }}"） target="_blank">最新评论</a>
+                    <small><a class="text-muted pull-right" href="{{ url('/favorite') }}" target="_blank">看看大家在听什么</a></small>
                 </h4>
                 <div id="indexReviews"></div>
                 <button id="loadmore" datatype="{{ $type }}" type="button" class="btn btn-default btn-block">加载更多</button>
@@ -181,31 +149,25 @@
                     所有注册用户都可以添加和修改信息，希望大家一起来丰富小站内容啊^ ^
                 </p>
                 <p>
-                    <a class="btn btn-warning btn-xs" href="{{ url('/screv') }}" target="_blank">
+                    <a class="btn btn-info btn-xs" href="{{ url('/screv') }}" target="_blank">
                         <span class="glyphicon glyphicon-picture"></span> SC社团印象
                     </a>
                 </p>
                 <p>
-                    <a class="btn btn-info btn-xs" href="{{ url('/search/tag') }}" target="_blank">
+                    <a class="btn btn-warning btn-xs" href="{{ url('/search/tag') }}" target="_blank">
                         <span class="glyphicon glyphicon-tag"></span> 标签搜索
                     </a>
                     <span class="glyphicon glyphicon-hand-left"></span> 标签搜索及热门标签展示
                 </p>
                 <p>
-                    <a class="btn btn-success btn-xs" href="{{ url('/zhoubian') }}" target="_blank">
-                        <span class="glyphicon glyphicon-glass"></span> 周边板块
-                    </a>
-                    <span class="glyphicon glyphicon-hand-left"></span> 歌曲访谈闲聊歌会等相关
-                </p>
-                <p>
-                    <a class="btn btn-danger btn-xs" href="{{ url('/bbs') }}" target="_blank">
-                        <span class="glyphicon glyphicon-send"></span> 留言板
+                    <a class="btn btn-success btn-xs" href="{{ url('/bbs') }}" target="_blank">
+                        <span class="glyphicon glyphicon-envelope"></span> 留言板
                     </a>
                     <span class="glyphicon glyphicon-hand-left"></span> 意见建议捉虫反馈看这里
                 </p>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-send"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
                         <a style="color:red;" href="{{ url('/bbs/topic/112') }}" class="list-group-item" target="_blank">
