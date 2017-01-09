@@ -30,6 +30,7 @@
                         <h4>感谢搬运者！</h4>
                     </div>
                 </div>
+                <p><strong>原文链接：</strong>https://saoju.net/episode/everydaylist/{{ date("Y-m-d", strtotime("-1 day")) }}</p>
                 <p><strong>封面：</strong>随便选一张图就行。</p>
                 <p><strong>摘要：</strong>共{{ $newEpisodesCount }}部剧。</p>
             </div>
