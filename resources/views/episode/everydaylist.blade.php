@@ -13,7 +13,8 @@
                 <a href="https://saoju.net/episode/{{ $episode->id }}">
                     <h4>@if($episode->origianl)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$type] }}广播剧《{{ $episode->drama_title }}》{{ $episode->episode_title }} {{ $episode->alias }}</h4>
                 </a>
-                <p class="text-muted">
+                <p>
+                    @if($episode->genre)其他描述：{{ $episode->genre }}<br/>@endif
                     主役CV：{{ $episode->cv }}<br/>
                     发布地址：<a href="{{ $episode->url }}">{{ $episode->url }}</a><br/>
                     SC表：{{ mb_substr($episode->sc, 0, 100) }}...<br/>

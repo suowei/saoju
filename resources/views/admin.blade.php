@@ -19,6 +19,7 @@
                             @foreach($episodes as $episode)
                                 <h4>@if($episode->origianl)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$type] }}广播剧《{{ $episode->drama_title }}》{{ $episode->episode_title }} {{ $episode->alias }}</h4>
                                 <p class="text-muted">
+                                    @if($episode->genre)其他描述：{{ $episode->genre }}<br/>@endif
                                     主役CV：{{ $episode->cv }}<br/>
                                     站内链接：https://saoju.net/episode/{{ $episode->id }}<br/>
                                     发布地址：{{ $episode->url }}<br/>
