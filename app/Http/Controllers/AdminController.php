@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Drama;
-use App\Ed;
-use App\Epfav;
 use App\Episode;
-use App\Episodever;
-use App\Favorite;
-use App\Item;
 use App\Review;
-use App\Role;
-use App\Tagmap;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin');
+        $newEpisodes = Episode::join('dramas', function($join)
+        {
+            $join->on('episodes.drama_id', '=', 'dramas.id');
+        })
+            ->select('dramas.title as drama_title', 'dramas.type as type', 'dramas.original as original',
+                'dramas.author as author', 'dramas.era as era', 'dramas.sc as cv', 'episodes.id as id',
+                'episodes.title as episode_title', 'episodes.alias as alias', 'episodes.sc as sc', 'episodes.url as url')
+            ->where('release_date', date("Y-m-d", strtotime("-1 day")))
+            ->orderBy('type')
+            ->get();
+        $newEpisodesCount = count($newEpisodes);
+        $newEpisodes = $newEpisodes->groupBy('type');
+        return view('admin', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
     }
 
     public function deleteReview(Request $request)
