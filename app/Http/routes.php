@@ -63,6 +63,7 @@ Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
 Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
 Route::get('/episode/{id}/lists', ['as' => 'episode.lists', 'uses' => 'EpisodeController@lists']);
 Route::get('/episode/{id}/songs', ['as' => 'episode.songs', 'uses' => 'EpisodeController@songs']);
+Route::get('/episode/everydaylist/{date}', 'EpisodeController@everydayList');
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');

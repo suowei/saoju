@@ -468,4 +468,21 @@ class EpisodeController extends Controller {
         return view('episode.songs', ['drama' => $drama, 'episode' => $episode, 'eds' => $eds]);
     }
 
+    public function everydayList($date)
+    {
+        $newEpisodes = Episode::join('dramas', function($join)
+        {
+            $join->on('episodes.drama_id', '=', 'dramas.id');
+        })
+            ->select('dramas.title as drama_title', 'dramas.type as type', 'dramas.original as original',
+                'dramas.author as author', 'dramas.era as era', 'dramas.sc as cv', 'episodes.id as id',
+                'episodes.title as episode_title', 'episodes.alias as alias', 'episodes.sc as sc', 'episodes.url as url')
+            ->where('release_date', $date)
+            ->orderBy('type')
+            ->get();
+        $newEpisodesCount = count($newEpisodes);
+        $newEpisodes = $newEpisodes->groupBy('type');
+        return view('episode.everydaylist', ['date' => date("Y年n月j日", strtotime($date)), 'newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
+    }
+
 }
