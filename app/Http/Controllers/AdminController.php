@@ -16,6 +16,11 @@ class AdminController extends Controller
 {
     public function index()
     {
+        return view('admin.index');
+    }
+
+    public function weixin()
+    {
         $newEpisodes = Episode::join('dramas', function($join)
         {
             $join->on('episodes.drama_id', '=', 'dramas.id');
@@ -28,7 +33,7 @@ class AdminController extends Controller
             ->get();
         $newEpisodesCount = count($newEpisodes);
         $newEpisodes = $newEpisodes->groupBy('type');
-        return view('admin.index', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
+        return view('admin.weixin', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
     }
 
     public function recommend()
@@ -39,8 +44,8 @@ class AdminController extends Controller
             ->select(DB::raw('drama_id, count(*) as count, avg(rating) as average'))
             ->where('rating', '<>', 0.0)
             ->groupBy('drama_id')
-            ->having('count', '>=', 5)
-            ->having('average', '>=', 3.5)
+            ->having('count', '>=', 3)
+            ->having('average', '>=', 3.0)
             ->orderBy('drama_id', 'desc')
             ->take(10)
             ->get();
@@ -48,12 +53,17 @@ class AdminController extends Controller
             ->select(DB::raw('episode_id, count(*) as count, avg(rating) as average'))
             ->where('rating', '<>', 0.0)
             ->groupBy('episode_id')
-            ->having('count', '>=', 3)
-            ->having('average', '>=', 3.5)
+            ->having('count', '>=', 2)
+            ->having('average', '>=', 3.0)
             ->orderBy('episode_id', 'desc')
             ->take(10)
             ->get();
         return view('admin.recommend', ['favorites' => $favorites, 'epfavs' => $epfavs]);
+    }
+
+    public function banReview()
+    {
+        return view('admin.banreview');
     }
 
     public function deleteReview(Request $request)

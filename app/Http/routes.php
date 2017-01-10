@@ -156,8 +156,12 @@ Route::get('/guide', 'IndexController@guide');
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {
     Route::get('/', 'AdminController@index');
-    Route::post('/deletereview', 'AdminController@deleteReview');
     Route::get('/recommend', 'AdminController@recommend');
+    Route::get('/weixin', 'AdminController@weixin');
+    Route::get('/dramarating', 'AdminController@dramaRating');
+    Route::get('/episoderating', 'AdminController@episodeRating');
+    Route::get('/banreview', 'AdminController@banReview');
+    Route::post('/deletereview', 'AdminController@deleteReview');
 });
 
 Route::group(['prefix' => 'api'], function()
