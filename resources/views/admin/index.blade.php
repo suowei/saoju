@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="container">
-        <h4 class="text-success">后台管理页</h4><br/>
+        <h4 class="text-success">后台管理页&nbsp;&nbsp;<a href="{{ url('/admin/recommend') }}" target="_blank">剧集推荐</a></h4>
+        <br/>
         <div class="panel panel-success">
             <div class="panel-heading">微信公众号每日出剧清单推送内容</div>
             <div class="panel-body">
@@ -31,7 +32,6 @@
                     </div>
                 </div>
                 <p><strong>原文链接：</strong>https://saoju.net/episode/everydaylist/{{ date("Y-m-d", strtotime("-1 day")) }}</p>
-                <p><strong>封面：</strong>随便选一张图就行。</p>
                 <p><strong>摘要：</strong>共{{ $newEpisodesCount }}部剧。</p>
             </div>
         </div>

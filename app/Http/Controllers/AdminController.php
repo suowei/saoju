@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Drama;
+use App\Epfav;
 use App\Episode;
+use App\Favorite;
 use App\Review;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -24,7 +28,32 @@ class AdminController extends Controller
             ->get();
         $newEpisodesCount = count($newEpisodes);
         $newEpisodes = $newEpisodes->groupBy('type');
-        return view('admin', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
+        return view('admin.index', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
+    }
+
+    public function recommend()
+    {
+        $favorites = Favorite::with(['drama' => function($query){
+            $query->select('id', 'title', 'sc');
+        }])
+            ->select(DB::raw('drama_id, count(*) as count, avg(rating) as average'))
+            ->where('rating', '<>', 0.0)
+            ->groupBy('drama_id')
+            ->having('count', '>=', 5)
+            ->having('average', '>=', 3.5)
+            ->orderBy('drama_id', 'desc')
+            ->take(10)
+            ->get();
+        $epfavs = Epfav::with('episode.drama')
+            ->select(DB::raw('episode_id, count(*) as count, avg(rating) as average'))
+            ->where('rating', '<>', 0.0)
+            ->groupBy('episode_id')
+            ->having('count', '>=', 3)
+            ->having('average', '>=', 3.5)
+            ->orderBy('episode_id', 'desc')
+            ->take(10)
+            ->get();
+        return view('admin.recommend', ['favorites' => $favorites, 'epfavs' => $epfavs]);
     }
 
     public function deleteReview(Request $request)

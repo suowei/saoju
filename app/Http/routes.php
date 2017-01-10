@@ -157,6 +157,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {
     Route::get('/', 'AdminController@index');
     Route::post('/deletereview', 'AdminController@deleteReview');
+    Route::get('/recommend', 'AdminController@recommend');
 });
 
 Route::group(['prefix' => 'api'], function()
