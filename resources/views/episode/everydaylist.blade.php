@@ -10,9 +10,11 @@
         @foreach($newEpisodes as $type => $episodes)
             <h4>{{ $types[$type] }}：</h4>
             @foreach($episodes as $episode)
-                <a href="https://saoju.net/episode/{{ $episode->id }}">
-                    <h4>@if($episode->origianl)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$type] }}广播剧《{{ $episode->drama_title }}》{{ $episode->episode_title }} {{ $episode->alias }}</h4>
-                </a>
+                <h4>
+                    <a href="https://saoju.net/episode/{{ $episode->id }}">
+                        @if($episode->origianl)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$type] }}广播剧《{{ $episode->drama_title }}》{{ $episode->episode_title }} {{ $episode->alias }}
+                    </a>
+                </h4>
                 <p>
                     @if($episode->genre)其他描述：{{ $episode->genre }}<br/>@endif
                     主役CV：{{ $episode->cv }}<br/>
@@ -20,7 +22,6 @@
                     SC表：{{ mb_substr($episode->sc, 0, 100) }}...<br/>
                 </p><br/>
             @endforeach
-            <br/>
         @endforeach
         <h4>感谢搬运者！</h4>
     </div>

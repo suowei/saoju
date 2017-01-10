@@ -26,7 +26,6 @@
                                     SC表：{{ mb_substr($episode->sc, 0, 100) }}...<br/>
                                 </p><br/>
                             @endforeach
-                            <br/>
                         @endforeach
                         <h4>感谢搬运者！</h4>
                     </div>
