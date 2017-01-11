@@ -61,6 +61,47 @@ class AdminController extends Controller
         return view('admin.recommend', ['favorites' => $favorites, 'epfavs' => $epfavs]);
     }
 
+    public function dramaRating(Request $request)
+    {
+        $drama = Drama::find($request->input('id'), ['title', 'sc']);
+        $favorites = Favorite::select('type', 'rating')->where('drama_id', $request->input('id'))->get();
+        for($rating = 1; $rating <= 10; $rating++)
+            $ratings[$rating] = 0;
+        $count = 0;
+        $sum = 0.0;
+        foreach($favorites as $favorite) {
+            if($favorite->rating != 0) {
+                $ratings[$favorite->rating * 2]++;
+                $count++;
+                $sum += $favorite->rating;
+            }
+        }
+        $average = $count > 0 ? $sum / $count : 0.0;
+        return view('admin.dramarating', ['drama' => $drama, 'favorites' => $favorites,
+            'ratings' => $ratings, 'count' => $count, 'average' => $average]);
+    }
+
+    public function episodeRating(Request $request)
+    {
+        $episode = Episode::find($request->input('id'), ['drama_id', 'title']);
+        $episode->drama = Drama::find($episode->drama_id, ['title', 'sc']);
+        $favorites = Epfav::select('type', 'rating')->where('episode_id', $request->input('id'))->get();
+        for($rating = 1; $rating <= 10; $rating++)
+            $ratings[$rating] = 0;
+        $count = 0;
+        $sum = 0.0;
+        foreach($favorites as $favorite) {
+            if($favorite->rating != 0) {
+                $ratings[$favorite->rating * 2]++;
+                $count++;
+                $sum += $favorite->rating;
+            }
+        }
+        $average = $count > 0 ? $sum / $count : 0.0;
+        return view('admin.episoderating', ['episode' => $episode, 'favorites' => $favorites,
+            'ratings' => $ratings, 'count' => $count, 'average' => $average]);
+    }
+
     public function banReview()
     {
         return view('admin.banreview');
