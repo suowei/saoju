@@ -35,5 +35,11 @@
                 <p><strong>摘要：</strong>共{{ $newEpisodesCount }}部剧。</p>
             </div>
         </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">今日活动提醒</div>
+            <div class="panel-body">
+                <p><strong>摘要：</strong>共{{ $todayLivesCount }}场活动。</p>
+            </div>
+        </div>
     </div>
 @endsection

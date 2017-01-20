@@ -6,6 +6,7 @@ use App\Drama;
 use App\Epfav;
 use App\Episode;
 use App\Favorite;
+use App\Live;
 use App\Review;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,11 @@ class AdminController extends Controller
             ->get();
         $newEpisodesCount = count($newEpisodes);
         $newEpisodes = $newEpisodes->groupBy('type');
-        return view('admin.weixin', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount]);
+        $todayLivesCount = Live::select('id')
+            ->whereRaw('date(showtime) = curdate()')
+            ->count();
+        return view('admin.weixin', ['newEpisodes' => $newEpisodes, 'newEpisodesCount' => $newEpisodesCount,
+            'todayLivesCount' => $todayLivesCount]);
     }
 
     public function recommend()
