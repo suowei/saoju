@@ -81,7 +81,7 @@ $(function() {
 });
 
 $("#favoriteEdit :radio").change(function() {
-    var type = $("input[name='type']:checked").val();
+    var type = $("#favoriteEdit input[name='type']:checked").val();
     if (type == "0") {
         $("#ratingEdit").hide();
     }
