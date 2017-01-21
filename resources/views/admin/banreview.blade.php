@@ -1,10 +1,11 @@
 @extends('app')
 
-@section('title', '管理页 - ')
+@section('title', '屏蔽评论 - 管理页 - ')
 
 @section('content')
     <div class="container">
-        <h4 class="text-success">后台管理页</h4><br/>
+        <h4 class="text-success">后台管理页</h4>
+        <br/>
         @if (count($errors) > 0)
             <div class="alert alert-danger">
                 <strong>Whoops!</strong> There were some problems with your input.<br><br>

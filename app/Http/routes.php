@@ -63,6 +63,7 @@ Route::post('/episode/{id}/copysc', 'EpisodeController@storesc');
 Route::get('/episode/{id}/versions', ['as' => 'episode.versions', 'uses' => 'EpisodeController@versions']);
 Route::get('/episode/{id}/lists', ['as' => 'episode.lists', 'uses' => 'EpisodeController@lists']);
 Route::get('/episode/{id}/songs', ['as' => 'episode.songs', 'uses' => 'EpisodeController@songs']);
+Route::get('/episode/everydaylist/{date}', 'EpisodeController@everydayList');
 Route::resource('episode', 'EpisodeController');
 
 Route::resource('review', 'ReviewController');
@@ -155,6 +156,11 @@ Route::get('/guide', 'IndexController@guide');
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {
     Route::get('/', 'AdminController@index');
+    Route::get('/recommend', 'AdminController@recommend');
+    Route::get('/weixin', 'AdminController@weixin');
+    Route::get('/dramarating', 'AdminController@dramaRating');
+    Route::get('/episoderating', 'AdminController@episodeRating');
+    Route::get('/banreview', 'AdminController@banReview');
     Route::post('/deletereview', 'AdminController@deleteReview');
 });
 
