@@ -12,10 +12,8 @@ body, .list-group-item {
 
 a:hover {
     text-decoration: none;
-}
-
-.text-default {
-    color: #000000;
+    background-color: #337ab6;
+    color: #fdfdfe;
 }
 
 .carousel > a:hover {
@@ -29,7 +27,11 @@ a:hover {
 }
 
 .navbar-default .nav > li > a {
-    color: inherit;
+    color: #573e7d;
+}
+
+.navbar-default .nav .dropdown-menu > li > a {
+    color: #573e7d;
 }
 
 .navbar-form .btn {
@@ -38,7 +40,7 @@ a:hover {
 }
 
 #navbarSearch {
-    width: 250px;
+    width: 220px;
 }
 
 #toTop {

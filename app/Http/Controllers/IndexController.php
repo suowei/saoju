@@ -61,6 +61,7 @@ class IndexController extends Controller {
                 ->orderBy('episode_id', 'desc')
                 ->get();
         }
+        $top10 = $episodes->take(10);
         //将一周新剧按发剧日期分组
         $episodes = $episodes->groupBy('release_date');
 
@@ -115,7 +116,7 @@ class IndexController extends Controller {
             return isset($version->drama->id);
         });
 
-        return view('index', ['type' => $type, 'episodes' => $episodes,
+        return view('index', ['type' => $type, 'episodes' => $episodes, 'top10' => $top10,
             'lists' => $lists, 'newlists' => $newlists,
             'hotDramas' => $hotDramas, 'hotFavorites' => $hotFavorites, 'versions' => $versions]);
 	}
