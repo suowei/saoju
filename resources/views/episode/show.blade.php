@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <textarea class="form-control" name="content" placeholder="评论内容" required="required" rows="3">{{ old('content') }}</textarea>
+                                            <textarea class="form-control" name="content" placeholder="评论内容" rows="3">{{ old('content') }}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
