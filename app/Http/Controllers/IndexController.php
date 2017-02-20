@@ -40,7 +40,7 @@ class IndexController extends Controller {
                     ->where('episodes.release_date', '>=', date("Y-m-d", strtotime("-7 day")));
             })
                 ->select('dramas.title as drama_title', 'dramas.type as type', 'dramas.original as original', 'dramas.author as author',
-                    'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
+                    'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.favorites as favorites',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
                 ->orderBy('episode_id', 'desc')
@@ -55,7 +55,7 @@ class IndexController extends Controller {
                     ->where('episodes.release_date', '>=', date("Y-m-d", strtotime("-7 day")));
             })
                 ->select('dramas.title as drama_title', 'dramas.type as type', 'dramas.original as original', 'dramas.author as author',
-                    'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.reviews as reviews',
+                    'episodes.id as episode_id', 'episodes.title as episode_title', 'episodes.favorites as favorites',
                     'episodes.release_date as release_date', 'dramas.sc as sc', 'episodes.alias as alias', 'episodes.poster_url as poster_url',
                     'dramas.era as era', 'dramas.genre as genre', 'dramas.state as state', 'episodes.duration as duration')
                 ->orderBy('episode_id', 'desc')
