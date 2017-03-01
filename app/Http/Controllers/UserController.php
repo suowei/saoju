@@ -504,7 +504,7 @@ class UserController extends Controller {
         {
             $query->select('id', 'title', 'alias', 'artist', 'staff');
         }])
-            ->select('song_id', 'created_at')->where('user_id', $request->user()->id)
+            ->select('song_id', 'created_at')->where('user_id', $id)
             ->orderBy('created_at', $order)->paginate(50);
         return view('user.songfavs', ['user' => User::find($id, ['id', 'name']), 'songfavs' => $songfavs, 'order' => $order]);
     }

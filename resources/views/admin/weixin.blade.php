@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <p><strong>原文链接：</strong>https://saoju.net/episode/everydaylist/{{ date("Y-m-d", strtotime("-1 day")) }}</p>
-                <p><strong>摘要：</strong>共{{ $newEpisodesCount }}部剧。</p>
+                <p><strong>摘要：</strong>共{{ $newEpisodesCount }}部剧。@foreach($newEpisodes as $type => $episodes){{ $types[$type] }}：@foreach($episodes as $episode)《{{ $episode->drama_title }}》@endforeach @endforeach</p>
             </div>
         </div>
         <div class="panel panel-info">
