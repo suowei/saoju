@@ -42,7 +42,7 @@
                                                     @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
                                                     @if($episode->alias){{ $episode->alias }}@endif
                                                     @if($episode->state==1)</strong>@endif
-                                                    <span class="badge pull-right">{{ $episode->reviews }}评论</span>
+                                                    <span class="badge pull-right">{{ $episode->favorites }}收藏</span>
                                                 </h4>
                                                 {{ $episode->sc }}
                                                 <span class="pull-right">
@@ -63,7 +63,7 @@
                                                         @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
                                                         @if($episode->alias){{ $episode->alias }}@endif
                                                         @if($episode->state==1)</strong>@endif
-                                                        <span class="badge pull-right">{{ $episode->reviews }}评论</span>
+                                                        <span class="badge pull-right">{{ $episode->favorites }}收藏</span>
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
@@ -86,7 +86,7 @@
                                                         @if($episode->original)原创@else{{ $episode->author }}原著@endif{{ $eras[$episode->era] }}{{ $types[$episode->type] }}《{{ $episode->drama_title }}》{{ $episode->episode_title }}
                                                         @if($episode->alias){{ $episode->alias }}@endif
                                                         @if($episode->state==1)</strong>@endif
-                                                        <span class="badge pull-right">{{ $episode->reviews }}评论</span>
+                                                        <span class="badge pull-right">{{ $episode->favorites }}收藏</span>
                                                     </h4>
                                                     {{ $episode->sc }}
                                                     <span class="pull-right">
