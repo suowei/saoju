@@ -85,8 +85,10 @@
                                 <label class="col-md-2 control-label">可见性：</label>
                                 <div class="col-md-8">
                                     <select class="form-control" name="visible">
-                                        <option value="1">首页可见</option>
-                                        <option value="0" @if($review && $review->visible == 0) selected @endif>首页不可见</option>
+                                        <option value="0">首页可见</option>
+                                        <option value="1" @if($review && $review->visible == 1) selected @endif>首页不可见，剧集页可见</option>
+                                        <option value="2" @if($review && $review->visible == 2) selected @endif>首页、剧集页不可见，用户主页可见</option>
+                                        <option value="3" @if($review && $review->visible == 3) selected @endif>仅自己可见</option>
                                     </select>
                                 </div>
                             </div>
