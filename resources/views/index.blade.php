@@ -208,8 +208,8 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/112') }}" class="list-group-item" target="_blank">
-                            剧集信息新增作者字段
+                        <a style="color:red;" href="{{ url('/bbs/topic/119') }}" class="list-group-item" target="_blank">
+                            评论可见性扩充及分集版权声明
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线

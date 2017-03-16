@@ -29,7 +29,7 @@ class ReviewController extends Controller {
         {
             $query->select('id', 'title');
         }])
-            ->where('visible', 1)
+            ->where('visible', 0)
             ->select('id', 'drama_id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
             ->orderBy('id', 'desc')
             ->simplePaginate(10);
@@ -56,6 +56,7 @@ class ReviewController extends Controller {
         $review->title = $request->input('title');
         $review->content = $request->input('content');
         $review->visible = $request->input('visible');
+        $review->visible = $review->visible == 1 ? 0 : 1;
         if($review->save())
         {
             DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -85,6 +86,7 @@ class ReviewController extends Controller {
         $review->title = $request->input('title');
         $review->content = $request->input('content');
         $review->visible = $request->input('visible');
+        $review->visible = $review->visible == 1 ? 0 : 1;
 
         if($review->save())
         {

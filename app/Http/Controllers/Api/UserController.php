@@ -66,8 +66,13 @@ class UserController extends Controller {
         return $favorites;
     }
 
-    public function reviews($id)
+    public function reviews(Request $request, $id)
     {
+        if($request->user() && $request->user()->id == $id) {
+            $visible = 3;
+        } else {
+            $visible = 2;
+        }
         $reviews = Review::with(['drama' => function($query)
         {
             $query->select('id', 'title');
@@ -78,6 +83,7 @@ class UserController extends Controller {
         }])
             ->select('id', 'drama_id', 'episode_id', 'title', 'content', 'visible', 'created_at')
             ->where('user_id', $id)
+            ->where('visible', '<=', $visible)
             ->orderBy('id', 'desc')
             ->simplePaginate(20);
         return $reviews;

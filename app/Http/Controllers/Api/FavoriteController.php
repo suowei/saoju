@@ -109,6 +109,7 @@ class FavoriteController extends Controller {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
                 $review->visible = $request->input('visible');
+                $review->visible = $review->visible == 1 ? 0 : 1;
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
@@ -248,6 +249,7 @@ class FavoriteController extends Controller {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
                 $review->visible = $request->input('visible');
+                $review->visible = $review->visible == 1 ? 0 : 1;
                 if(!$review->save())
                 {
                     return response('收藏修改成功，评论修改失败', 422);
@@ -261,6 +263,7 @@ class FavoriteController extends Controller {
                 $review->title = $request->input('title');
                 $review->content = $request->input('content');
                 $review->visible = $request->input('visible');
+                $review->visible = $review->visible == 1 ? 0 : 1;
                 if($review->save())
                 {
                     DB::table('users')->where('id', $review->user_id)->increment('reviews');
