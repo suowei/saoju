@@ -82,6 +82,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label">版权及授权说明</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="authorization" rows="10" placeholder="请填写剧组版权声明。版权声明中如有标注需取得剧组授权才可转载的，请在剧组版权声明后另附文字版授权说明，授权截图请用户自行保留。">{{ $episode->authorization }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
                                         修改

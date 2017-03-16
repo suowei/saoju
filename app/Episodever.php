@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episodever extends Model
 {
     protected $fillable = ['episode_id', 'user_id', 'first',
-        'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction'];
+        'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction', 'authorization'];
 
     public function user()
     {

@@ -8,7 +8,8 @@ class Episode extends Model {
 
     use SoftDeletes;
 
-    protected $fillable = ['drama_id', 'title', 'alias', 'release_date', 'url', 'sc', 'duration', 'poster_url', 'introduction'];
+    protected $fillable = ['drama_id', 'title', 'alias', 'release_date', 'url', 'sc',
+        'duration', 'poster_url', 'introduction', 'authorization'];
 
     public function drama()
     {
