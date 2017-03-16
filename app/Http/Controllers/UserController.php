@@ -25,7 +25,7 @@ use Auth, DB;
 
 class UserController extends Controller {
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = User::find($id, ['id', 'name', 'introduction', 'episodevers', 'reviews',
             'favorite0', 'favorite1', 'favorite2', 'favorite3', 'favorite4',
@@ -49,6 +49,11 @@ class UserController extends Controller {
                 ->where('user_id', $id)->where('type', $type)
                 ->orderBy('updated_at', 'desc')->take(6)->get();
         }
+        if($request->user() && $request->user()->id == $id) {
+            $visible = 3;
+        } else {
+            $visible = 2;
+        }
         $reviews = Review::with(['drama' => function($query)
         {
             $query->select('id', 'title');
@@ -57,7 +62,7 @@ class UserController extends Controller {
         {
             $query->select('id', 'title');
         }])
-            ->where('user_id', $id)->orderBy('id', 'desc')->take(6)->get();
+            ->where('user_id', $id)->where('visible', '<=', $visible)->orderBy('id', 'desc')->take(6)->get();
         $screvs = Screv::leftJoin('scs', function($join)
         {
             $join->on('screvs.model_id', '=', 'scs.id')
@@ -198,8 +203,13 @@ class UserController extends Controller {
             $sort = 'updated_at';
         }
         $favorites = Favorite::with('drama')->where('user_id', $id)->where('type', $type)->orderBy($sort, 'desc')->paginate(20);
-        $favorites->load(['reviews' => function ($query) use($id) {
-            $query->where('user_id', $id);
+        if($request->user() && $request->user()->id == $id) {
+            $visible = 3;
+        } else {
+            $visible = 2;
+        }
+        $favorites->load(['reviews' => function ($query) use($id, $visible) {
+            $query->where('user_id', $id)->where('visible', '<=', $visible);
         }]);
         return view('user.favorites', ['user' => $user, 'favorites' => $favorites, 'sort' => $sort, 'type' => $type]);
     }
@@ -235,8 +245,13 @@ class UserController extends Controller {
             $tag = null;
             $favorites = Favorite::with('drama')->where('user_id', $id)->orderBy($sort, 'desc')->paginate(20);
         }
-        $favorites->load(['reviews' => function ($query) use($id) {
-            $query->where('user_id', $id);
+        if($request->user() && $request->user()->id == $id) {
+            $visible = 3;
+        } else {
+            $visible = 2;
+        }
+        $favorites->load(['reviews' => function ($query) use($id, $visible) {
+            $query->where('user_id', $id)->where('visible', '<=', $visible);
         }]);
         return view('user.favall', ['user' => $user, 'favorites' => $favorites, 'sort' => $sort, 'tag' => $tag]);
     }
@@ -262,9 +277,14 @@ class UserController extends Controller {
         return view('user.epfavs', ['user' => $user, 'type' => $type, 'favorites' => $favorites, 'sort' => $sort]);
     }
 
-    public function reviews($id)
+    public function reviews(Request $request, $id)
     {
-        $reviews = Review::where('user_id', $id)->paginate(20);
+        if($request->user() && $request->user()->id == $id) {
+            $visible = 3;
+        } else {
+            $visible = 2;
+        }
+        $reviews = Review::where('user_id', $id)->where('visible', '<=', $visible)->paginate(20);
         return view('user.reviews')->withUser(User::find($id))->withReviews($reviews);
     }
 

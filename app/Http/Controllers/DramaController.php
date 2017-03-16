@@ -178,7 +178,7 @@ class DramaController extends Controller {
         }, 'episode' => function($query) {
             $query->select('id', 'title');
         }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
-            ->where('drama_id', $id)->orderBy('id', 'desc')->take(20)->get();
+            ->where('drama_id', $id)->where('visible', '<=', 1)->orderBy('id', 'desc')->take(20)->get();
         $eds = Ed::with(['song' => function($query) {
             $query->select('id', 'title', 'artist');
         }])->select('song_id')->distinct()->where('drama_id', $id)->get();
@@ -365,7 +365,7 @@ class DramaController extends Controller {
         }, 'episode' => function($query) {
             $query->select('id', 'title');
         }])->select('id', 'episode_id', 'user_id', 'title', 'content', 'created_at', 'banned')
-            ->where('drama_id', $id)->paginate(20);
+            ->where('drama_id', $id)->where('visible', '<=', 1)->paginate(20);
         return view('drama.reviews', ['drama' => $drama, 'reviews' => $reviews]);
     }
 

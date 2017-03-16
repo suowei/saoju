@@ -161,13 +161,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-md-3">
+                                        <div class="col-md-5">
                                             <select class="form-control" name="visible">
-                                                <option value="1">首页可见</option>
-                                                <option value="0">首页不可见</option>
+                                                <option value="0">首页可见</option>
+                                                <option value="1">首页不可见，剧集页可见</option>
+                                                <option value="2">首页、剧集页不可见，用户主页可见</option>
+                                                <option value="3">仅自己可见</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-9 text-right">
+                                        <div class="col-md-7 text-right">
                                             <button type="submit" class="btn btn-primary">提交</button>
                                         </div>
                                     </div>
@@ -310,6 +312,7 @@
                     </div>
                     <div class="panel-body">
                         <p class="content-pre-line text-muted">{{ $episode->authorization }}</p>
+                        <p class="text-muted">如有授权问题，请在留言板留言https://saoju.net/bbs，或联系微博@抓糖DramaTown。</p>
                     </div>
                 </div>
             </div>

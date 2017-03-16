@@ -190,7 +190,7 @@ class EpisodeController extends Controller {
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
         }])->select('id', 'user_id', 'title', 'content', 'created_at', 'banned')
-            ->where('episode_id', $id)->orderBy('id', 'desc')->take(20)->get();
+            ->where('episode_id', $id)->where('visible', '<=', 1)->orderBy('id', 'desc')->take(20)->get();
         $listids = Item::select('list_id')->where('episode_id', $id)->orderBy('id', 'desc')->take(10)->lists('list_id');
         $lists = Dramalist::with(['user' => function($query) {
             $query->select('id', 'name');
@@ -333,7 +333,8 @@ class EpisodeController extends Controller {
         $drama = Drama::find($episode->drama_id, ['title']);
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
-        }])->select('id', 'user_id', 'title', 'content', 'created_at', 'banned')->where('episode_id', $id)->paginate(20);
+        }])->select('id', 'user_id', 'title', 'content', 'created_at', 'banned')
+            ->where('episode_id', $id)->where('visible', '<=', 1)->paginate(20);
         return view('episode.reviews', ['episode' => $episode, 'drama' => $drama, 'reviews' => $reviews]);
     }
 
