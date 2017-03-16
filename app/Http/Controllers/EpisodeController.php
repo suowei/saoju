@@ -28,11 +28,6 @@ class EpisodeController extends Controller {
         $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index(Request $request)
 	{
         //数据库查询参数
@@ -152,22 +147,12 @@ class EpisodeController extends Controller {
         return view('episode.index', ['params'=> $params, 'episodes' => $episodes]);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
 	public function create(Request $request)
 	{
         $drama = Drama::find($request->input('drama'), ['id', 'title']);
         return view('episode.create', ['drama' => $drama]);
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store(Request $request)
 	{
         $this->validate($request, [
@@ -186,7 +171,8 @@ class EpisodeController extends Controller {
             Episodever::create(['episode_id' => $episode->id, 'user_id' => $request->user()->id, 'first' => 1,
                 'title' => $episode->title, 'alias' => $episode->alias, 'release_date' => $episode->release_date,
                 'url' => $episode->url, 'sc' => $episode->sc, 'duration' => $episode->duration,
-                'poster_url' => $episode->poster_url, 'introduction' => $episode->introduction]);
+                'poster_url' => $episode->poster_url, 'introduction' => $episode->introduction,
+                'authorization' => $episode->authorization]);
             DB::table('users')->where('id', $request->user()->id)->increment('episodevers');
             return redirect()->route('episode.show', [$episode]);
         }
@@ -196,16 +182,10 @@ class EpisodeController extends Controller {
         }
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function show(Request $request, $id)
 	{
         $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url', 'sc',
-            'duration', 'poster_url', 'introduction', 'reviews', 'favorites']);
+            'duration', 'poster_url', 'introduction', 'authorization', 'reviews', 'favorites']);
         $drama = Drama::find($episode->drama_id, ['title']);
         $reviews = Review::with(['user' => function($query) {
             $query->select('id', 'name');
@@ -242,26 +222,14 @@ class EpisodeController extends Controller {
             'roles' => $roles, 'favorite' => $favorite, 'userReviews' => $userReviews]);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
         $episode = Episode::find($id, ['id', 'drama_id', 'title', 'alias', 'release_date', 'url',
-            'sc', 'duration', 'poster_url', 'introduction']);
+            'sc', 'duration', 'poster_url', 'introduction', 'authorization']);
         $drama = Drama::find($episode->drama_id, ['title']);
         return view('episode.edit', ['episode' => $episode, 'drama' => $drama]);
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update(Request $request, $id)
 	{
         $this->validate($request, [
@@ -283,6 +251,7 @@ class EpisodeController extends Controller {
         $episode->duration = $request->input('duration');
         $episode->poster_url = $request->input('poster_url');
         $episode->introduction = $request->input('introduction');
+        $episode->authorization = $request->input('authorization');
 
         if($episode->save())
         {
@@ -303,6 +272,7 @@ class EpisodeController extends Controller {
             $version->duration = $episode->duration;
             $version->poster_url = $episode->poster_url;
             $version->introduction = $episode->introduction;
+            $version->authorization = $episode->authorization;
             $version->save();
 
             return redirect()->route('episode.show', [$id]);
@@ -440,7 +410,7 @@ class EpisodeController extends Controller {
             $query->select('id', 'name');
         }])
             ->select('user_id', 'first', 'title', 'alias', 'release_date', 'url',
-                'sc', 'duration', 'poster_url', 'introduction', 'created_at', 'updated_at')
+                'sc', 'duration', 'poster_url', 'introduction', 'authorization', 'created_at', 'updated_at')
             ->where('episode_id', $id)->orderBy('updated_at', 'desc')->get();
         return view('episode.versions', ['episode' => $episode, 'drama' => $drama, 'versions' => $versions]);
     }

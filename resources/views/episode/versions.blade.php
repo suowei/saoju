@@ -23,7 +23,8 @@
                             <span class="text-muted">发布地址：</span>{{ $version->url }}<br>
                             <span class="text-muted">海报地址：</span>{{ $version->poster_url }}<br>
                             <span class="text-muted">SC表：</span>{{ $version->sc }}<br>
-                            <span class="text-muted">本集简介：</span>{{ $version->introduction }}
+                            <span class="text-muted">本集简介：</span>{{ $version->introduction }}<br>
+                            <span class="text-muted">版权声明：</span>{{ $version->authorization }}
                         </div>
                     </div>
                 @endforeach

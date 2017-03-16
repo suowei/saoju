@@ -304,6 +304,14 @@
                         </table>
                     </div>
                 </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><span class="glyphicon glyphicon-file"></span> 版权声明</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="content-pre-line text-muted">{{ $episode->authorization }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
