@@ -7,6 +7,13 @@
 
 @section('content')
     <div class="container">
+        <a href="{{ url('/bbs/topic/121') }}" target="_blank">
+            <div class="jumbotron" style="color: #ffffff;background-color: #ce4646;">
+                <h2>热烈庆祝本站开站两周年！</h2>
+                <p>2015.6.16 - 2017.6.16 感谢大家一直以来的支持，欢迎常来玩~</p>
+                <p><button class="btn btn-default btn-lg" style="color: #ffffff;background-color: transparent;">查看详情</button></p>
+            </div>
+        </a>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -208,8 +215,8 @@
                         <h4 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> 公告栏</h4>
                     </div>
                     <div class="list-group">
-                        <a style="color:red;" href="{{ url('/bbs/topic/112') }}" class="list-group-item" target="_blank">
-                            剧集信息新增作者字段
+                        <a style="color:red;" href="{{ url('/bbs/topic/119') }}" class="list-group-item" target="_blank">
+                            评论可见性扩充及分集版权声明
                         </a>
                         <a href="{{ url('/bbs/topic/53') }}" class="list-group-item" target="_blank">
                             剧单功能上线

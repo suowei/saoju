@@ -51,6 +51,7 @@ class EpisodeController extends Controller {
         }])
             ->select('id', 'user_id', 'title', 'content', 'visible', 'created_at', 'banned')
             ->where('episode_id', $id)
+            ->where('visible', '<=', 1)
             ->orderBy('id', 'desc')
             ->simplePaginate(10);
         return $reviews;

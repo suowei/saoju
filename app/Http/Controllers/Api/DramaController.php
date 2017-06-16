@@ -147,6 +147,7 @@ class DramaController extends Controller {
         }])
             ->select('id', 'episode_id', 'user_id', 'title', 'content', 'visible', 'created_at', 'banned')
             ->where('drama_id', $id)
+            ->where('visible', '<=', 1)
             ->orderBy('id', 'desc')
             ->simplePaginate(10);
         return $reviews;
