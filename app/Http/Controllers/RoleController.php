@@ -74,7 +74,7 @@ class RoleController extends Controller
     public function edit(Request $request, $id)
     {
         $role = Role::find($id, ['id', 'drama_id', 'episode_id', 'sc_id', 'job', 'note', 'user_id']);
-        if($role->user_id != $request->user()->id)
+        if($role->user_id != $request->user()->id && !$request->user()->isAdmin())
         {
             return '抱歉, 目前仅支持添加此条目的用户编辑关联信息> <';
         }
@@ -116,7 +116,7 @@ class RoleController extends Controller
     public function destroy(Request $request, $id)
     {
         $role = Role::find($id);
-        if($role->user_id != $request->user()->id)
+        if($role->user_id != $request->user()->id && !$request->user()->isAdmin())
         {
             return '抱歉, 目前仅支持添加此条目的用户删除关联> <';
         }
