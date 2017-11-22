@@ -17,9 +17,9 @@ class Admin
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            $user_id = $this->auth->user()->id;
-            if($user_id == 1 || $user_id == 71 || $user_id == 31 || $user_id == 20 || $user_id == 78)
+            if($this->auth->user()->isAdmin()) {
                 return $next($request);
+            }
         }
 
         return redirect('/');
