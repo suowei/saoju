@@ -3,7 +3,7 @@
 @section('title', '分集列表 - ')
 
 @section('css')
-    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -390,9 +390,9 @@
 @endsection
 
 @section('script')
-    <script src="//cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="https://lib.baomitu.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap-datepicker.zh-CN.min.js') }}"></script>
     <script type="text/javascript">
         $('.date').datepicker({
             format: "yyyy-mm-dd",

@@ -8,7 +8,7 @@
 	<title>@yield('title')抓糖</title>
     @yield('meta')
 
-	<link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://lib.baomitu.com/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     @yield('css')
     <link href="{{ asset('/css/site.css') }}" rel="stylesheet">
 
