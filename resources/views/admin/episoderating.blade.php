@@ -3,7 +3,7 @@
 @section('title', '分集评分详情 - 管理页 - ')
 
 @section('css')
-    <script src="//cdn.bootcss.com/echarts/3.3.2/echarts.min.js"></script>
+    <script src="https://lib.baomitu.com/echarts/3.3.2/echarts.min.js"></script>
 @endsection
 
 @section('content')

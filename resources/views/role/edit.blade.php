@@ -105,7 +105,7 @@
 @endsection
 
 @section('script')
-    <script src="//cdn.bootcss.com/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="https://lib.baomitu.com/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var scs = new Bloodhound({

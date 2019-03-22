@@ -9,7 +9,7 @@
 
 @section('css')
     <link href="{{ asset('/css/star-rating.min.css') }}" rel="stylesheet">
-    <link href="//cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.css" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-tagsinput.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -480,6 +480,6 @@
 
 @section('script')
     <script src="{{ asset('/js/star-rating.min.js') }}"></script>
-    <script src="//cdn.bootcss.com/Readmore.js/2.0.5/readmore.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-tagsinput/0.5.0/bootstrap-tagsinput.min.js"></script>
+    <script src="https://lib.baomitu.com/Readmore.js/2.0.5/readmore.min.js"></script>
+    <script src="{{ asset('/js/bootstrap-tagsinput.min.js') }}"></script>
 @endsection
