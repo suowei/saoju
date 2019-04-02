@@ -103,7 +103,7 @@
                     <p>
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         创意来自<a href="http://www.douban.com" target="_blank">豆瓣</a>&<a href="http://saowen.net" target="_blank">扫文小院</a>
-                        ©2015-2019 saoju.net
+                        ©2015-2019 saoju.net&nbsp;&nbsp;&nbsp;&nbsp;邮箱：dramatown@saoju.net
                     </p>
                 </div>
                 <div class="col-md-3 text-right">
