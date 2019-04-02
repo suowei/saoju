@@ -100,7 +100,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <p>©2015-2019 saoju.net</p>
+                <p>©2015-2019 saoju.net&nbsp;&nbsp;&nbsp;&nbsp;邮箱：dramatown@saoju.net</p>
             </div>
             <div class="col-md-3 text-right">
                 <img src="{{ asset('/img/jjwxc.ico') }}" height="14px">

@@ -293,11 +293,9 @@
                     </div>
                     <div class="panel-body">
                         <p>
-                            手机客户端：<a href="https://itunes.apple.com/cn/app/id1127382516" target="_blank">苹果</a>
-                            <a href="https://pan.baidu.com/s/1nvfiVc1" target="_blank">安卓</a>
+                            手机客户端：<a href="https://pan.baidu.com/s/1nvfiVc1" target="_blank">安卓</a>
                         </p>
                         <p>微博：<a href="http://weibo.com/u/5634790755" target="_blank">抓糖DramaTown</a></p>
-                        <p>微信：<img src="{{ asset('/img/qrcode.jpg') }}" height="128px"></p>
                     </div>
                 </div>
             </div>
