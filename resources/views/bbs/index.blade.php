@@ -47,14 +47,10 @@
         </div>
     @endif
 
-    <p class="text-info">
-        <span class="glyphicon glyphicon-sunglasses"></span>
-        {{ Auth::check() ? Auth::user()->name : preg_replace('/((?:\d+\.){3})\d+/', "\\1*", Request::ip()) }}
-    </p>
-
+    @if(Auth::check())
     <form method="POST" action="{{ url('/bbs/topic') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::id() : 0 }}">
+        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         <input type="hidden" name="ip" value="{{ Request::ip() }}">
 
         <div class="form-group">
@@ -67,5 +63,6 @@
 
         <button type="submit" class="btn btn-info">提交</button>
     </form>
+    @endif
 </div>
 @endsection
